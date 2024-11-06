@@ -4,7 +4,6 @@
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -24,7 +23,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -44,7 +42,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -64,7 +61,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -84,7 +80,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -104,7 +99,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -124,7 +118,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -144,7 +137,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
@@ -164,7 +156,6 @@ end;
 declare
    user_exists number;
 begin
-   raise dup_val_on_index;
    select count(*)
      into user_exists
      from all_users
