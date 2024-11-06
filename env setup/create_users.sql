@@ -7,6 +7,25 @@ begin
    select count(*)
      into user_exists
      from all_users
+    where lower(username) = 'admin';
+   if user_exists > 0 then
+      execute immediate 'DROP USER app_admin CASCADE';
+      dbms_output.put_line('USER app_admin DROPPED SUCCESSFULLY');
+   end if;
+   execute immediate 'CREATE USER app_admin IDENTIFIED BY NeuBoston2024#';
+   dbms_output.put_line('USER app_admin CREATED SUCCESSFULLY ✅');
+exception
+   when others then
+      dbms_output.put_line('❌ FAILED TO CREATE USER app_admin:');
+      dbms_output.put_line(substr(sqlerrm, 11) || ' (Error Code: ' || sqlcode || ')');
+end;
+/
+declare
+   user_exists number;
+begin
+   select count(*)
+     into user_exists
+     from all_users
     where lower(username) = 'crew_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER crew_manager CASCADE';
