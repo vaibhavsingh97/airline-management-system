@@ -57,6 +57,6 @@ begin
    
 exception
    when others then
-      dbms_output.put_line('An error occurred during user creation:');
+      dbms_output.put_line('❌ An error occurred during user creation:');
       dbms_output.put_line(substr(sqlerrm, 11) || ' (Error Code: ' || sqlcode || ')');
 end;
