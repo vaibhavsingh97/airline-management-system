@@ -7,7 +7,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'crew_manager';
+    where lower(username) = 'crew_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER crew_manager CASCADE';
       dbms_output.put_line('USER crew_manager DROPPED SUCCESSFULLY');
@@ -26,7 +26,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'crew_manager';
+    where lower(username) = 'crew_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER crew_manager CASCADE';
       dbms_output.put_line('USER crew_manager DROPPED SUCCESSFULLY');
@@ -45,7 +45,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'developer';
+    where lower(username) = 'developer';
    if user_exists > 0 then
       execute immediate 'DROP USER developer CASCADE';
       dbms_output.put_line('USER developer DROPPED SUCCESSFULLY');
@@ -64,7 +64,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'flight_operation_manager';
+    where lower(username) = 'flight_operation_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER flight_operation_manager CASCADE';
       dbms_output.put_line('USER flight_operation_manager DROPPED SUCCESSFULLY');
@@ -83,7 +83,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'ground_operation_manager';
+    where lower(username) = 'ground_operation_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER ground_operation_manager CASCADE';
       dbms_output.put_line('USER ground_operation_manager DROPPED SUCCESSFULLY');
@@ -102,7 +102,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'crew_manager';
+    where lower(username) = 'crew_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER crew_manager CASCADE';
       dbms_output.put_line('USER crew_manager DROPPED SUCCESSFULLY');
@@ -121,7 +121,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'inventory_manager';
+    where lower(username) = 'inventory_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER inventory_manager CASCADE';
       dbms_output.put_line('USER inventory_manager DROPPED SUCCESSFULLY');
@@ -140,7 +140,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'crew_manager';
+    where lower(username) = 'crew_manager';
    if user_exists > 0 then
       execute immediate 'DROP USER crew_manager CASCADE';
       dbms_output.put_line('USER crew_manager DROPPED SUCCESSFULLY');
@@ -159,7 +159,7 @@ begin
    select count(*)
      into user_exists
      from all_users
-    where username = 'passenger';
+    where lower(username) = 'passenger';
    if user_exists > 0 then
       execute immediate 'DROP USER passenger CASCADE';
       dbms_output.put_line('USER passenger DROPPED SUCCESSFULLY');
