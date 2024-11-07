@@ -11,7 +11,7 @@ declare
    user_exists number;
    user_creation_sql varchar2(100);
    user_drop_sql varchar2(100);
-   grant_access_sql varchar2(100);
+   grant_access_sql varchar2(200);
 begin
    -- SQL for dropping the user
    user_drop_sql := 'DROP USER app_admin CASCADE';
@@ -19,7 +19,7 @@ begin
    -- SQL for creating the user
    user_creation_sql := 'CREATE USER app_admin IDENTIFIED BY NeuBoston2024#';
 
-   grant_access_sql := 'GRANT CONNECT, RESOURCE, CREATE USER, DROP USER TO app_admin WITH ADMIN OPTION';
+   grant_access_sql := 'GRANT CONNECT, RESOURCE, SELECT ANY TABLE, CREATE USER, DROP USER, ALTER USER TO app_admin WITH ADMIN OPTION';
    -- Check is users exist
    select count(*)
      into user_exists
