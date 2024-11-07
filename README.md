@@ -37,6 +37,12 @@
   ```
 
 5. Create tables
+
+  ```sh
+    [5] Airline_Independent_Tables.sql
+    [6] Airline_Dependent_Tables.sql
+  ```
+
 6. Grant access to tables to different users
   
    ```sh
