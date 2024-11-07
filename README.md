@@ -38,7 +38,7 @@
     [4] grant_access_developer.sql
   ```
 
-5. Create tables
+5. Create tables via developer
 
   ```sh
     [6] Airline_Independent_Tables.sql

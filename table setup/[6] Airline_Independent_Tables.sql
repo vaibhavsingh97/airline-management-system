@@ -204,7 +204,7 @@ BEGIN
     SELECT COUNT(*) 
     INTO TABLE_EXISTS
     FROM USER_TABLES
-    WHERE LOWER(TABLE_NAME) = 'inventory';
+    WHERE LOWER(TABLE_NAME) = 'wallet';
     
     -- Drop table if it exists
     IF TABLE_EXISTS > 0 THEN
