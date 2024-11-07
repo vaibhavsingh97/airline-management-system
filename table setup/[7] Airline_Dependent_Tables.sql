@@ -91,7 +91,7 @@ BEGIN
                 gender           VARCHAR2(10) CHECK (gender IN (''male'',''female'',''others'')) NOT NULL,
                 dob              DATE NOT NULL,
                 seat_preference  VARCHAR2(10) CHECK (seat_preference IN (''window'',''middle'',''aisle'')) NOT NULL,
-                wallet_wallet_id VARCHAR2(10) ,
+                wallet_wallet_id INTEGER,
                 created_at       DATE NOT NULL,
                 updated_at       DATE NOT NULL
             )';
