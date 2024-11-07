@@ -58,6 +58,6 @@ begin
    grant_access_to_user('HR_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'EMPLOYEE');
 
    -- GRANT ACCESS TO DATA_ANALYST
-   grant_access_to_user('DATA_ANALYST', 'SELECT ANY TABLE', null);
+   grant_access_to_user('DATA_ANALYST', 'SELECT', null);
 end;
 /
