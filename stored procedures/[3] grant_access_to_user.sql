@@ -1,6 +1,6 @@
 /*
 ================================================
-‼️ THIS FILE SHOULD BE RUN BY APP_ADMIN ONLY ‼️
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================
 */
 
@@ -9,7 +9,7 @@ begin
     if table_name is null then
         execute immediate 'grant ' || grant_access_to_user.privileges || ' to ' || grant_access_to_user.username;
     else
-        execute immediate 'grant ' || grant_access_to_user.privileges || ' on ' || 'APP_ADMIN' || '.' || grant_access_to_user.table_name || ' to ' || grant_access_to_user.username;
+        execute immediate 'grant ' || grant_access_to_user.privileges || ' on ' || 'DEVELOPER' || '.' || grant_access_to_user.table_name || ' to ' || grant_access_to_user.username;
     end if;
     
     dbms_output.put_line('Privileges granted to ' || grant_access_to_user.username || ' successfully. ✅');
