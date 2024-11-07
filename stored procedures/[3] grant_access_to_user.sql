@@ -7,10 +7,9 @@
 create or replace procedure grant_access_to_user (username in varchar2, privileges in VARCHAR2, table_name in varchar2) as
 begin
     if table_name is null then
-        dbms_output.put_line('grant ' || grant_access_to_user.privileges || ' to ' || grant_access_to_user.username);
         execute immediate 'grant ' || grant_access_to_user.privileges || ' to ' || grant_access_to_user.username;
     else
-        execute immediate 'grant ' || grant_access_to_user.privileges || ' on ' || 'G2262648022BDBF_AIRLINEMANAGEMENT' || '.' || grant_access_to_user.table_name || ' to ' || grant_access_to_user.username;
+        execute immediate 'grant ' || grant_access_to_user.privileges || ' on ' || 'APP_ADMIN' || '.' || grant_access_to_user.table_name || ' to ' || grant_access_to_user.username;
     end if;
     
     dbms_output.put_line('Privileges granted to ' || grant_access_to_user.username || ' successfully. ✅');
