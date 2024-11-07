@@ -26,25 +26,27 @@
   
 3. Create all the stored procedures in `stored procedures` folder
 
+   Use `select ora_database_name from dual;` to get the database name, and update in `grant_access_to_user.sql` script
+
   ```sh
-    grant_access_to_user.sql;
+    [3] grant_access_to_user.sql
   ```
 
-4. Grant access to `developer` user
+1. Grant access to `developer` user
 
   ```sh
-    [3] grant_access_developer.sql
+    [4] grant_access_developer.sql
   ```
 
 5. Create tables
 
   ```sh
-    [5] Airline_Independent_Tables.sql
-    [6] Airline_Dependent_Tables.sql
+    [6] Airline_Independent_Tables.sql
+    [7] Airline_Dependent_Tables.sql
   ```
 
 6. Grant access to tables to different users
   
    ```sh
-    [4] grant_access_to_users.sql
+    [5] grant_access_to_users.sql
   ```
