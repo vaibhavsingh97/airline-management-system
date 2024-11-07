@@ -36,6 +36,7 @@ begin
          when others then
             dbms_output.put_line('❌ FAILED TO DROP USER app_admin:');
             dbms_output.put_line(substr(sqlerrm, 11) || ' (Error Code: ' || sqlcode || ')');
+            raise; -- Stop execution if drop fails
       end;
    end if;
 
@@ -47,6 +48,7 @@ begin
       when others then
          dbms_output.put_line('❌ FAILED TO CREATE USER app_admin:');
          dbms_output.put_line(substr(sqlerrm, 11) || ' (Error Code: ' || sqlcode || ')');
+         raise; -- Stop if user creation fails
    end;
 
    -- Grant access to the user
