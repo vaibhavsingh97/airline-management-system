@@ -58,6 +58,23 @@ begin
    grant_access_to_user('HR_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'EMPLOYEE');
 
    -- GRANT ACCESS TO DATA_ANALYST
-   grant_access_to_user('DATA_ANALYST', 'SELECT', null);
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'AIRCRAFT');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'BAGGAGE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'CREW_ASSIGNMENT');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'EMPLOYEE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'FLIGHT_SCHEDULE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'GROUND_OPS_SCHEDULE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'INVENTORY');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'INVENTORY_ORDER');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'MAINTENANCE_RECORD');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'MAINTENANCE_SCHEDULE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'PASSENGER');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'PAYMENT');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'REFUND');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'RESERVATION');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'RESERVATION_PAYMENT');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'ROUTE');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'SEAT');
+   grant_access_to_user('DATA_ANALYST', 'SELECT', 'WALLET');
 end;
 /
