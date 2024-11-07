@@ -4,7 +4,7 @@
 
 -- Aircraft table
 SET SERVEROUTPUT ON
-/
+
 DECLARE
    TABLE_EXISTS NUMBER;
 BEGIN
@@ -49,11 +49,8 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE aircraft or add primary key ❌');
     END;
 END;
-/
-
 
 -- Route Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -96,11 +93,10 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE route or add primary key ❌');
     END;
 END;
-/
 
 
 -- Maintenance Schedule Table
-SET SERVEROUTPUT ON
+
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -145,13 +141,12 @@ BEGIN
     END;
 
 END;
-/
 
 
 
 
 -- Inventory Table
-SET SERVEROUTPUT ON
+
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -198,10 +193,9 @@ BEGIN
     END;
 
 END;
-/
 
 -- Wallet Table
-SET SERVEROUTPUT ON
+
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -246,11 +240,10 @@ DBMS_OUTPUT.PUT_LINE('Table wallet CREATED SUCCESSFULLY ✅');
     END;
 
 END;
-/
 
 
 -- Employee Table
-SET SERVEROUTPUT ON
+
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -307,11 +300,10 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE employee or add primary key or any constraints ❌');
     END;
 END;
-/
 
 
 -- Payment Table
-SET SERVEROUTPUT ON
+
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -359,8 +351,3 @@ DBMS_OUTPUT.PUT_LINE('Table aircraft payment SUCCESSFULLY ✅');
 
 END;
 /
-
-
-
-
-

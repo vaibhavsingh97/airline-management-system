@@ -55,10 +55,9 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE inventory_order or add primary key or foreign key ❌');
     END;
 END;
-/
+
 
 -- Passenger Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -124,10 +123,9 @@ DBMS_OUTPUT.PUT_LINE('Table passenger CREATED SUCCESSFULLY ✅ ');
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE aircraft or add primary key or phone or email or foreign key constraint ❌');
     END;
 END;
-/
+
 
 -- Refund Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -178,12 +176,11 @@ DBMS_OUTPUT.PUT_LINE('Table refund CREATED SUCCESSFULLY ✅');
     END;
 
 END;
-/
+
 
 -- Tables below depends on >=2 tables
 -- Flight Schedule Table
 
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -244,11 +241,10 @@ BEGIN
     END;
 
 END;
-/
+
 
 -- Maintenance Record Table
 
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -315,9 +311,8 @@ BEGIN
     END;
 
 END;
-/
+
 -- Ground Operation(Ops) Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -373,10 +368,9 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE ground_ops_schedule or add primary key or foreign key ❌');
     END;
 END;
-/
+
 
 -- Seat Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -427,10 +421,9 @@ BEGIN
     END;
     
 END;
-/
+
 
 -- Reservation Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -490,11 +483,9 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE reservation or add primary key or foreign key ❌');
     END;
 END;
-/
+
 
 -- Baggage Table
-
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -543,10 +534,9 @@ BEGIN
     END;
 
 END;
-/
+
 
 -- Crew Assignment Table
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -602,10 +592,9 @@ BEGIN
     END;
 
 END;
-/
+
 
 -- Reservation_Payment table (ManyToMany Relation)
-SET SERVEROUTPUT ON
 /
 DECLARE
    TABLE_EXISTS NUMBER;
@@ -657,22 +646,5 @@ BEGIN
         WHEN OTHERS THEN
             DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE TABLE reservation_payment or add primary key or foreign key ❌');
     END;
-
-
-
 END;
 /
-
-
-
-
-
-
-
-
-
-
-
-
-
-
