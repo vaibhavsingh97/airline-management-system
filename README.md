@@ -35,3 +35,10 @@
   ```sh
     [3] grant_access_developer.sql
   ```
+
+5. Create tables
+6. Grant access to tables to different users
+  
+   ```sh
+    [4] grant_access_to_users.sql
+  ```
