@@ -1,6 +1,6 @@
 /*
 ================================================
-‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+‼️ THIS FILE SHOULD BE RUN BY APP_ADMIN (1) / DEVELOPER (2) ONLY ‼️
 ================================================
 */
 
