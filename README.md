@@ -41,12 +41,12 @@
 5. Create tables via developer
 
   ```sh
-    [6] Airline_Independent_Tables.sql
-    [7] Airline_Dependent_Tables.sql
+    [5] Airline_Independent_Tables.sql
+    [6] Airline_Dependent_Tables.sql
   ```
 
 6. Grant access to tables to different users
   
    ```sh
-    [5] grant_access_to_users.sql
+    [7] grant_access_to_all_users.sql
   ```
