@@ -1,12 +1,12 @@
 create or replace procedure insert_inventory_order (
    p_order_id       in integer,
-   p_order_date     in date,
+   p_order_date     in varchar2,
    p_order_quantity in integer,
    p_order_amount   in number,
    p_order_status   in varchar2,
    p_supplier_name  in varchar2,
-   p_created_at     in date,
-   p_updated_at     in date,
+   p_created_at     in varchar2,
+   p_updated_at     in varchar2,
    p_inventory_id   in integer
 ) is
    v_count number;
@@ -37,7 +37,7 @@ begin
          supplier_name,
          created_at,
          updated_at,
-         inventory_id
+         inventory_inventory_id
       ) values ( p_order_id,
                  to_date(p_order_date,
                          'YYYY-MM-DD HH24:MI:SS'),
@@ -55,6 +55,8 @@ begin
    exception
       when others then
             -- If an error occurs during insertion, raise a custom error
+         DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+        DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
          raise_application_error(
             -20001,
             '❌ Failed to insert inventory_order with ID: ' || p_order_id
@@ -71,7 +73,7 @@ begin
       '2024-10-05 12:26:31',
       90,
       316.8,
-      'fulfill',
+      'fulfilled',
       'Mitchell and Sons',
       '2024-10-05 12:26:31',
       '2024-10-05 12:26:31',
@@ -82,7 +84,7 @@ begin
       '2023-05-17 21:09:40',
       62,
       2338.13,
-      'fulfill',
+      'fulfilled',
       'Wilkinson Inc',
       '2023-05-17 21:09:40',
       '2023-05-17 21:09:40',
@@ -93,7 +95,7 @@ begin
       '2023-10-15 20:17:41',
       34,
       65073.87,
-      'fulfill',
+      'fulfilled',
       'Labadie and Kunde',
       '2023-10-15 20:17:41',
       '2023-10-15 20:17:41',
@@ -104,7 +106,7 @@ begin
       '2023-04-29 17:29:54',
       8,
       87492.19,
-      'fulfill',
+      'fulfilled',
       'Collier-Zboncak',
       '2023-04-29 17:29:54',
       '2023-04-29 17:29:54',
@@ -126,7 +128,7 @@ begin
       '2022-10-23 02:31:52',
       73,
       79916.84,
-      'fulfill',
+      'fulfilled',
       'Hahn and Jaskolski',
       '2022-10-23 02:31:52',
       '2022-10-23 02:31:52',
@@ -137,7 +139,7 @@ begin
       '2023-10-15 19:40:56',
       57,
       7247.48,
-      'fail',
+      'failed',
       'Wolff and Hirthe',
       '2023-10-15 19:40:56',
       '2023-10-15 19:40:56',
@@ -149,7 +151,7 @@ begin
       81,
       24567.15,
       'pending',
-      'Denesik and Morissette',
+      'Denesik Morissette',
       '2024-04-01 09:58:24',
       '2024-04-01 09:58:24',
       405
@@ -159,7 +161,7 @@ begin
       '2022-04-02 15:38:48',
       24,
       3444.81,
-      'fulfill',
+      'fulfilled',
       'Beer LLC',
       '2022-04-02 15:38:48',
       '2022-04-02 15:38:48',
@@ -170,7 +172,7 @@ begin
       '2022-07-20 05:06:28',
       78,
       4545.98,
-      'fail',
+      'failed',
       'Jaskolski and Sons',
       '2022-07-20 05:06:28',
       '2022-07-20 05:06:28',

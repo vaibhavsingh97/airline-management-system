@@ -1,15 +1,14 @@
 create or replace procedure insert_passenger (
-   passenger_id    in integer,
-   pass_first_name in varchar2,
-   pass_last_name  in varchar2,
-   pass_email      in varchar2,
-   pass_phone      in number,
-   gender          in varchar2,
-   dob             in date,
-   seat_preference in varchar2,
-   created_at      in date,
-   updated_at      in date,
-   wallet_id       in varchar2
+   p_passenger_id    in integer,
+   p_pass_first_name in varchar2,
+   p_pass_last_name  in varchar2,
+   p_pass_email      in varchar2,
+   p_pass_phone      in number,
+   p_gender          in varchar2,
+   p_dob             in varchar2,
+   p_seat_preference in varchar2,
+   p_created_at      in varchar2,
+   p_updated_at      in varchar2
 ) is
    v_count number;
 begin
@@ -40,8 +39,7 @@ begin
          dob,
          seat_preference,
          created_at,
-         updated_at,
-         wallet_id
+         updated_at
       ) values ( p_passenger_id,
                  p_pass_first_name,
                  p_pass_last_name,
@@ -51,15 +49,16 @@ begin
                  p_dob,
                  p_seat_preference,
                  to_date(p_created_at,
-                         'DD-MM-YYYY HH24:MI:SS'),
+                         'YYYY-MM-DD HH24:MI:SS'),
                  to_date(p_updated_at,
-                         'DD-MM-YYYY HH24:MI:SS'),
-                 p_wallet_id );
+                         'YYYY-MM-DD HH24:MI:SS'));
       dbms_output.put_line('✅ Successfully inserted passenger with ID: ' || p_passenger_id);
       commit; -- Commit the insertion
    exception
       when others then
             -- If an error occurs during insertion, raise a custom error
+         DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+         DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
          raise_application_error(
             -20001,
             '❌ Failed to insert passenger with ID: ' || p_passenger_id
@@ -82,8 +81,7 @@ begin
       '10-05-1931',
       'aisle',
       '2022-09-23 00:53:23',
-      '2022-09-23 00:53:23',
-      null
+      '2022-09-23 00:53:23'
    );
    insert_passenger(
       802,
@@ -95,8 +93,7 @@ begin
       '15-05-1957',
       'middle',
       '2023-07-16 03:07:23',
-      '2023-07-16 03:07:23',
-      502
+      '2023-07-16 03:07:23'
    );
    insert_passenger(
       803,
@@ -108,8 +105,7 @@ begin
       '10-01-1989',
       'aisle',
       '2023-03-25 04:11:48',
-      '2023-03-25 04:11:48',
-      503
+      '2023-03-25 04:11:48'
    );
    insert_passenger(
       804,
@@ -121,8 +117,7 @@ begin
       '31-07-1964',
       'middle',
       '2024-07-02 13:08:56',
-      '2024-07-02 13:08:56',
-      504
+      '2024-07-02 13:08:56'
    );
    insert_passenger(
       805,
@@ -134,8 +129,7 @@ begin
       '08-08-1982',
       'window',
       '2024-06-11 05:39:51',
-      '2024-06-11 05:39:51',
-      505
+      '2024-06-11 05:39:51'
    );
    insert_passenger(
       806,
@@ -147,8 +141,7 @@ begin
       '25-08-1996',
       'window',
       '2024-07-03 00:27:07',
-      '2024-07-03 00:27:07',
-      null
+      '2024-07-03 00:27:07'
    );
    insert_passenger(
       807,
@@ -160,8 +153,7 @@ begin
       '13-09-2003',
       'window',
       '2023-08-06 00:35:55',
-      '2023-08-06 00:35:55',
-      507
+      '2023-08-06 00:35:55'
    );
    insert_passenger(
       808,
@@ -173,8 +165,7 @@ begin
       '03-01-1984',
       'middle',
       '2022-12-21 08:43:43',
-      '2022-12-21 08:43:43',
-      508
+      '2022-12-21 08:43:43'
    );
    insert_passenger(
       809,
@@ -186,8 +177,7 @@ begin
       '03-12-1943',
       'aisle',
       '2024-04-21 22:05:36',
-      '2024-04-21 22:05:36',
-      509
+      '2024-04-21 22:05:36'
    );
    insert_passenger(
       810,
@@ -199,8 +189,7 @@ begin
       '15-01-1947',
       'aisle',
       '2024-04-10 20:30:02',
-      '2024-04-10 20:30:02',
-      null
+      '2024-04-10 20:30:02'
    );
    commit;
 end;

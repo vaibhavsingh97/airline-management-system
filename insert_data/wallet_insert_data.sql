@@ -5,8 +5,8 @@ create or replace procedure insert_wallet (
    p_points_redeemed    in integer,
    p_transaction_id     in varchar2,
    p_transaction_reason in varchar2,
-   p_created_at         in date,
-   p_updated_at         in date
+   p_created_at         in varchar2,
+   p_updated_at         in varchar2
 ) is
    v_count number;
 begin

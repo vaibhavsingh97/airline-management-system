@@ -7,8 +7,8 @@ create or replace procedure insert_employee (
    p_emp_type       in varchar2,
    p_emp_subtype    in varchar2,
    p_emp_salary     in number,
-   p_created_at     in date,
-   p_updated_at     in date
+   p_created_at     in varchar2,
+   p_updated_at     in varchar2
 ) is
    v_count number;
 begin
@@ -27,7 +27,7 @@ begin
       null;
    end if;
 
-    -- Perform the insertion into the payment table
+    -- Perform the insertion into the employee table
    begin
       insert into employee (
          employee_id,
@@ -49,9 +49,9 @@ begin
                  p_emp_subtype,
                  p_emp_salary,
                  to_date(p_created_at,
-                         'DD-MM-YYYY HH24:MI:SS'),
+                         'YYYY-MM-DD HH24:MI:SS'),
                  to_date(p_updated_at,
-                         'DD-MM-YYYY HH24:MI:SS') );
+                         'YYYY-MM-DD HH24:MI:SS') );
       dbms_output.put_line('✅ Successfully inserted employee with ID: ' || p_employee_id);
       commit; -- Commit the insertion
         -- Raise an exception if the insert fails (e.g., due to duplicate or any other issue)
@@ -61,7 +61,7 @@ begin
          dbms_output.put_line('Error Message: ' || sqlerrm);
          raise_application_error(
             -20001,
-            '❌ Failed to insert payment record with Employee ID: ' || p_employee_id
+            '❌ Failed to insert employee record with employee ID: ' || p_employee_id
          );
    end;
 
@@ -88,7 +88,7 @@ begin
       'Granger',
       'ggranger1@shinystat.com',
       '9692375908',
-      'ground',
+      'ground_staff',
       'gate agent',
       2787.6,
       '2023-11-22 08:20:20',
@@ -100,7 +100,7 @@ begin
       'Quipp',
       'wquipp2@wordpress.com',
       '6623746149',
-      'ground',
+      'ground_staff',
       'ramp agent',
       3055.31,
       '2023-10-24 04:41:25',
@@ -124,7 +124,7 @@ begin
       'Skerratt',
       'dskerratt4@shutterfly.com',
       '5861040992',
-      'ground',
+      'ground_staff',
       'ramp agent',
       5772.22,
       '2024-01-23 02:58:47',
@@ -160,7 +160,7 @@ begin
       'Cristofor',
       'ccristofor7@vk.com',
       '5367754920',
-      'ground',
+      'ground_staff',
       'ramp agent',
       3222.39,
       '2024-03-24 11:08:33',

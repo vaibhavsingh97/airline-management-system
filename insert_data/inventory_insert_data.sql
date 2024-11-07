@@ -4,9 +4,9 @@ create or replace procedure insert_inventory (
    p_item_category     in varchar2,
    p_quantity_in_hand  in integer,
    p_reorder_threshold in integer,
-   p_inv_last_updated  in date,
-   p_created_at        in date,
-   p_updated_at        in date
+   p_inv_last_updated  in varchar2,
+   p_created_at        in varchar2,
+   p_updated_at        in varchar2
 ) is
    v_count number;
 begin
@@ -42,16 +42,18 @@ begin
                  p_quantity_in_hand,
                  p_reorder_threshold,
                  to_date(p_inv_last_updated,
-                         'DD-MM-YYYY HH24:MI:SS'),
+                         'YYYY-MM-DD HH24:MI:SS'),
                  to_date(p_created_at,
-                         'DD-MM-YYYY HH24:MI:SS'),
+                         'YYYY-MM-DD HH24:MI:SS'),
                  to_date(p_updated_at,
-                         'DD-MM-YYYY HH24:MI:SS') );
+                         'YYYY-MM-DD HH24:MI:SS') );
       dbms_output.put_line('✅ Successfully inserted inventory with ID: ' || p_inventory_id);
       commit; -- Commit the insertion
    exception
       when others then
             -- If an error occurs during insertion, raise a custom error
+         DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+         DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
          raise_application_error(
             -20001,
             '❌ Failed to insert inventory with ID: ' || p_inventory_id
@@ -164,7 +166,6 @@ begin
       '2024-11-05 15:47:14',
       '2024-11-05 15:47:14'
    );
-
    commit;
 end;
 /
