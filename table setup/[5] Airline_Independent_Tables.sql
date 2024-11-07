@@ -220,7 +220,7 @@ BEGIN
     BEGIN
         EXECUTE IMMEDIATE '
             CREATE TABLE wallet (
-                wallet_id          VARCHAR2(10) NOT NULL,
+                wallet_id          INTEGER NOT NULL,
                 program_tier       VARCHAR2(10) NOT NULL,
                 points_earned      INTEGER NOT NULL,
                 points_redeemed    INTEGER NOT NULL,
