@@ -269,7 +269,7 @@ begin
                 main_record_id   INTEGER NOT NULL,
                 main_record_date DATE NOT NULL,
                 main_record_type VARCHAR2(15) CHECK (main_record_type IN (''cleaning'',''routine'',''repairs'',''inspection'')) NOT NULL,
-                main_record_description VARCHAR2 (5)  NOT NULL,
+                main_record_description VARCHAR2 (50)  NOT NULL,
                 aircraft_aircraft_id INTEGER NOT NULL,
                 employee_employee_id INTEGER NOT NULL,
                 inventory_inventory_id INTEGER NOT NULL,
