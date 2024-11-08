@@ -14,6 +14,7 @@ begin
    grant_access_to_user('PASSENGER', 'SELECT', 'WALLET');
 
    -- GRANT ACCESS TO FLIGHT_OPERATION_MANAGER
+   grant_access_to_user('FLIGHT_OPERATION_MANAGER','CONNECT, CREATE VIEW', null);
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'FLIGHT_SCHEDULE');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'ROUTE');
