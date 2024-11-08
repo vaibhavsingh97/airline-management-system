@@ -46,6 +46,7 @@ begin
    grant_access_to_user('CREW_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'CREW_ASSIGNMENT');
 
    -- GRANT ACCESS TO MAINTENANCE_MANAGER
+   grant_access_to_user('MAINTENANCE_MANAGER','CONNECT, CREATE VIEW', null);
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'FLIGHT_SCHEDULE');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'EMPLOYEE');
