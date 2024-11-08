@@ -324,7 +324,7 @@ begin
                 payment_id     INTEGER NOT NULL,
                 payment_date   DATE NOT NULL,
                 payment_amount NUMBER(10, 2) NOT NULL,
-                payment_mode   VARCHAR2(5) CHECK (payment_mode IN (''creditcard'',''debitcard'',''bank'',''wallet'')) NOT NULL,
+                payment_mode   VARCHAR2(10) CHECK (payment_mode IN (''creditcard'',''debitcard'',''bank'',''wallet'')) NOT NULL,
                 payment_type   VARCHAR2(10) CHECK (payment_type IN (''partial'',''full'')) NOT NULL,
                 created_at     DATE NOT NULL,
                 updated_at     DATE NOT NULL
