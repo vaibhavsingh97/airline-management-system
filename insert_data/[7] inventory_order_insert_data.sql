@@ -1,3 +1,5 @@
+SET SERVEROUTPUT ON;
+
 create or replace procedure insert_inventory_order (
    p_order_id       in integer,
    p_order_date     in varchar2,
@@ -11,58 +13,72 @@ create or replace procedure insert_inventory_order (
 ) is
    v_count number;
 begin
-    -- Try to delete the existing order record if it exists
-    -- Check if a record exists with the provided order_id
+   -- Check if a record exists with the provided order_id
    select count(*)
      into v_count
      from inventory_order
     where order_id = p_order_id;
 
-    -- If a record exists, delete it
+   -- If a record exists, update it
    if v_count > 0 then
-      delete from inventory_order
+      update inventory_order
+         set order_date = to_date(p_order_date, 'YYYY-MM-DD HH24:MI:SS'),
+             order_quantity = p_order_quantity,
+             order_amount = p_order_amount,
+             order_status = p_order_status,
+             supplier_name = p_supplier_name,
+             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+             inventory_inventory_id = p_inventory_id
        where order_id = p_order_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
-
-    -- Perform the insertion into the inventory_order table
-   begin
-      insert into inventory_order (
-         order_id,
-         order_date,
-         order_quantity,
-         order_amount,
-         order_status,
-         supplier_name,
-         created_at,
-         updated_at,
-         inventory_inventory_id
-      ) values ( p_order_id,
-                 to_date(p_order_date,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 p_order_quantity,
-                 p_order_amount,
-                 p_order_status,
-                 p_supplier_name,
-                 to_date(p_created_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 p_inventory_id );
-      dbms_output.put_line('✅ Successfully inserted inventory_order with ID: ' || p_order_id);
-      commit; -- Commit the insertion
-   exception
-      when others then
-            -- If an error occurs during insertion, raise a custom error
-         DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-        DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert inventory_order with ID: ' || p_order_id
+      
+      dbms_output.put_line('✅ Successfully updated inventory_order with ID: ' || p_order_id);
+      commit; -- Commit the update
+   else
+      -- If the record doesn't exist, perform the insertion
+      begin
+         insert into inventory_order (
+            order_id,
+            order_date,
+            order_quantity,
+            order_amount,
+            order_status,
+            supplier_name,
+            created_at,
+            updated_at,
+            inventory_inventory_id
+         ) values ( 
+            p_order_id,
+            to_date(p_order_date, 'YYYY-MM-DD HH24:MI:SS'),
+            p_order_quantity,
+            p_order_amount,
+            p_order_status,
+            p_supplier_name,
+            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+            p_inventory_id 
          );
-   end;
-
+         dbms_output.put_line('✅ Successfully inserted inventory_order with ID: ' || p_order_id);
+         commit; -- Commit the insertion
+      exception
+         when others then
+            -- If an error occurs during insertion, raise a custom error
+            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+            raise_application_error(
+               -20001,
+               '❌ Failed to insert inventory_order with ID: ' || p_order_id
+            );
+      end;
+   end if;
+exception
+   when others then
+      -- If an error occurs during the procedure execution, raise a custom error
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      raise_application_error(
+         -20002,
+         '❌ Failed to process inventory_order with ID: ' || p_order_id
+      );
 end insert_inventory_order;
 /
 

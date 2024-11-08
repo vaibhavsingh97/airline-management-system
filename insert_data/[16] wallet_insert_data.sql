@@ -1,3 +1,5 @@
+SET SERVEROUTPUT ON;
+
 create or replace procedure insert_wallet (
    p_wallet_id          in varchar2,
    p_program_tier       in varchar2,
@@ -10,55 +12,71 @@ create or replace procedure insert_wallet (
 ) is
    v_count number;
 begin
-    -- Try to delete the existing wallet record if it exists
-    -- Check if a record exists with the provided wallet_id
+   -- Check if a record exists with the provided wallet_id
    select count(*)
      into v_count
      from wallet
     where wallet_id = p_wallet_id;
 
-    -- If a record exists, delete it
+   -- If a record exists, update it
    if v_count > 0 then
-      delete from wallet
+      update wallet
+         set program_tier = p_program_tier,
+             points_earned = p_points_earned,
+             points_redeemed = p_points_redeemed,
+             transaction_id = p_transaction_id,
+             transaction_reason = p_transaction_reason,
+             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
        where wallet_id = p_wallet_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
-   
-    -- Perform the insertion into the wallet table
-   begin
-      insert into wallet (
-         wallet_id,
-         program_tier,
-         points_earned,
-         points_redeemed,
-         transaction_id,
-         transaction_reason,
-         created_at,
-         updated_at
-      ) values ( p_wallet_id,
-                 p_program_tier,
-                 p_points_earned,
-                 p_points_redeemed,
-                 p_transaction_id,
-                 p_transaction_reason,
-                 to_date(p_created_at,
-                         'DD-MM-YYYY HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'DD-MM-YYYY HH24:MI:SS') );
-      dbms_output.put_line('✅ Successfully inserted passenger with ID: ' || p_wallet_id);
-      commit; -- Commit the insertion
-   exception
-      when others then
-            -- If an error occurs during insertion, raise a custom error
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert wallet with ID: ' || p_wallet_id
+      
+      dbms_output.put_line('✅ Successfully updated wallet with ID: ' || p_wallet_id);
+      commit; -- Commit the update
+   else
+      -- If the record doesn't exist, perform the insertion
+      begin
+         insert into wallet (
+            wallet_id,
+            program_tier,
+            points_earned,
+            points_redeemed,
+            transaction_id,
+            transaction_reason,
+            created_at,
+            updated_at
+         ) values ( 
+            p_wallet_id,
+            p_program_tier,
+            p_points_earned,
+            p_points_redeemed,
+            p_transaction_id,
+            p_transaction_reason,
+            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS') 
          );
-   end;
+         dbms_output.put_line('✅ Successfully inserted wallet with ID: ' || p_wallet_id);
+         commit; -- Commit the insertion
+      exception
+         when others then
+            -- If an error occurs during insertion, raise a custom error
+            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+            raise_application_error(
+               -20001,
+               '❌ Failed to insert wallet with ID: ' || p_wallet_id
+            );
+      end;
+   end if;
+exception
+   when others then
+      -- If an error occurs during the procedure execution, raise a custom error
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      raise_application_error(
+         -20002,
+         '❌ Failed to process wallet with ID: ' || p_wallet_id
+      );
 end insert_wallet;
 /
-
 
 begin
     -- Inserting data into wallet table

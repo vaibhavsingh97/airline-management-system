@@ -1,55 +1,58 @@
-create or replace procedure insert_maintenance_schedule (
-   p_main_schedule_id in integer,
-   p_main_type        in varchar2,
-   p_schedule_date    in varchar2,
-   p_created_at       in varchar2,
-   p_updated_at       in varchar2
-) is
-   v_count number;
-begin
-    -- Try to delete the existing maintenance schedule record if it exists
-    -- Check if a record exists with the provided main_schedule_id
-   select count(*)
-     into v_count
-     from maintenance_schedule
-    where main_schedule_id = p_main_schedule_id;
+SET SERVEROUTPUT ON;
 
-    -- If a record exists, delete it
-   if v_count > 0 then
-      delete from maintenance_schedule
-       where main_schedule_id = p_main_schedule_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
+CREATE OR REPLACE PROCEDURE insert_maintenance_schedule (
+   p_main_schedule_id IN INTEGER,
+   p_main_type        IN VARCHAR2,
+   p_schedule_date    IN VARCHAR2,
+   p_created_at       IN VARCHAR2,
+   p_updated_at       IN VARCHAR2
+) IS
+   v_count NUMBER;
+BEGIN
+   -- Check if a record exists with the provided main_schedule_id
+   SELECT COUNT(*)
+     INTO v_count
+     FROM maintenance_schedule
+    WHERE main_schedule_id = p_main_schedule_id;
 
-    -- Perform the insertion into the maintenance_schedule table
-   begin
-      insert into maintenance_schedule (
+   -- If a record exists, update it; otherwise, insert a new record
+   IF v_count > 0 THEN
+      UPDATE maintenance_schedule
+      SET main_type = p_main_type,
+          schedule_date = TO_DATE(p_schedule_date, 'YYYY-MM-DD HH24:MI:SS'),
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+      WHERE main_schedule_id = p_main_schedule_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated maintenance_schedule with ID: ' || p_main_schedule_id);
+      COMMIT;  -- Commit the update
+   ELSE
+      -- Perform the insertion into the maintenance_schedule table
+      INSERT INTO maintenance_schedule (
          main_schedule_id,
          main_type,
          schedule_date,
          created_at,
          updated_at
-      ) values ( p_main_schedule_id,
-                 p_main_type,
-                 to_date(p_schedule_date,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_created_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'YYYY-MM-DD HH24:MI:SS') );
-      dbms_output.put_line('✅ Successfully inserted maintenance_schedule with ID: ' || p_main_schedule_id);
-      commit; -- Commit the insertion
-   exception
-      when others then
-            -- If an error occurs during insertion, raise a custom error
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert maintenance schedule with ID: ' || p_main_schedule_id
-         );
-   end;
+      ) VALUES (
+         p_main_schedule_id,
+         p_main_type,
+         TO_DATE(p_schedule_date, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+      );
 
-end insert_maintenance_schedule;
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted maintenance_schedule with ID: ' || p_main_schedule_id);
+      COMMIT;  -- Commit the insertion
+   END IF;
+
+EXCEPTION
+   WHEN OTHERS THEN
+      -- If an error occurs, raise a custom error
+      RAISE_APPLICATION_ERROR(
+         -20001,
+         '❌ Failed to insert or update maintenance schedule with ID: ' || p_main_schedule_id
+      );
+END insert_maintenance_schedule;
 /
 
 

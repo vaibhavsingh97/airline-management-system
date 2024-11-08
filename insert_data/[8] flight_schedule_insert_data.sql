@@ -1,3 +1,5 @@
+SET SERVEROUTPUT ON;
+
 create or replace procedure insert_flight_schedule (
    p_flight_schedule_id in integer,
    p_departure_airport  in varchar2,
@@ -14,64 +16,81 @@ create or replace procedure insert_flight_schedule (
 ) is
    v_count number;
 begin
-    -- Try to delete the existing maintenance_record record if it exists
-    -- Check if a record exists with the provided flight_schedule_id
+   -- Check if a record exists with the provided flight_schedule_id
    select count(*)
      into v_count
      from flight_schedule
     where flight_schedule_id = p_flight_schedule_id;
 
-    -- If a record exists, delete it
+   -- If a record exists, update it
    if v_count > 0 then
-      delete from flight_schedule
+      update flight_schedule
+         set departure_airport = p_departure_airport,
+             scheduled_dep_time = to_date(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+             actual_dep_time = to_date(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+             arrival_airport = p_arrival_airport,
+             scheduled_arr_time = to_date(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+             actual_arr_time = to_date(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+             flight_status = p_flight_status,
+             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+             aircraft_aircraft_id = p_aircraft_id,
+             routes_route_id = p_route_id
        where flight_schedule_id = p_flight_schedule_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
-   
-    -- Perform the insertion into the flight_schedule table
-   begin
-      insert into flight_schedule (
-         flight_schedule_id,
-         departure_airport,
-         scheduled_dep_time,
-         actual_dep_time,
-         arrival_airport,
-         scheduled_arr_time,
-         actual_arr_time,
-         flight_status,
-         created_at,
-         updated_at,
-         aircraft_aircraft_id,
-         routes_route_id
-      ) values ( p_flight_schedule_id,
-                 p_departure_airport,
-                 to_date(p_scheduled_dep_time,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_actual_dep_time,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 p_arrival_airport,
-                 to_date(p_scheduled_arr_time,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_actual_arr_time,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 p_flight_status,
-                 to_date(p_created_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 p_aircraft_id,
-                 p_route_id );
-      dbms_output.put_line('✅ Successfully inserted flight schedule with ID: ' || p_flight_schedule_id);
-      commit; -- Commit the insertion
-   exception
-      when others then
-            -- If an error occurs during insertion, raise a custom error
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert flight schedule with ID: ' || p_flight_schedule_id
+      
+      dbms_output.put_line('✅ Successfully updated flight schedule with ID: ' || p_flight_schedule_id);
+      commit; -- Commit the update
+   else
+      -- If the record doesn't exist, perform the insertion
+      begin
+         insert into flight_schedule (
+            flight_schedule_id,
+            departure_airport,
+            scheduled_dep_time,
+            actual_dep_time,
+            arrival_airport,
+            scheduled_arr_time,
+            actual_arr_time,
+            flight_status,
+            created_at,
+            updated_at,
+            aircraft_aircraft_id,
+            routes_route_id
+         ) values ( 
+            p_flight_schedule_id,
+            p_departure_airport,
+            to_date(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+            p_arrival_airport,
+            to_date(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+            p_flight_status,
+            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+            p_aircraft_id,
+            p_route_id 
          );
-   end;
+         dbms_output.put_line('✅ Successfully inserted flight schedule with ID: ' || p_flight_schedule_id);
+         commit; -- Commit the insertion
+      exception
+         when others then
+            -- If an error occurs during insertion, raise a custom error
+            dbms_output.put_line('Error Code: ' || SQLCODE);
+            dbms_output.put_line('Error Message: ' || SQLERRM);
+            raise_application_error(
+               -20001,
+               '❌ Failed to insert flight schedule with ID: ' || p_flight_schedule_id
+            );
+      end;
+   end if;
+exception
+   when others then
+      -- If an error occurs during the procedure execution, raise a custom error
+      dbms_output.put_line('Error Code: ' || SQLCODE);
+      dbms_output.put_line('Error Message: ' || SQLERRM);
+      raise_application_error(
+         -20002,
+         '❌ Failed to process flight schedule with ID: ' || p_flight_schedule_id
+      );
 end insert_flight_schedule;
 /
 

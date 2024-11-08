@@ -1,3 +1,5 @@
+SET SERVEROUTPUT ON;
+
 create or replace procedure insert_inventory (
    p_inventory_id      in integer,
    p_item_name         in varchar2,
@@ -10,56 +12,69 @@ create or replace procedure insert_inventory (
 ) is
    v_count number;
 begin
-    -- Try to delete the existing inventory record if it exists
     -- Check if a record exists with the provided inventory_id
    select count(*)
      into v_count
      from inventory
     where inventory_id = p_inventory_id;
 
-    -- If a record exists, delete it
+    -- If a record exists, update it
    if v_count > 0 then
-      delete from inventory
+      update inventory
+         set item_name = p_item_name,
+             item_category = p_item_category,
+             quantity_in_hand = p_quantity_in_hand,
+             reorder_threshold = p_reorder_threshold,
+             inv_last_updated = to_date(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
+             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
        where inventory_id = p_inventory_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
-
-    -- Perform the insertion into the inventory table
-   begin
-      insert into inventory (
-         inventory_id,
-         item_name,
-         item_category,
-         quantity_in_hand,
-         reorder_threshold,
-         inv_last_updated,
-         created_at,
-         updated_at
-      ) values ( p_inventory_id,
-                 p_item_name,
-                 p_item_category,
-                 p_quantity_in_hand,
-                 p_reorder_threshold,
-                 to_date(p_inv_last_updated,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_created_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'YYYY-MM-DD HH24:MI:SS') );
-      dbms_output.put_line('✅ Successfully inserted inventory with ID: ' || p_inventory_id);
-      commit; -- Commit the insertion
-   exception
-      when others then
-            -- If an error occurs during insertion, raise a custom error
-         DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-         DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert inventory with ID: ' || p_inventory_id
+      
+      dbms_output.put_line('✅ Successfully updated inventory with ID: ' || p_inventory_id);
+      commit; -- Commit the update
+   else
+      -- If the record doesn't exist, perform the insertion
+      begin
+         insert into inventory (
+            inventory_id,
+            item_name,
+            item_category,
+            quantity_in_hand,
+            reorder_threshold,
+            inv_last_updated,
+            created_at,
+            updated_at
+         ) values ( 
+            p_inventory_id,
+            p_item_name,
+            p_item_category,
+            p_quantity_in_hand,
+            p_reorder_threshold,
+            to_date(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS') 
          );
-   end;
-
+         dbms_output.put_line('✅ Successfully inserted inventory with ID: ' || p_inventory_id);
+         commit; -- Commit the insertion
+      exception
+         when others then
+            -- If an error occurs during insertion, raise a custom error
+            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+            raise_application_error(
+               -20001,
+               '❌ Failed to insert inventory with ID: ' || p_inventory_id
+            );
+      end;
+   end if;
+exception
+   when others then
+      -- If an error occurs during the procedure execution, raise a custom error
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      raise_application_error(
+         -20002,
+         '❌ Failed to process inventory with ID: ' || p_inventory_id
+      );
 end insert_inventory;
 /
 

@@ -1,3 +1,5 @@
+SET SERVEROUTPUT ON;
+
 create or replace procedure insert_employee (
    p_employee_id    in integer,
    p_emp_first_name in varchar2,
@@ -12,59 +14,75 @@ create or replace procedure insert_employee (
 ) is
    v_count number;
 begin
-    -- Try to delete the existing employee record if it exists
-    -- Check if a record exists with the provided employee_id
+   -- Check if a record exists with the provided employee_id
    select count(*)
      into v_count
      from employee
     where employee_id = p_employee_id;
 
-    -- If a record exists, delete it
+   -- If a record exists, update it
    if v_count > 0 then
-      delete from employee
+      update employee
+         set emp_first_name = p_emp_first_name,
+             emp_last_name = p_emp_last_name,
+             emp_email = p_emp_email,
+             emp_phone = p_emp_phone,
+             emp_type = p_emp_type,
+             emp_subtype = p_emp_subtype,
+             emp_salary = p_emp_salary,
+             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
        where employee_id = p_employee_id;
-      commit; -- Commit the deletion
-      null;
-   end if;
-
-    -- Perform the insertion into the employee table
-   begin
-      insert into employee (
-         employee_id,
-         emp_first_name,
-         emp_last_name,
-         emp_email,
-         emp_phone,
-         emp_type,
-         emp_subtype,
-         emp_salary,
-         created_at,
-         updated_at
-      ) values ( p_employee_id,
-                 p_emp_first_name,
-                 p_emp_last_name,
-                 p_emp_email,
-                 p_emp_phone,
-                 p_emp_type,
-                 p_emp_subtype,
-                 p_emp_salary,
-                 to_date(p_created_at,
-                         'YYYY-MM-DD HH24:MI:SS'),
-                 to_date(p_updated_at,
-                         'YYYY-MM-DD HH24:MI:SS') );
-      dbms_output.put_line('✅ Successfully inserted employee with ID: ' || p_employee_id);
-      commit; -- Commit the insertion
-        -- Raise an exception if the insert fails (e.g., due to duplicate or any other issue)
-   exception
-      when others then
-         dbms_output.put_line('Error Code: ' || sqlcode);
-         dbms_output.put_line('Error Message: ' || sqlerrm);
-         raise_application_error(
-            -20001,
-            '❌ Failed to insert employee record with employee ID: ' || p_employee_id
+      
+      dbms_output.put_line('✅ Successfully updated employee with ID: ' || p_employee_id);
+      commit; -- Commit the update
+   else
+      -- If the record doesn't exist, perform the insertion
+      begin
+         insert into employee (
+            employee_id,
+            emp_first_name,
+            emp_last_name,
+            emp_email,
+            emp_phone,
+            emp_type,
+            emp_subtype,
+            emp_salary,
+            created_at,
+            updated_at
+         ) values ( 
+            p_employee_id,
+            p_emp_first_name,
+            p_emp_last_name,
+            p_emp_email,
+            p_emp_phone,
+            p_emp_type,
+            p_emp_subtype,
+            p_emp_salary,
+            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
          );
-   end;
-
+         dbms_output.put_line('✅ Successfully inserted employee with ID: ' || p_employee_id);
+         commit; -- Commit the insertion
+      exception
+         when others then
+            -- If an error occurs during insertion, raise a custom error
+            dbms_output.put_line('Error Code: ' || sqlcode);
+            dbms_output.put_line('Error Message: ' || sqlerrm);
+            raise_application_error(
+               -20001,
+               '❌ Failed to insert employee with ID: ' || p_employee_id
+            );
+      end;
+   end if;
+exception
+   when others then
+      -- If an error occurs during the procedure execution, raise a custom error
+      dbms_output.put_line('Error Code: ' || sqlcode);
+      dbms_output.put_line('Error Message: ' || sqlerrm);
+      raise_application_error(
+         -20002,
+         '❌ Failed to process employee with ID: ' || p_employee_id
+      );
 end insert_employee;
 /
 
