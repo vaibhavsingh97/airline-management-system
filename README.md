@@ -82,3 +82,32 @@
    ```sh
     env setup/grant access/[7] grant_access_to_all_users.sql
    ```
+
+### Insert Data into table
+
+1. Insert data
+
+   > **Using account**: `DEVELOPER`
+
+   ```sh
+      [1] insert_data/aircraft_insert_data.sql
+      [2] insert_data/route_insert_data.sql
+      [3] insert_data/maintenance_schedule_insert_data.sql
+      [4] insert_data/inventory_insert_data.sql
+      [5] insert_data/employee_insert_data.sql
+      [6] insert_data/passenger_insert_data.sql
+      [7] insert_data/inventory_order_insert_data.sql
+      [8] insert_data/flight_schedule_insert_data.sql
+      [9] insert_data/seat_insert_data.sql
+      [10] insert_data/crew_assignment_insert_data.sql
+      [11] insert_data/maintenance_record_insert_data.sql
+      [12] insert_data/ground_ops_schedule.sql
+      [13] insert_data/reservation_insert_data.sql
+      [14] insert_data/payment_insert_data.sql
+      [15] insert_data/reservation_payment_insert_data.sql
+      [16] insert_data/wallet_insert_data.sql
+      [17] insert_data/baggage_insert_data.sql
+      [18] insert_data/refund_insert_data.sql
+   ```
+
+### Create View
