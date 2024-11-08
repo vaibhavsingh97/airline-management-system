@@ -111,3 +111,27 @@
    ```
 
 ### Create View
+
+1. Create views: quarterly most travelled route
+   > **Using account**: `FLIGHT_OPERATION_MANAGER`
+   ```sh
+      views setup/[19] quarterly_most_travelled_route.sql
+   ```
+
+2. Create views: most wallet points redeemed
+   > **Using account**: `DEVELOPER`
+   ```sh
+      views setup/[20] most_wallet_points_redeemed.sql
+   ```
+
+3. Create views: incoming cashflow.sql
+   > **Using account**: `DEVELOPER`
+   ```sh
+      views setup/[21] incoming_cashflow.sql
+   ```
+
+4. Create views: scheduled maintenance record
+   > **Using account**: `MAINTENANCE MANAGER`
+   ```sh
+      views setup/[22] scheduled_maintenance_record.sql
+   ```
