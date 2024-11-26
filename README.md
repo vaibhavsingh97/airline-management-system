@@ -7,8 +7,15 @@
   - [x] Granting access to Roles
   - [x] Unlimited disk space
 - [x] Create Table
-- [ ] Insert Data
-- [ ] Create views
+- [x] Insert Data
+- [x] Create views
+- [ ] Changes in Create Table (Add Sequence or Auto Increment for primary Key)
+- [ ] Recheck
+  - [ ] Views 
+  - [ ] Check for index (optional)
+- [ ] Create procedure (register procedure, check for flights procedures, book flight procedure, etc)
+- [ ] Create Triggers
+- [ ] Create Reports
 
 ## Usage
 
