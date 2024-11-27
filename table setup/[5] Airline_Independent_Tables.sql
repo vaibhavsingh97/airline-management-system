@@ -40,7 +40,7 @@ begin
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE aircraft or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE aircraft  ❌');
    end;
 end;
 
@@ -81,7 +81,7 @@ begin
 
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE route or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE route ❌');
    end;
 end;
 
@@ -123,7 +123,7 @@ begin
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE maintenance_schedule or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE maintenance_schedule ❌');
    end;
 
 end;
@@ -168,10 +168,14 @@ begin
                 created_at        DATE NOT NULL,
                 updated_at        DATE NOT NULL
             )';
-      dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅');  
+      dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅'); 
+      -- Add constraints
+      ALTER TABLE inventory
+            ADD CONSTRAINT chk_inventory_quantity
+            CHECK (quantity_in_hand > 0 AND reorder_threshold > 0); 
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE inventory or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE inventory ❌');
    end;
 
 end;
@@ -215,7 +219,7 @@ begin
       dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE wallet or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE wallet ❌');
    end;
 
 end;
@@ -316,7 +320,7 @@ begin
       dbms_output.put_line('Table aircraft payment SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE payment or add primary key ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE payment ❌');
    end;
 
 end;
