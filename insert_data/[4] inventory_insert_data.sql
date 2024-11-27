@@ -1,88 +1,76 @@
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_inventory (
-   p_inventory_id      in integer,
-   p_item_name         in varchar2,
-   p_item_category     in varchar2,
-   p_quantity_in_hand  in integer,
-   p_reorder_threshold in integer,
-   p_inv_last_updated  in varchar2,
-   p_created_at        in varchar2,
-   p_updated_at        in varchar2
-) is
-   v_count number;
-begin
-    -- Check if a record exists with the provided inventory_id
-   select count(*)
-     into v_count
-     from inventory
-    where inventory_id = p_inventory_id;
+CREATE OR REPLACE PROCEDURE insert_inventory (
+   p_item_name         IN VARCHAR2,
+   p_item_category     IN VARCHAR2,
+   p_quantity_in_hand  IN INTEGER,
+   p_reorder_threshold IN INTEGER,
+   p_inv_last_updated  IN VARCHAR2,
+   p_created_at        IN VARCHAR2,
+   p_updated_at        IN VARCHAR2
+) IS
+   v_count NUMBER;
+   v_inventory_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided item_name and item_category
+   SELECT COUNT(*)
+     INTO v_count
+     FROM inventory
+    WHERE item_name = p_item_name
+      AND item_category = p_item_category;
 
-    -- If a record exists, update it
-   if v_count > 0 then
-      update inventory
-         set item_name = p_item_name,
-             item_category = p_item_category,
-             quantity_in_hand = p_quantity_in_hand,
+   -- If a record exists, update it; otherwise, insert a new record
+   IF v_count > 0 THEN
+      UPDATE inventory
+         SET quantity_in_hand = p_quantity_in_hand,
              reorder_threshold = p_reorder_threshold,
-             inv_last_updated = to_date(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-       where inventory_id = p_inventory_id;
-      
-      dbms_output.put_line('✅ Successfully updated inventory with ID: ' || p_inventory_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into inventory (
-            inventory_id,
-            item_name,
-            item_category,
-            quantity_in_hand,
-            reorder_threshold,
-            inv_last_updated,
-            created_at,
-            updated_at
-         ) values ( 
-            p_inventory_id,
-            p_item_name,
-            p_item_category,
-            p_quantity_in_hand,
-            p_reorder_threshold,
-            to_date(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS') 
-         );
-         dbms_output.put_line('✅ Successfully inserted inventory with ID: ' || p_inventory_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
-            -- If an error occurs during insertion, raise a custom error
-            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-            raise_application_error(
-               -20001,
-               '❌ Failed to insert inventory with ID: ' || p_inventory_id
-            );
-      end;
-   end if;
-exception
-   when others then
-      -- If an error occurs during the procedure execution, raise a custom error
+             inv_last_updated = TO_DATE(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
+             updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+       WHERE item_name = p_item_name
+         AND item_category = p_item_category
+      RETURNING inventory_id INTO v_inventory_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated inventory with ID: ' || v_inventory_id);
+   ELSE
+      -- Perform the insertion into the inventory table
+      INSERT INTO inventory (
+         item_name,
+         item_category,
+         quantity_in_hand,
+         reorder_threshold,
+         inv_last_updated,
+         created_at,
+         updated_at
+      ) VALUES ( 
+         p_item_name,
+         p_item_category,
+         p_quantity_in_hand,
+         p_reorder_threshold,
+         TO_DATE(p_inv_last_updated, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS') 
+      ) RETURNING inventory_id INTO v_inventory_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted inventory with ID: ' || v_inventory_id);
+   END IF;
+
+   COMMIT; -- Commit the insertion or update
+
+EXCEPTION
+   WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
       DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      raise_application_error(
+      -- If an error occurs, raise a custom error
+      RAISE_APPLICATION_ERROR(
          -20002,
-         '❌ Failed to process inventory with ID: ' || p_inventory_id
+         '❌ Failed to process inventory: ' || p_item_name || ' in category ' || p_item_category
       );
-end insert_inventory;
+END insert_inventory;
 /
 
-
-begin
-    -- Inserting data into inventory table using the procedure
+BEGIN
+   -- Inserting data into inventory table using the modified procedure
    insert_inventory(
-      401,
       'oil filter',
       'spare',
       62,
@@ -92,7 +80,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      402,
       'spark plugs',
       'spare',
       86,
@@ -102,7 +89,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      403,
       'tire pressure gauge',
       'spare',
       60,
@@ -112,7 +98,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      404,
       'fuel pump',
       'tools',
       80,
@@ -122,7 +107,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      405,
       'air filter',
       'spare',
       34,
@@ -132,7 +116,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      406,
       'engine oil',
       'spare',
       30,
@@ -142,7 +125,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      407,
       'brake pads',
       'tools',
       62,
@@ -152,7 +134,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      408,
       'battery',
       'spare',
       36,
@@ -162,7 +143,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      409,
       'antifreeze',
       'spare',
       97,
@@ -172,7 +152,6 @@ begin
       '2024-11-05 15:47:14'
    );
    insert_inventory(
-      410,
       'windshield wipers',
       'spare',
       17,
@@ -181,6 +160,5 @@ begin
       '2024-11-05 15:47:14',
       '2024-11-05 15:47:14'
    );
-   commit;
-end;
+END;
 /

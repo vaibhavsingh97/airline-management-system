@@ -1,99 +1,87 @@
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_employee (
-   p_employee_id    in integer,
-   p_emp_first_name in varchar2,
-   p_emp_last_name  in varchar2,
-   p_emp_email      in varchar2,
-   p_emp_phone      in number,
-   p_emp_type       in varchar2,
-   p_emp_subtype    in varchar2,
-   p_emp_salary     in number,
-   p_created_at     in varchar2,
-   p_updated_at     in varchar2
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided employee_id
-   select count(*)
-     into v_count
-     from employee
-    where employee_id = p_employee_id;
+CREATE OR REPLACE PROCEDURE insert_employee (
+   p_emp_first_name IN VARCHAR2,
+   p_emp_last_name  IN VARCHAR2,
+   p_emp_email      IN VARCHAR2,
+   p_emp_phone      IN NUMBER,
+   p_emp_type       IN VARCHAR2,
+   p_emp_subtype    IN VARCHAR2,
+   p_emp_salary     IN NUMBER,
+   p_created_at     IN VARCHAR2,
+   p_updated_at     IN VARCHAR2
+) IS
+   v_count NUMBER;
+   v_employee_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided email (assuming email is unique)
+   SELECT COUNT(*)
+     INTO v_count
+     FROM employee
+    WHERE emp_email = p_emp_email;
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update employee
-         set emp_first_name = p_emp_first_name,
+   -- If a record exists, update it; otherwise, insert a new record
+   IF v_count > 0 THEN
+      UPDATE employee
+         SET emp_first_name = p_emp_first_name,
              emp_last_name = p_emp_last_name,
-             emp_email = p_emp_email,
              emp_phone = p_emp_phone,
              emp_type = p_emp_type,
              emp_subtype = p_emp_subtype,
              emp_salary = p_emp_salary,
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-       where employee_id = p_employee_id;
-      
-      dbms_output.put_line('✅ Successfully updated employee with ID: ' || p_employee_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into employee (
-            employee_id,
-            emp_first_name,
-            emp_last_name,
-            emp_email,
-            emp_phone,
-            emp_type,
-            emp_subtype,
-            emp_salary,
-            created_at,
-            updated_at
-         ) values ( 
-            p_employee_id,
-            p_emp_first_name,
-            p_emp_last_name,
-            p_emp_email,
-            p_emp_phone,
-            p_emp_type,
-            p_emp_subtype,
-            p_emp_salary,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-         );
-         dbms_output.put_line('✅ Successfully inserted employee with ID: ' || p_employee_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
-            -- If an error occurs during insertion, raise a custom error
-            dbms_output.put_line('Error Code: ' || sqlcode);
-            dbms_output.put_line('Error Message: ' || sqlerrm);
-            raise_application_error(
-               -20001,
-               '❌ Failed to insert employee with ID: ' || p_employee_id
-            );
-      end;
-   end if;
-exception
-   when others then
-      -- If an error occurs during the procedure execution, raise a custom error
-      dbms_output.put_line('Error Code: ' || sqlcode);
-      dbms_output.put_line('Error Message: ' || sqlerrm);
-      raise_application_error(
+             updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+       WHERE emp_email = p_emp_email
+      RETURNING employee_id INTO v_employee_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated employee with ID: ' || v_employee_id);
+   ELSE
+      -- Perform the insertion into the employee table
+      INSERT INTO employee (
+         emp_first_name,
+         emp_last_name,
+         emp_email,
+         emp_phone,
+         emp_type,
+         emp_subtype,
+         emp_salary,
+         created_at,
+         updated_at
+      ) VALUES ( 
+         p_emp_first_name,
+         p_emp_last_name,
+         p_emp_email,
+         p_emp_phone,
+         p_emp_type,
+         p_emp_subtype,
+         p_emp_salary,
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+      ) RETURNING employee_id INTO v_employee_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted employee with ID: ' || v_employee_id);
+   END IF;
+
+   COMMIT; -- Commit the insertion or update
+
+EXCEPTION
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      -- If an error occurs, raise a custom error
+      RAISE_APPLICATION_ERROR(
          -20002,
-         '❌ Failed to process employee with ID: ' || p_employee_id
+         '❌ Failed to process employee: ' || p_emp_first_name || ' ' || p_emp_last_name
       );
-end insert_employee;
+END insert_employee;
 /
 
-begin
-    -- Inserting data into employee table
+BEGIN
+   -- Inserting data into employee table using the modified procedure
    insert_employee(
-      601,
       'Kaia',
       'Golt',
       'kgolt0@jimdo.com',
-      '3736571734',
+      3736571734,
       'corporate',
       'sales',
       3909.15,
@@ -101,35 +89,32 @@ begin
       '2024-04-12 16:13:46'
    );
    insert_employee(
-      602,
       'Gilburt',
       'Granger',
       'ggranger1@shinystat.com',
-      '9692375908',
+      9692375908,
       'ground_staff',
-      'gate agent',
+      null,
       2787.6,
       '2023-11-22 08:20:20',
       '2023-11-22 08:20:20'
    );
    insert_employee(
-      603,
       'Wendeline',
       'Quipp',
       'wquipp2@wordpress.com',
-      '6623746149',
+      6623746149,
       'ground_staff',
-      'ramp agent',
+      null,
       3055.31,
       '2023-10-24 04:41:25',
       '2023-10-24 04:41:25'
    );
    insert_employee(
-      604,
       'Valeda',
       'Jennaroy',
       'vjennaroy3@drupal.org',
-      '2237184426',
+      2237184426,
       'crew',
       null,
       8837.2,
@@ -137,23 +122,21 @@ begin
       '2024-05-20 04:55:23'
    );
    insert_employee(
-      605,
       'Dede',
       'Skerratt',
       'dskerratt4@shutterfly.com',
-      '5861040992',
+      5861040992,
       'ground_staff',
-      'ramp agent',
+      null,
       5772.22,
       '2024-01-23 02:58:47',
       '2024-01-23 02:58:47'
    );
    insert_employee(
-      606,
       'Lowrance',
       'Rickwood',
       'lrickwood5@gizmodo.com',
-      '1913031510',
+      1913031510,
       'pilot',
       null,
       8952.92,
@@ -161,11 +144,10 @@ begin
       '2024-04-09 03:10:20'
    );
    insert_employee(
-      607,
       'Reider',
       'Saunderson',
       'rsaunderson6@skyrock.com',
-      '2796682834',
+      2796682834,
       'pilot',
       null,
       8992.81,
@@ -173,23 +155,21 @@ begin
       '2023-11-02 02:55:07'
    );
    insert_employee(
-      608,
       'Christoforo',
       'Cristofor',
       'ccristofor7@vk.com',
-      '5367754920',
+      5367754920,
       'ground_staff',
-      'ramp agent',
+      null,
       3222.39,
       '2024-03-24 11:08:33',
       '2024-03-24 11:08:33'
    );
    insert_employee(
-      609,
       'Traci',
       'Jarvie',
       'tjarvie8@ycombinator.com',
-      '5166888493',
+      5166888493,
       'crew',
       null,
       9013.11,
@@ -197,17 +177,15 @@ begin
       '2023-10-15 05:09:33'
    );
    insert_employee(
-      610,
       'Stoddard',
       'Hamor',
       'shamor9@taobao.com',
-      '8842551259',
+      8842551259,
       'corporate',
       'hr',
       6806.49,
       '2024-01-08 00:02:41',
       '2024-01-08 00:02:41'
    );
-   commit;
-end;
+END;
 /
