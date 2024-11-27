@@ -1,7 +1,6 @@
 SET SERVEROUTPUT ON;
 
 CREATE OR REPLACE PROCEDURE insert_route (
-   p_route_id            IN INTEGER,
    p_origin_airport      IN VARCHAR2,
    p_destination_airport IN VARCHAR2,
    p_distance            IN INTEGER,
@@ -9,61 +8,61 @@ CREATE OR REPLACE PROCEDURE insert_route (
    p_updated_at          IN VARCHAR2
 ) IS
    v_count NUMBER;
+   v_route_id NUMBER;
 BEGIN
-   -- Check if a record exists with the provided route_id
+   -- Check if a record exists with the provided origin and destination airports
    SELECT COUNT(*)
      INTO v_count
      FROM route
-    WHERE route_id = p_route_id;
+    WHERE origin_airport = p_origin_airport
+      AND destination_airport = p_destination_airport;
 
    -- If a record exists, update it; otherwise, insert a new record
    IF v_count > 0 THEN
       UPDATE route
-      SET origin_airport = p_origin_airport,
-          destination_airport = p_destination_airport,
-          distance = p_distance,
+      SET distance = p_distance,
           updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-      WHERE route_id = p_route_id;
+      WHERE origin_airport = p_origin_airport
+        AND destination_airport = p_destination_airport
+      RETURNING route_id INTO v_route_id;
 
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated route with ID: ' || p_route_id);
-      COMMIT;  -- Commit the update
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated route with ID: ' || v_route_id);
    ELSE
       -- Perform the insertion into the route table
       INSERT INTO route (
-         route_id,
          origin_airport,
          destination_airport,
          distance,
          created_at,
          updated_at
       ) VALUES (
-         p_route_id,
          p_origin_airport,
          p_destination_airport,
          p_distance,
          TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
          TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-      );
+      ) RETURNING route_id INTO v_route_id;
 
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted route with ID: ' || p_route_id);
-      COMMIT;  -- Commit the insertion
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted route with ID: ' || v_route_id);
    END IF;
+
+   COMMIT;  -- Commit the insertion or update
 
 EXCEPTION
    WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
       -- If an error occurs, raise a custom error
       RAISE_APPLICATION_ERROR(
          -20001,
-         '❌ Failed to insert or update route with ID: ' || p_route_id
+         '❌ Failed to insert or update route: ' || p_origin_airport || ' to ' || p_destination_airport
       );
 END insert_route;
 /
 
-
-begin
-    -- Inserting data into route table using the procedure
+BEGIN
+   -- Inserting data into route table using the modified procedure
    insert_route(
-      201,
       'BOS',
       'ATL',
       2779,
@@ -71,7 +70,6 @@ begin
       '2023-01-05 12:15:33'
    );
    insert_route(
-      202,
       'DEN',
       'SFO',
       2528,
@@ -79,7 +77,6 @@ begin
       '2023-02-14 08:45:20'
    );
    insert_route(
-      203,
       'DEN',
       'ATL',
       2818,
@@ -87,7 +84,6 @@ begin
       '2023-04-28 21:17:55'
    );
    insert_route(
-      204,
       'DEN',
       'BOS',
       1782,
@@ -95,7 +91,6 @@ begin
       '2023-06-13 05:38:09'
    );
    insert_route(
-      205,
       'ATL',
       'ORD',
       1094,
@@ -103,7 +98,6 @@ begin
       '2023-08-09 16:24:41'
    );
    insert_route(
-      206,
       'ORD',
       'JFK',
       2618,
@@ -111,7 +105,6 @@ begin
       '2023-10-03 10:35:20'
    );
    insert_route(
-      207,
       'DFW',
       'LAX',
       2242,
@@ -119,7 +112,6 @@ begin
       '2023-11-17 22:50:11'
    );
    insert_route(
-      208,
       'DEN',
       'DFW',
       1868,
@@ -127,7 +119,6 @@ begin
       '2024-02-03 06:44:57'
    );
    insert_route(
-      209,
       'MIA',
       'ATL',
       4254,
@@ -135,13 +126,11 @@ begin
       '2024-04-21 13:19:32'
    );
    insert_route(
-      210,
       'DFW',
       'MIA',
       1576,
       '2024-06-12 18:56:45',
       '2024-06-12 18:56:45'
    );
-   commit;
-end;
+END;
 /

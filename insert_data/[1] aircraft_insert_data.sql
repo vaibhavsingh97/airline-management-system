@@ -1,7 +1,4 @@
-SET SERVEROUTPUT ON;
-
 CREATE OR REPLACE PROCEDURE insert_aircraft (
-   p_aircraft_id      IN NUMBER,
    p_aircraft_name    IN VARCHAR2,
    p_aircraft_model   IN VARCHAR2,
    p_seating_capacity IN NUMBER,
@@ -10,29 +7,29 @@ CREATE OR REPLACE PROCEDURE insert_aircraft (
    p_updated_at       IN VARCHAR2
 ) IS
    v_count NUMBER;
+   v_aircraft_id NUMBER;
 BEGIN
-   -- Check if a record exists with the provided aircraft_id
+   -- Check if a record exists with the provided aircraft_name and aircraft_model
    SELECT COUNT(*)
      INTO v_count
      FROM aircraft
-    WHERE aircraft_id = p_aircraft_id;
+    WHERE aircraft_name = p_aircraft_name
+      AND aircraft_model = p_aircraft_model;
 
    -- If a record exists, update it; otherwise, insert a new record
    IF v_count > 0 THEN
       UPDATE aircraft
-      SET aircraft_name = p_aircraft_name,
-          aircraft_model = p_aircraft_model,
-          seating_capacity = p_seating_capacity,
+      SET seating_capacity = p_seating_capacity,
           fuel_capacity = p_fuel_capacity,
           updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-      WHERE aircraft_id = p_aircraft_id;
+      WHERE aircraft_name = p_aircraft_name
+        AND aircraft_model = p_aircraft_model
+      RETURNING aircraft_id INTO v_aircraft_id;
 
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated aircraft with ID: ' || p_aircraft_id);
-      COMMIT;  -- Commit the update
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated aircraft with ID: ' || v_aircraft_id);
    ELSE
       -- Perform the insertion into the aircraft table
       INSERT INTO aircraft (
-         aircraft_id,
          aircraft_name,
          aircraft_model,
          seating_capacity,
@@ -40,18 +37,18 @@ BEGIN
          created_at,
          updated_at
       ) VALUES (
-         p_aircraft_id,
          p_aircraft_name,
          p_aircraft_model,
          p_seating_capacity,
          p_fuel_capacity,
          TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
          TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-      );
+      ) RETURNING aircraft_id INTO v_aircraft_id;
 
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted aircraft with ID: ' || p_aircraft_id);
-      COMMIT;  -- Commit the insertion
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted aircraft with ID: ' || v_aircraft_id);
    END IF;
+
+   COMMIT;  -- Commit the insertion or update
 
 EXCEPTION
    WHEN OTHERS THEN
@@ -60,17 +57,15 @@ EXCEPTION
       -- If an error occurs, raise a custom error
       RAISE_APPLICATION_ERROR(
          -20004,
-         '❌ Failed to insert or update aircraft with ID: ' || p_aircraft_id
+         '❌ Failed to insert or update aircraft: ' || p_aircraft_name || ' ' || p_aircraft_model
       );
 END insert_aircraft;
 /
 
 
-
-begin
-    -- Inserting data into aircraft table using the procedure
+BEGIN
+   -- Inserting data into aircraft table using the procedure
    insert_aircraft(
-      101,
       'Boeing 747',
       '747',
       114,
@@ -79,7 +74,6 @@ begin
       '2023-09-18 10:23:45'
    );
    insert_aircraft(
-      102,
       'Airbus A380',
       'A380',
       180,
@@ -88,7 +82,6 @@ begin
       '2023-09-24 15:45:12'
    );
    insert_aircraft(
-      103,
       'Boeing 737',
       '737',
       173,
@@ -97,7 +90,6 @@ begin
       '2023-10-03 09:12:01'
    );
    insert_aircraft(
-      104,
       'Airbus A320',
       'A320',
       311,
@@ -106,7 +98,6 @@ begin
       '2023-10-11 22:08:30'
    );
    insert_aircraft(
-      105,
       'Boeing 787 Dreamliner',
       '787',
       25,
@@ -115,7 +106,6 @@ begin
       '2023-10-19 14:37:50'
    );
    insert_aircraft(
-      106,
       'Airbus A350',
       'A350',
       200,
@@ -124,7 +114,6 @@ begin
       '2023-10-27 08:56:10'
    );
    insert_aircraft(
-      107,
       'Embraer E190',
       'E190',
       397,
@@ -133,7 +122,6 @@ begin
       '2023-11-06 12:20:55'
    );
    insert_aircraft(
-      108,
       'Bombardier CRJ900',
       'CRJ900',
       40,
@@ -142,7 +130,6 @@ begin
       '2024-01-15 20:31:15'
    );
    insert_aircraft(
-      109,
       'Boeing 777',
       '777',
       351,
@@ -151,7 +138,6 @@ begin
       '2024-03-22 18:19:45'
    );
    insert_aircraft(
-      110,
       'Airbus A330',
       'A330',
       273,
@@ -159,6 +145,6 @@ begin
       '2024-05-30 04:45:35',
       '2024-05-30 04:45:35'
    );
-   commit;
-end;
-/
+   COMMIT;
+END;
+/ 
