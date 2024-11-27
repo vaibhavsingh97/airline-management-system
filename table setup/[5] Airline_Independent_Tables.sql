@@ -29,7 +29,7 @@ begin
    begin
       execute immediate '
         CREATE TABLE aircraft (
-            aircraft_id      INTEGER NOT NULL,
+            aircraft_id      INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             aircraft_name    VARCHAR2(30) NOT NULL,
             aircraft_model   VARCHAR2(30) NOT NULL,
             seating_capacity INTEGER NOT NULL,
@@ -38,10 +38,6 @@ begin
             updated_at       DATE NOT NULL
         )';
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
-
--- Add primary key constraint
-      execute immediate 'ALTER TABLE aircraft ADD CONSTRAINT aircraft_pk PRIMARY KEY (aircraft_id)';
-      dbms_output.put_line('Primary key constraint aircraft_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE aircraft or add primary key ❌');
@@ -74,7 +70,7 @@ begin
    begin
       execute immediate '
             CREATE TABLE route (
-            route_id            INTEGER NOT NULL,
+            route_id            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             origin_airport      VARCHAR2(30) NOT NULL,
             destination_airport VARCHAR2(30) NOT NULL,
             distance            INTEGER NOT NULL,
@@ -83,9 +79,6 @@ begin
         )';
       dbms_output.put_line('Table route CREATED SUCCESSFULLY ✅');
 
--- Add primary key constraint
-      execute immediate 'ALTER TABLE route ADD CONSTRAINT route_pk PRIMARY KEY ( route_id )';
-      dbms_output.put_line('Primary key constraint route_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE route or add primary key ❌');
@@ -121,17 +114,13 @@ begin
    begin
       execute immediate '
             CREATE TABLE maintenance_schedule (
-                main_schedule_id INTEGER NOT NULL,
+                main_schedule_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 main_type        VARCHAR2(20) CHECK (main_type IN (''scheduled'', ''unscheduled'', ''emergency'', ''inspection'')) NOT NULL ,
                 schedule_date    DATE NOT NULL,
                 created_at       DATE NOT NULL,
                 updated_at       DATE NOT NULL
             )';
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
-
-    -- Add primary key constraint
-      execute immediate 'ALTER TABLE maintenance_schedule ADD CONSTRAINT ms_pk PRIMARY KEY ( main_schedule_id )';
-      dbms_output.put_line('Primary key constraint ms_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE maintenance_schedule or add primary key ❌');
@@ -170,7 +159,7 @@ begin
    begin
       execute immediate '
             CREATE TABLE inventory (
-                inventory_id      INTEGER NOT NULL,
+                inventory_id      INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 item_name         VARCHAR2(30) NOT NULL,
                 item_category     VARCHAR2(15) CHECK (item_category IN (''catering'', ''cleaning'', ''spare'', ''tools'')) NOT NULL,
                 quantity_in_hand  INTEGER NOT NULL,
@@ -180,10 +169,6 @@ begin
                 updated_at        DATE NOT NULL
             )';
       dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅');  
-
-  -- Add primary key constraint
-      execute immediate 'ALTER TABLE inventory ADD CONSTRAINT inventory_pk PRIMARY KEY ( inventory_id )';
-      dbms_output.put_line('Primary key constraint inventory_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE inventory or add primary key ❌');
@@ -218,7 +203,7 @@ begin
    begin
       execute immediate '
             CREATE TABLE wallet (
-                wallet_id          INTEGER NOT NULL,
+                wallet_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 program_tier       VARCHAR2(10) NOT NULL,
                 points_earned      INTEGER NOT NULL,
                 points_redeemed    INTEGER NOT NULL,
@@ -228,9 +213,6 @@ begin
                 updated_at         DATE NOT NULL
             )';
       dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
-    -- Add primary key constraint
-      execute immediate 'ALTER TABLE wallet ADD CONSTRAINT lm_pk PRIMARY KEY ( wallet_id )';
-      dbms_output.put_line('Primary key constraint lm_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE wallet or add primary key ❌');
@@ -265,7 +247,7 @@ begin
    begin
       execute immediate '
             CREATE TABLE employee (
-                employee_id    INTEGER NOT NULL,
+                employee_id    INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 emp_first_name VARCHAR2(20) NOT NULL,
                 emp_last_name  VARCHAR2(20) NOT NULL,
                 emp_email      VARCHAR2(50) NOT NULL,
@@ -274,13 +256,15 @@ begin
                 emp_subtype    VARCHAR2(20),
                 emp_salary     NUMBER(10, 2) NOT NULL,
                 created_at     DATE NOT NULL,
-                updated_at     DATE NOT NULL
+                updated_at     DATE NOT NULL,
+                CONSTRAINT chk_emp_subtype CHECK (
+                    (emp_type = ''corporate'' AND emp_subtype IS NOT NULL) OR
+                    (emp_type <> ''corporate'' AND emp_subtype IS NULL)
+                )
             )';
       dbms_output.put_line('Table employee SUCCESSFULLY ✅');   
 
--- Add primary key constraint
-      execute immediate 'ALTER TABLE employee ADD CONSTRAINT employee_pk PRIMARY KEY ( employee_id )';
-      dbms_output.put_line('Primary key constraint employee_pk added successfully ✅');
+-- Add constraints
       execute immediate 'ALTER TABLE employee ADD CONSTRAINT chk_emp_email_format 
     CHECK (REGEXP_LIKE(emp_email, ''^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$''))';
       dbms_output.put_line('Email constraint chk_emp_email_format added successfully ✅');
@@ -289,7 +273,7 @@ begin
       dbms_output.put_line('Phone constraint chk_emp_phone_format added successfully ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE employee or add primary key or any constraints ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE employee or any constraints ❌');
    end;
 end;
 
@@ -321,7 +305,7 @@ begin
    begin
       execute immediate '
             CREATE TABLE payment (
-                payment_id     INTEGER NOT NULL,
+                payment_id     INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 payment_date   DATE NOT NULL,
                 payment_amount NUMBER(10, 2) NOT NULL,
                 payment_mode   VARCHAR2(10) CHECK (payment_mode IN (''creditcard'',''debitcard'',''bank'',''wallet'')) NOT NULL,
@@ -330,10 +314,6 @@ begin
                 updated_at     DATE NOT NULL
             )';
       dbms_output.put_line('Table aircraft payment SUCCESSFULLY ✅');
-        
-        -- Add primary key constraint
-      execute immediate 'ALTER TABLE payment ADD CONSTRAINT payment_pk PRIMARY KEY ( payment_id )';
-      dbms_output.put_line('Primary key constraint payment_pk added successfully ✅');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE payment or add primary key ❌');
