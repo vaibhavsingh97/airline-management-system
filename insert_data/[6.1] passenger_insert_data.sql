@@ -1,7 +1,6 @@
 SET SERVEROUTPUT ON;
 
 CREATE OR REPLACE PROCEDURE insert_passenger (
-   p_passenger_id    IN INTEGER,
    p_pass_first_name IN VARCHAR2,
    p_pass_last_name  IN VARCHAR2,
    p_pass_email      IN VARCHAR2,
@@ -14,12 +13,13 @@ CREATE OR REPLACE PROCEDURE insert_passenger (
    p_wallet_wallet_id IN VARCHAR2
 ) IS
    v_count NUMBER;
+   p_passenger_id passenger.passenger_id%TYPE;
 BEGIN
    -- Check if a record exists with the provided passenger_id
    SELECT COUNT(*)
    INTO v_count
    FROM passenger
-   WHERE passenger_id = p_passenger_id;
+   WHERE pass_email = p_pass_email and pass_phone = p_pass_phone;
 
    IF v_count > 0 THEN
       -- Update existing passenger record
@@ -33,12 +33,12 @@ BEGIN
           seat_preference = p_seat_preference,
           updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
           wallet_wallet_id = p_wallet_wallet_id
-      WHERE passenger_id = p_passenger_id;
+      WHERE pass_email = p_pass_email and pass_phone = p_pass_phone
+      RETURNING passenger_id INTO p_passenger_id;
       DBMS_OUTPUT.PUT_LINE('✅ Successfully updated passenger with ID: ' || p_passenger_id);
    ELSE
       -- Insert new passenger record
       INSERT INTO passenger (
-         passenger_id,
          pass_first_name,
          pass_last_name,
          pass_email,
@@ -50,7 +50,6 @@ BEGIN
          updated_at,
          wallet_wallet_id
       ) VALUES (
-         p_passenger_id,
          p_pass_first_name,
          p_pass_last_name,
          p_pass_email,
@@ -61,7 +60,8 @@ BEGIN
          TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
          TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
          p_wallet_wallet_id
-      );
+      )
+      RETURNING passenger_id INTO p_passenger_id;
       DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted passenger with ID: ' || p_passenger_id);
    END IF;
 
@@ -74,11 +74,9 @@ EXCEPTION
 END insert_passenger;
 /
 
-
 begin
     -- Inserting data into passenger table
    insert_passenger(
-      801,
       'Catina',
       'Mellers',
       'cmellers0@tuttocitta.it',
@@ -91,7 +89,6 @@ begin
       null
    );
    insert_passenger(
-      802,
       'Tabby',
       'Pegg',
       'tpegg1@google.de',
@@ -104,7 +101,6 @@ begin
       502
    );
    insert_passenger(
-      803,
       'Kitty',
       'Warlawe',
       'kwarlawe2@ibm.com',
@@ -117,7 +113,6 @@ begin
       503
    );
    insert_passenger(
-      804,
       'Eda',
       'Borham',
       'eborham3@jiathis.com',
@@ -130,7 +125,6 @@ begin
       504
    );
    insert_passenger(
-      805,
       'Pennie',
       'Jouandet',
       'pjouandet4@sphinn.com',
@@ -143,7 +137,6 @@ begin
       505
    );
    insert_passenger(
-      806,
       'Daven',
       'Krollman',
       'dkrollman5@chronoengine.com',
@@ -156,7 +149,6 @@ begin
       null
    );
    insert_passenger(
-      807,
       'Sigismondo',
       'Marnane',
       'smarnane6@multiply.com',
@@ -169,7 +161,6 @@ begin
       507
    );
    insert_passenger(
-      808,
       'Jessalyn',
       'Underdown',
       'junderdown7@liveinternet.ru',
@@ -182,7 +173,6 @@ begin
       508
    );
    insert_passenger(
-      809,
       'Brucie',
       'Heersema',
       'bheersema8@nhs.uk',
@@ -195,7 +185,6 @@ begin
       509
    );
    insert_passenger(
-      810,
       'Ebeneser',
       'Gravet',
       'egravet9@furl.net',
