@@ -40,7 +40,7 @@ begin
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE aircraft  ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE aircraft or add primary key ❌');
    end;
 end;
 
@@ -81,51 +81,8 @@ begin
 
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE route ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE route or add primary key ❌');
    end;
-end;
-
-
--- Maintenance Schedule Table
-
-/
-declare
-   table_exists number;
-begin
-    -- Check if the table exists
-   select count(*)
-     into table_exists
-     from user_tables
-    where lower(table_name) = 'maintenance_schedule';
-    
-
-   -- Drop table if it exists
-   if table_exists > 0 then
-      begin
-         execute immediate 'DROP TABLE maintenance_schedule CASCADE constraints';
-         dbms_output.put_line('Table maintenance_schedule DROPPED SUCCESSFULLY ✅');
-      exception
-         when others then
-            dbms_output.put_line('FAILED TO DROP TABLE maintenance_schedule ❌');
-      end;
-   end if;
-    
-    -- Create the table
-   begin
-      execute immediate '
-            CREATE TABLE maintenance_schedule (
-                main_schedule_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                main_type        VARCHAR2(20) CHECK (main_type IN (''scheduled'', ''unscheduled'', ''emergency'', ''inspection'')) NOT NULL ,
-                schedule_date    DATE NOT NULL,
-                created_at       DATE NOT NULL,
-                updated_at       DATE NOT NULL
-            )';
-      dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
-   exception
-      when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE maintenance_schedule ❌');
-   end;
-
 end;
 
 
@@ -168,14 +125,10 @@ begin
                 created_at        DATE NOT NULL,
                 updated_at        DATE NOT NULL
             )';
-      dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅'); 
-      -- Add constraints
-      ALTER TABLE inventory
-            ADD CONSTRAINT chk_inventory_quantity
-            CHECK (quantity_in_hand > 0 AND reorder_threshold > 0); 
+      dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅');  
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE inventory ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE inventory or add primary key ❌');
    end;
 
 end;
@@ -219,7 +172,7 @@ begin
       dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE wallet ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE wallet or add primary key ❌');
    end;
 
 end;
@@ -320,7 +273,7 @@ begin
       dbms_output.put_line('Table aircraft payment SUCCESSFULLY ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE payment ❌');
+         dbms_output.put_line('FAILED TO CREATE TABLE payment or add primary key ❌');
    end;
 
 end;

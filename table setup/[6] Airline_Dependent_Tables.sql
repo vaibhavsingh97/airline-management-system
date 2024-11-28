@@ -51,6 +51,57 @@ begin
    end;
 end;
 
+-- Maintenance Schedule Table
+
+/
+declare
+   table_exists number;
+begin
+    -- Check if the table exists
+   select count(*)
+     into table_exists
+     from user_tables
+    where lower(table_name) = 'maintenance_schedule';
+    
+
+   -- Drop table if it exists
+   if table_exists > 0 then
+      begin
+         execute immediate 'DROP TABLE maintenance_schedule CASCADE constraints';
+         dbms_output.put_line('Table maintenance_schedule DROPPED SUCCESSFULLY ✅');
+      exception
+         when others then
+            dbms_output.put_line('FAILED TO DROP TABLE maintenance_schedule ❌');
+      end;
+   end if;
+    
+    -- Create the table
+   begin
+      execute immediate '
+            CREATE TABLE maintenance_schedule (
+                main_schedule_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                main_type        VARCHAR2(20) CHECK (main_type IN (''scheduled'', ''unscheduled'', ''emergency'', ''inspection'')) NOT NULL ,
+                schedule_date    DATE NOT NULL,
+                aircraft_aircraft_id INTEGER NOT NULL,
+                created_at       DATE NOT NULL,
+                updated_at       DATE NOT NULL
+            )';
+      dbms_output.put_line('Table maintenance_schedule CREATED SUCCESSFULLY ✅');
+
+      -- Add foreign key constraint
+      execute immediate 'ALTER TABLE maintenance_schedule ADD CONSTRAINT ms_aircraft_fk FOREIGN KEY ( aircraft_aircraft_id )
+        REFERENCES aircraft ( aircraft_id )';
+         dbms_output.put_line('Foreign key constraint ms_aircraft_fk added successfully ✅');
+      
+   exception
+      when others then
+         dbms_output.put_line('FAILED TO CREATE TABLE maintenance_schedule ❌');
+   end;
+
+end;
+
+
+
 
 -- Passenger Table
 
@@ -254,7 +305,6 @@ begin
                 main_record_date DATE NOT NULL,
                 main_record_type VARCHAR2(15) CHECK (main_record_type IN (''cleaning'',''routine'',''repairs'',''inspection'')) NOT NULL,
                 main_record_description VARCHAR2 (50)  NOT NULL,
-                aircraft_aircraft_id INTEGER NOT NULL,
                 employee_employee_id INTEGER NOT NULL,
                 inventory_inventory_id INTEGER NOT NULL,
                 ms_main_schedule_id INTEGER NOT NULL,
@@ -264,9 +314,6 @@ begin
       dbms_output.put_line('Table maintenance_record CREATED SUCCESSFULLY ✅');
         
         -- Add foreign key constraint
-      execute immediate 'ALTER TABLE maintenance_record ADD CONSTRAINT mr_aircraft_fk FOREIGN KEY ( aircraft_aircraft_id )
-        REFERENCES aircraft ( aircraft_id )';
-      dbms_output.put_line('Foreign key constraint mr_aircraft_fk added successfully ✅');
       execute immediate 'ALTER TABLE maintenance_record ADD CONSTRAINT mr_employee_fk FOREIGN KEY ( employee_employee_id )
         REFERENCES employee ( employee_id )';
       dbms_output.put_line('Foreign key constraint mr_employee_fk added successfully ✅');
