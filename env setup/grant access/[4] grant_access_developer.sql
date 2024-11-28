@@ -12,7 +12,7 @@ begin
    execute immediate unlimted_storage_sql;
    grant_access_to_user('DEVELOPER', 'CONNECT, RESOURCE', null);
 
-   grant_privileges_sql := 'GRANT CONNECT, RESOURCE TO DEVELOPER WITH ADMIN OPTION';
+   grant_privileges_sql := 'GRANT CONNECT, RESOURCE, CREATE ANY VIEW TO DEVELOPER WITH ADMIN OPTION';
    execute immediate grant_privileges_sql;
 
    dbms_output.put_line('User DEVELOPER granted access successfully. ✅');
