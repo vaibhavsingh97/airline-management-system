@@ -43,5 +43,9 @@ BEGIN
     -- Output a message confirming the inventory replenishment
     DBMS_OUTPUT.PUT_LINE('Inventory replenished for item: ' || :NEW.item_name || 
                          ' | New Quantity: ' || :NEW.quantity_in_hand);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error occurred');
+        RETURN;
 END;
 /
