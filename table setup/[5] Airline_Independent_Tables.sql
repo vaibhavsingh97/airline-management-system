@@ -34,8 +34,8 @@ begin
             aircraft_model   VARCHAR2(30) NOT NULL,
             seating_capacity INTEGER NOT NULL,
             fuel_capacity    INTEGER NOT NULL,
-            created_at       DATE NOT NULL,
-            updated_at       DATE NOT NULL
+            created_at       DATE DEFAULT SYSDATE NOT NULL,
+            updated_at       DATE DEFAULT SYSDATE NOT NULL
         )';
       dbms_output.put_line('Table aircraft CREATED SUCCESSFULLY ✅');
    exception
@@ -74,8 +74,8 @@ begin
             origin_airport      VARCHAR2(30) NOT NULL,
             destination_airport VARCHAR2(30) NOT NULL,
             distance            INTEGER NOT NULL,
-            created_at          DATE NOT NULL,
-            updated_at          DATE NOT NULL
+            created_at       DATE DEFAULT SYSDATE NOT NULL,
+            updated_at       DATE DEFAULT SYSDATE NOT NULL
         )';
       dbms_output.put_line('Table route CREATED SUCCESSFULLY ✅');
 
@@ -122,8 +122,8 @@ begin
                 quantity_in_hand  INTEGER NOT NULL,
                 reorder_threshold INTEGER NOT NULL,
                 inv_last_updated  DATE NOT NULL,
-                created_at        DATE NOT NULL,
-                updated_at        DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table inventory CREATED SUCCESSFULLY ✅');  
    exception
@@ -166,8 +166,8 @@ begin
                 points_redeemed    INTEGER NOT NULL,
                 transaction_id     VARCHAR2(10) NOT NULL,
                 transaction_reason VARCHAR2(50) NOT NULL,
-                created_at         DATE NOT NULL,
-                updated_at         DATE NOT NULL
+                created_at         DATE DEFAULT SYSDATE NOT NULL,
+                updated_at         DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
    exception
@@ -212,8 +212,8 @@ begin
                 emp_type       VARCHAR2(15) CHECK (emp_type IN(''pilot'',''crew'',''ground_staff'',''corporate'' )) NOT NULL,
                 emp_subtype    VARCHAR2(20),
                 emp_salary     NUMBER(10, 2) NOT NULL,
-                created_at     DATE NOT NULL,
-                updated_at     DATE NOT NULL,
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
                 CONSTRAINT chk_emp_subtype CHECK (
                     (emp_type = ''corporate'' AND emp_subtype IS NOT NULL) OR
                     (emp_type <> ''corporate'' AND emp_subtype IS NULL)
@@ -267,8 +267,8 @@ begin
                 payment_amount NUMBER(10, 2) NOT NULL,
                 payment_mode   VARCHAR2(10) CHECK (payment_mode IN (''creditcard'',''debitcard'',''bank'',''wallet'')) NOT NULL,
                 payment_type   VARCHAR2(10) CHECK (payment_type IN (''partial'',''full'')) NOT NULL,
-                created_at     DATE NOT NULL,
-                updated_at     DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table aircraft payment SUCCESSFULLY ✅');
    exception

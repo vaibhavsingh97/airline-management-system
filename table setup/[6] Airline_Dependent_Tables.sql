@@ -36,8 +36,8 @@ begin
                 order_status           VARCHAR2(10) CHECK (order_status IN (''pending'',''fulfilled'',''failed'')) NOT NULL,
                 supplier_name          VARCHAR2(20) NOT NULL,
                 inventory_inventory_id INTEGER NOT NULL,
-                created_at             DATE NOT NULL,
-                updated_at             DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table inventory_order CREATED SUCCESSFULLY ✅');
 
@@ -83,8 +83,8 @@ begin
                 main_type        VARCHAR2(20) CHECK (main_type IN (''scheduled'', ''unscheduled'', ''emergency'', ''inspection'')) NOT NULL ,
                 schedule_date    DATE NOT NULL,
                 aircraft_aircraft_id INTEGER NOT NULL,
-                created_at       DATE NOT NULL,
-                updated_at       DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table maintenance_schedule CREATED SUCCESSFULLY ✅');
 
@@ -139,8 +139,8 @@ begin
                 dob              DATE NOT NULL,
                 seat_preference  VARCHAR2(10) CHECK (seat_preference IN (''window'',''middle'',''aisle'')) NOT NULL,
                 wallet_wallet_id INTEGER,
-                created_at       DATE NOT NULL,
-                updated_at       DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table passenger CREATED SUCCESSFULLY ✅ ');
 
@@ -197,8 +197,8 @@ begin
                 refund_amount      NUMBER(10, 2) NOT NULL,
                 refund_reason      VARCHAR2(50) NOT NULL,
                 payment_payment_id INTEGER NOT NULL,
-                created_at         DATE NOT NULL,
-                updated_at         DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table refund CREATED SUCCESSFULLY ✅');
         
@@ -253,8 +253,8 @@ begin
                 flight_status        VARCHAR2(15) CHECK (flight_status IN (''scheduled'',''ontime'',''delayed'',''cancelled''))NOT NULL,
                 aircraft_aircraft_id INTEGER NOT NULL,
                 routes_route_id      INTEGER NOT NULL,
-                created_at           DATE NOT NULL,
-                updated_at           DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table flight_schedule CREATED SUCCESSFULLY ✅');
         
@@ -308,8 +308,8 @@ begin
                 employee_employee_id INTEGER NOT NULL,
                 inventory_inventory_id INTEGER NOT NULL,
                 ms_main_schedule_id INTEGER NOT NULL,
-                created_at DATE NOT NULL,
-                updated_at DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table maintenance_record CREATED SUCCESSFULLY ✅');
         
@@ -362,8 +362,8 @@ begin
                     seat_class            VARCHAR2(20) NOT NULL,
                     is_available          CHAR(1) NOT NULL,
                     fs_flight_schedule_id INTEGER NOT NULL,
-                    created_at            DATE NOT NULL,
-                    updated_at            DATE NOT NULL
+                    created_at       DATE DEFAULT SYSDATE NOT NULL,
+                    updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table seat CREATED SUCCESSFULLY ✅');
         
@@ -410,8 +410,8 @@ begin
                 reservation_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 travel_date            DATE NOT NULL,
                 reservation_status     VARCHAR2(15) CHECK (reservation_status IN (''pending'',''confirmed'',''partial'',''cancelled'')) NOT NULL,
-                created_at             DATE NOT NULL,
-                updated_at             DATE NOT NULL,
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
                 airfare                NUMBER(10, 2) NOT NULL,
                 seat_number            VARCHAR2(5) NOT NULL,
                 passenger_passenger_id INTEGER NOT NULL,
@@ -468,8 +468,8 @@ begin
                 baggage_weight         NUMBER(4, 2) NOT NULL,
                 baggage_status         VARCHAR2(20) CHECK (baggage_status IN (''checkin'',''loaded'',''lost'',''unloaded'',''damaged'',''delivered'',''awaiting_transfer'',''claimed'')) NOT NULL,
                 reservation_reservation_id INTEGER NOT NULL,
-                created_at             DATE NOT NULL,
-                updated_at             DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table baggage CREATED SUCCESSFULLY ✅');
         
@@ -518,8 +518,8 @@ begin
                     assignment_role       VARCHAR2(15) NOT NULL,
                     fs_flight_schedule_id INTEGER NOT NULL,
                     employee_employee_id  INTEGER NOT NULL,
-                    created_at            DATE NOT NULL,
-                    updated_at            DATE NOT NULL
+                    created_at       DATE DEFAULT SYSDATE NOT NULL,
+                    updated_at       DATE DEFAULT SYSDATE NOT NULL
                 )';
       dbms_output.put_line('Table crew_assignment CREATED SUCCESSFULLY ✅');
         
@@ -568,8 +568,8 @@ begin
              CREATE TABLE reservation_payment (
                 payment_payment_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 reservation_reservation_id INTEGER NOT NULL,
-                created_at            DATE NOT NULL,
-                updated_at            DATE NOT NULL
+                created_at       DATE DEFAULT SYSDATE NOT NULL,
+                updated_at       DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table reservation_payment CREATED SUCCESSFULLY ✅');
         
