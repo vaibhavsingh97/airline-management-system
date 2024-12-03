@@ -1,3 +1,8 @@
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
+SET SERVEROUTPUT ON;
+
 CREATE OR REPLACE PROCEDURE insert_aircraft (
    p_aircraft_name    IN VARCHAR2,
    p_aircraft_model   IN VARCHAR2,

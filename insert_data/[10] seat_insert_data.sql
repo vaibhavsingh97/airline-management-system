@@ -1,3 +1,6 @@
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 SET SERVEROUTPUT ON;
 
 create or replace procedure insert_seat (

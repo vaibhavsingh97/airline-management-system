@@ -1,7 +1,9 @@
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 SET SERVEROUTPUT ON;
 
 CREATE OR REPLACE PROCEDURE insert_passenger (
-   p_passenger_id    IN INTEGER,
    p_pass_first_name IN VARCHAR2,
    p_pass_last_name  IN VARCHAR2,
    p_pass_email      IN VARCHAR2,
@@ -14,31 +16,32 @@ CREATE OR REPLACE PROCEDURE insert_passenger (
    p_wallet_wallet_id IN VARCHAR2
 ) IS
    v_count NUMBER;
+   v_passenger_id INTEGER;
 BEGIN
-   -- Check if a record exists with the provided passenger_id
+   -- Check if a record exists with the provided email (assuming email is unique)
    SELECT COUNT(*)
    INTO v_count
    FROM passenger
-   WHERE passenger_id = p_passenger_id;
+   WHERE pass_email = p_pass_email;
 
    IF v_count > 0 THEN
       -- Update existing passenger record
       UPDATE passenger
       SET pass_first_name = p_pass_first_name,
           pass_last_name = p_pass_last_name,
-          pass_email = p_pass_email,
           pass_phone = p_pass_phone,
           gender = p_gender,
           dob = p_dob,
           seat_preference = p_seat_preference,
           updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
           wallet_wallet_id = p_wallet_wallet_id
-      WHERE passenger_id = p_passenger_id;
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated passenger with ID: ' || p_passenger_id);
+      WHERE pass_email = p_pass_email
+      RETURNING passenger_id INTO v_passenger_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated passenger with ID: ' || v_passenger_id);
    ELSE
       -- Insert new passenger record
       INSERT INTO passenger (
-         passenger_id,
          pass_first_name,
          pass_last_name,
          pass_email,
@@ -50,7 +53,6 @@ BEGIN
          updated_at,
          wallet_wallet_id
       ) VALUES (
-         p_passenger_id,
          p_pass_first_name,
          p_pass_last_name,
          p_pass_email,
@@ -61,8 +63,9 @@ BEGIN
          TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
          TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
          p_wallet_wallet_id
-      );
-      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted passenger with ID: ' || p_passenger_id);
+      ) RETURNING passenger_id INTO v_passenger_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted passenger with ID: ' || v_passenger_id);
    END IF;
 
    COMMIT; -- Commit the transaction
@@ -70,7 +73,7 @@ EXCEPTION
    WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
       DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(-20001, '❌ Failed to insert or update passenger with ID: ' || p_passenger_id);
+      RAISE_APPLICATION_ERROR(-20001, '❌ Failed to insert or update passenger: ' || p_pass_email);
 END insert_passenger;
 /
 
