@@ -71,9 +71,7 @@ BEGIN
    COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(-20001, '❌ Failed to insert or update passenger: ' || p_pass_email);
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update passenger: ' || p_pass_email);
 END insert_passenger;
 /
 
@@ -81,7 +79,6 @@ END insert_passenger;
 begin
     -- Inserting data into passenger table
    insert_passenger(
-      801,
       'Catina',
       'Mellers',
       'cmellers0@tuttocitta.it',
@@ -94,7 +91,6 @@ begin
       null
    );
    insert_passenger(
-      802,
       'Tabby',
       'Pegg',
       'tpegg1@google.de',
@@ -104,10 +100,9 @@ begin
       'middle',
       '2023-07-16 03:07:23',
       '2023-07-16 03:07:23',
-      502
+      null
    );
    insert_passenger(
-      803,
       'Kitty',
       'Warlawe',
       'kwarlawe2@ibm.com',
@@ -117,7 +112,7 @@ begin
       'aisle',
       '2023-03-25 04:11:48',
       '2023-03-25 04:11:48',
-      503
+      null
    );
    insert_passenger(
       804,
@@ -130,10 +125,9 @@ begin
       'middle',
       '2024-07-02 13:08:56',
       '2024-07-02 13:08:56',
-      504
+      null
    );
    insert_passenger(
-      805,
       'Pennie',
       'Jouandet',
       'pjouandet4@sphinn.com',
@@ -143,10 +137,9 @@ begin
       'window',
       '2024-06-11 05:39:51',
       '2024-06-11 05:39:51',
-      505
+      null
    );
    insert_passenger(
-      806,
       'Daven',
       'Krollman',
       'dkrollman5@chronoengine.com',
@@ -159,7 +152,6 @@ begin
       null
    );
    insert_passenger(
-      807,
       'Sigismondo',
       'Marnane',
       'smarnane6@multiply.com',
@@ -169,10 +161,9 @@ begin
       'window',
       '2023-08-06 00:35:55',
       '2023-08-06 00:35:55',
-      507
+      null
    );
    insert_passenger(
-      808,
       'Jessalyn',
       'Underdown',
       'junderdown7@liveinternet.ru',
@@ -182,10 +173,9 @@ begin
       'middle',
       '2022-12-21 08:43:43',
       '2022-12-21 08:43:43',
-      508
+      null
    );
    insert_passenger(
-      809,
       'Brucie',
       'Heersema',
       'bheersema8@nhs.uk',
@@ -195,10 +185,9 @@ begin
       'aisle',
       '2024-04-21 22:05:36',
       '2024-04-21 22:05:36',
-      509
+      null
    );
    insert_passenger(
-      810,
       'Ebeneser',
       'Gravet',
       'egravet9@furl.net',
