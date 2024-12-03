@@ -52,11 +52,7 @@ begin
          commit; -- Commit the insertion
       exception
          when others then
-            dbms_output.put_line('Error Code: ' || sqlcode);
-            dbms_output.put_line('Error Message: ' || sqlerrm);
-            -- If an error occurs during insertion, raise a custom error
-            raise_application_error(
-               -20008,
+            DBMS_OUTPUT.PUT_LINE(
                '❌ Failed to insert refund with ID: ' || p_refund_id
             );
       end;
@@ -64,10 +60,7 @@ begin
 exception
    when others then
       -- If an error occurs during the procedure execution, raise a custom error
-      dbms_output.put_line('Error Code: ' || sqlcode);
-      dbms_output.put_line('Error Message: ' || sqlerrm);
-      raise_application_error(
-         -20009,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process refund with ID: ' || p_refund_id
       );
 end insert_refund;
