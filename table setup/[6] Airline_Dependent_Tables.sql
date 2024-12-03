@@ -149,6 +149,14 @@ begin
     CHECK (REGEXP_LIKE(pass_email, ''^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$''))';
       dbms_output.put_line('Email constraint chk_pass_email_format added successfully ✅');
 
+   -- Passenger email unique constraint
+    EXECUTE IMMEDIATE 'ALTER TABLE passenger ADD CONSTRAINT uq_passenger_email UNIQUE (pass_email)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on passenger email');
+
+   -- Passenger phone unique constraint
+    EXECUTE IMMEDIATE 'ALTER TABLE passenger ADD CONSTRAINT uq_passenger_phone UNIQUE (pass_phone)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on passenger phone');
+
     -- Add passenger phone constraint
       execute immediate 'ALTER TABLE passenger ADD CONSTRAINT chk_pass_phone_format 
     CHECK (REGEXP_LIKE(pass_phone, ''^\d{10}$''))';
@@ -427,6 +435,9 @@ begin
       execute immediate 'ALTER TABLE reservation ADD CONSTRAINT reservation_seat_fk FOREIGN KEY ( seat_seat_id )
         REFERENCES seat ( seat_id )';
       dbms_output.put_line('Foreign key constraint reservation_seat_fk added successfully ✅');
+          -- Reservation PNR unique constraint
+    EXECUTE IMMEDIATE 'ALTER TABLE reservation ADD CONSTRAINT uq_reservation_pnr UNIQUE (pnr)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on reservation PNR');
       execute immediate 'ALTER TABLE reservation ADD CONSTRAINT reservation_passenger_fk FOREIGN KEY ( passenger_passenger_id )
         REFERENCES passenger ( passenger_id )';
       dbms_output.put_line('Foreign key constraint reservation_passenger_fk added successfully ✅');

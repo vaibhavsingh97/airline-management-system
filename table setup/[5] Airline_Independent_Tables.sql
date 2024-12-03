@@ -170,6 +170,10 @@ begin
                 updated_at         DATE DEFAULT SYSDATE NOT NULL
             )';
       dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
+
+    -- Wallet unique constraint
+    EXECUTE IMMEDIATE 'ALTER TABLE wallet ADD CONSTRAINT uq_wallet_transaction UNIQUE (transaction_id)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on wallet transaction_id');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE wallet or add primary key ❌');
@@ -228,6 +232,10 @@ begin
       execute immediate 'ALTER TABLE employee ADD CONSTRAINT chk_emp_phone_format 
     CHECK (REGEXP_LIKE(emp_phone, ''^\d{10}$''))';
       dbms_output.put_line('Phone constraint chk_emp_phone_format added successfully ✅');
+    -- Employee unique constraints
+    EXECUTE IMMEDIATE 'ALTER TABLE employee ADD CONSTRAINT uq_emp_email UNIQUE (emp_email)';
+    EXECUTE IMMEDIATE 'ALTER TABLE employee ADD CONSTRAINT uq_emp_phone UNIQUE (emp_phone)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraints on employee email and phone');
    exception
       when others then
          dbms_output.put_line('FAILED TO CREATE TABLE employee or any constraints ❌');
