@@ -366,6 +366,7 @@ begin
       execute immediate '
             CREATE TABLE seat (
                     seat_id               INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                    seat_number           VARCHAR2(5) NOT NULL,
                     seat_type             VARCHAR2(10) NOT NULL,
                     seat_class            VARCHAR2(20) NOT NULL,
                     is_available          CHAR(1) NOT NULL,
@@ -418,10 +419,9 @@ begin
                 reservation_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 travel_date            DATE NOT NULL,
                 reservation_status     VARCHAR2(15) CHECK (reservation_status IN (''pending'',''confirmed'',''partial'',''cancelled'')) NOT NULL,
-                created_at       DATE DEFAULT SYSDATE NOT NULL,
-                updated_at       DATE DEFAULT SYSDATE NOT NULL,
+                created_at             DATE DEFAULT SYSDATE NOT NULL,
+                updated_at             DATE DEFAULT SYSDATE NOT NULL,
                 airfare                NUMBER(10, 2) NOT NULL,
-                seat_number            VARCHAR2(5) NOT NULL,
                 passenger_passenger_id INTEGER NOT NULL,
                 seat_seat_id           INTEGER NOT NULL,
                 pnr                    VARCHAR2(6) NOT NULL,
