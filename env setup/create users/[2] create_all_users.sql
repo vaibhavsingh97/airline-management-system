@@ -47,7 +47,7 @@ begin
    create_user('PASSENGER', 'NeuBoston2024#');
    create_user('FLIGHT_OPERATION_MANAGER', 'NeuBoston2024#');
    create_user('INVENTORY_MANAGER', 'NeuBoston2024#');
-   create_user('GROUND_OPERATION_MANAGER', 'NeuBoston2024#');
+   -- create_user('GROUND_OPERATION_MANAGER', 'NeuBoston2024#');
    create_user('CREW_MANAGER', 'NeuBoston2024#');
    create_user('MAINTENANCE_MANAGER', 'NeuBoston2024#');
    create_user('HR_MANAGER', 'NeuBoston2024#');
