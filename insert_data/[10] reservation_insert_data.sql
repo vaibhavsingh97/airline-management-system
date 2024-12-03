@@ -75,9 +75,7 @@ BEGIN
    COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(-20006, '❌ Failed to insert or update reservation: ' || p_pnr);
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update reservation: ' || p_pnr);
 END insert_reservation;
 /
 

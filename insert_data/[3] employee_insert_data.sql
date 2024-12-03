@@ -68,11 +68,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process employee: ' || p_emp_first_name || ' ' || p_emp_last_name
       );
 END insert_employee;

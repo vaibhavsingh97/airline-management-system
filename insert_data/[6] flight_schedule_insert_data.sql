@@ -77,9 +77,7 @@ BEGIN
    COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(-20002, '❌ Failed to insert or update flight schedule: ' || 
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update flight schedule: ' || 
                               p_departure_airport || ' to ' || p_arrival_airport || 
                               ' on ' || p_scheduled_dep_time);
 END insert_flight_schedule;
@@ -88,7 +86,6 @@ END insert_flight_schedule;
 begin
     -- Inserting data into flight_schedule table
    insert_flight_schedule(
-      1001,
       'DEN',
       '2024-02-15 23:17:22',
       '2024-02-15 23:17:22',
@@ -102,7 +99,6 @@ begin
       204
    );
    insert_flight_schedule(
-      1002,
       'MIA',
       '2023-12-21 02:30:21',
       '2023-12-21 02:30:21',
@@ -116,7 +112,6 @@ begin
       209
    );
    insert_flight_schedule(
-      1003,
       'BOS',
       '2024-07-10 19:58:24',
       '2024-07-10 19:58:24',
@@ -130,7 +125,6 @@ begin
       201
    );
    insert_flight_schedule(
-      1004,
       'BOS',
       '2024-11-23 13:37:32',
       '2024-11-23 13:37:32',
@@ -144,7 +138,6 @@ begin
       201
    );
    insert_flight_schedule(
-      1005,
       'DEN',
       '2024-08-12 13:36:46',
       '2024-08-12 13:36:46',
@@ -158,7 +151,6 @@ begin
       208
    );
    insert_flight_schedule(
-      1006,
       'ATL',
       '2024-10-25 07:28:22',
       '2024-10-25 07:28:22',
@@ -172,7 +164,6 @@ begin
       205
    );
    insert_flight_schedule(
-      1007,
       'ATL',
       '2024-10-30 07:28:08',
       '2024-10-30 07:28:08',
@@ -186,7 +177,6 @@ begin
       205
    );
    insert_flight_schedule(
-      1008,
       'DEN',
       '2024-04-05 17:43:01',
       '2024-04-05 17:43:01',
@@ -200,7 +190,6 @@ begin
       203
    );
    insert_flight_schedule(
-      1009,
       'BOS',
       '2024-04-27 12:55:37',
       '2024-04-27 12:55:37',
@@ -214,7 +203,6 @@ begin
       201
    );
    insert_flight_schedule(
-      1010,
       'ATL',
       '2024-09-20 10:11:27',
       '2024-09-20 10:11:27',

@@ -57,10 +57,7 @@ begin
       exception
          when others then
             -- If an error occurs during insertion, raise a custom error
-            dbms_output.put_line('Error Code: ' || SQLCODE);
-            dbms_output.put_line('Error Message: ' || SQLERRM);
-            raise_application_error(
-               -20001,
+            DBMS_OUTPUT.PUT_LINE(
                '❌ Failed to insert seat with ID: ' || p_seat_id
             );
       end;
@@ -68,10 +65,7 @@ begin
 exception
    when others then
       -- If an error occurs during the procedure execution, raise a custom error
-      dbms_output.put_line('Error Code: ' || SQLCODE);
-      dbms_output.put_line('Error Message: ' || SQLERRM);
-      raise_application_error(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process seat with ID: ' || p_seat_id
       );
 end insert_seat;

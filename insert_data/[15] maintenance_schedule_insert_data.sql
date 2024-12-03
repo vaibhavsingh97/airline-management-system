@@ -49,11 +49,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20001,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to insert or update maintenance schedule: ' || p_main_type || ' on ' || p_schedule_date
       );
 END insert_maintenance_schedule;

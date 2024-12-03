@@ -69,10 +69,7 @@ begin
       exception
          when others then
             -- If an error occurs during insertion, raise a custom error
-            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-            raise_application_error(
-               -20001,
+            DBMS_OUTPUT.PUT_LINE(
                '❌ Failed to insert maintenance record with ID: ' || p_main_record_id
             );
       end;
@@ -80,10 +77,7 @@ begin
 exception
    when others then
       -- If an error occurs during the procedure execution, raise a custom error
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      raise_application_error(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process maintenance record with ID: ' || p_main_record_id
       );
 end insert_maintenance_record;

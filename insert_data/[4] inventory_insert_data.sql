@@ -61,11 +61,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process inventory: ' || p_item_name || ' in category ' || p_item_category
       );
 END insert_inventory;

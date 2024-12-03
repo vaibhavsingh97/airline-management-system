@@ -57,9 +57,7 @@ BEGIN
    COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(-20002, '❌ Failed to insert or update crew assignment for employee ' || 
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update crew assignment for employee ' || 
                               p_employee_id || ' on flight schedule ' || p_flight_schedule_id);
 END insert_crew_assignment;
 /
