@@ -1,3 +1,6 @@
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 SET SERVEROUTPUT ON;
 
 CREATE OR REPLACE PROCEDURE insert_maintenance_schedule (

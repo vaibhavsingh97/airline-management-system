@@ -23,7 +23,7 @@ begin
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'CREW_ASSIGNMENT');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_RECORD');
-   grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
+   -- grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO INVENTORY_MANAGER
    grant_access_to_user('INVENTORY_MANAGER','CONNECT, CREATE ANY VIEW', null);
@@ -32,14 +32,14 @@ begin
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'INVENTORY_ORDER');
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'MAINTENANCE_RECORD');
-   grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
+   -- grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO GROUND_OPERATION_MANAGER
    grant_access_to_user('GROUND_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW', null);
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'INVENTORY');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE', 'MAINTENANCE_RECORD');
-   grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'GROUND_OPS_SCHEDULE');
+   -- grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'GROUND_OPS_SCHEDULE');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, UPDATE', 'BAGGAGE');
 
    -- GRANT ACCESS TO CREW_MANAGER
@@ -58,7 +58,7 @@ begin
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'INVENTORY_ORDER');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'MAINTENANCE_RECORD');
-   grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
+   -- grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO HR_MANAGER
    grant_access_to_user('HR_MANAGER','CONNECT, CREATE ANY VIEW', null);
@@ -71,7 +71,7 @@ begin
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'CREW_ASSIGNMENT');
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'EMPLOYEE');
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'FLIGHT_SCHEDULE');
-   grant_access_to_user('DATA_ANALYST', 'SELECT', 'GROUND_OPS_SCHEDULE');
+   -- grant_access_to_user('DATA_ANALYST', 'SELECT', 'GROUND_OPS_SCHEDULE');
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'INVENTORY');
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'INVENTORY_ORDER');
    grant_access_to_user('DATA_ANALYST', 'SELECT', 'MAINTENANCE_RECORD');
