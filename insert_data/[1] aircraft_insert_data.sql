@@ -57,13 +57,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20004,
-         '❌ Failed to insert or update aircraft: ' || p_aircraft_name || ' ' || p_aircraft_model
-      );
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update aircraft: ' || p_aircraft_name || ' ' || p_aircraft_model);
 END insert_aircraft;
 /
 
