@@ -3,78 +3,65 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_crew_assignment (
-   p_assignment_id      in number,
-   p_assignment_date    in varchar2,
-   p_assignment_role    in varchar2,
-   p_created_at         in varchar2,
-   p_updated_at         in varchar2,
-   p_flight_schedule_id in number,
-   p_employee_id        in number
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided assignment_id
-   select count(*)
-     into v_count
-     from crew_assignment
-    where assignment_id = p_assignment_id;
+CREATE OR REPLACE PROCEDURE insert_crew_assignment (
+   p_assignment_date    IN VARCHAR2,
+   p_assignment_role    IN VARCHAR2,
+   p_created_at         IN VARCHAR2,
+   p_updated_at         IN VARCHAR2,
+   p_flight_schedule_id IN NUMBER,
+   p_employee_id        IN NUMBER
+) IS
+   v_count NUMBER;
+   v_assignment_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided flight schedule, employee, and date
+   SELECT COUNT(*)
+   INTO v_count
+   FROM crew_assignment
+   WHERE fs_flight_schedule_id = p_flight_schedule_id
+     AND employee_employee_id = p_employee_id
+     AND assignment_date = TO_DATE(p_assignment_date, 'YYYY-MM-DD HH24:MI:SS');
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update crew_assignment
-         set assignment_date = to_date(p_assignment_date, 'YYYY-MM-DD HH24:MI:SS'),
-             assignment_role = p_assignment_role,
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-             fs_flight_schedule_id = p_flight_schedule_id,
-             employee_employee_id = p_employee_id
-       where assignment_id = p_assignment_id;
+   IF v_count > 0 THEN
+      -- Update existing crew assignment record
+      UPDATE crew_assignment
+      SET assignment_role = p_assignment_role,
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+      WHERE fs_flight_schedule_id = p_flight_schedule_id
+        AND employee_employee_id = p_employee_id
+        AND assignment_date = TO_DATE(p_assignment_date, 'YYYY-MM-DD HH24:MI:SS')
+      RETURNING assignment_id INTO v_assignment_id;
       
-      dbms_output.put_line('✅ Successfully updated crew assignment with ID: ' || p_assignment_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into crew_assignment (
-            assignment_id,
-            assignment_date,
-            assignment_role,
-            created_at,
-            updated_at,
-            fs_flight_schedule_id,
-            employee_employee_id
-         ) values (
-            p_assignment_id,
-            to_date(p_assignment_date, 'YYYY-MM-DD HH24:MI:SS'),
-            p_assignment_role,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-            p_flight_schedule_id,
-            p_employee_id
-         );
-         dbms_output.put_line('✅ Successfully inserted crew assignment with ID: ' || p_assignment_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
-            -- If an error occurs during insertion, raise a custom error
-            dbms_output.put_line('Error Code: ' || SQLCODE);
-            dbms_output.put_line('Error Message: ' || SQLERRM);
-            raise_application_error(
-               -20001,
-               '❌ Failed to insert crew assignment with ID: ' || p_assignment_id
-            );
-      end;
-   end if;
-exception
-   when others then
-      -- If an error occurs during the procedure execution, raise a custom error
-      dbms_output.put_line('Error Code: ' || SQLCODE);
-      dbms_output.put_line('Error Message: ' || SQLERRM);
-      raise_application_error(
-         -20002,
-         '❌ Failed to process crew assignment with ID: ' || p_assignment_id
-      );
-end insert_crew_assignment;
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated crew assignment with ID: ' || v_assignment_id);
+   ELSE
+      -- Insert new crew assignment record
+      INSERT INTO crew_assignment (
+         assignment_date,
+         assignment_role,
+         created_at,
+         updated_at,
+         fs_flight_schedule_id,
+         employee_employee_id
+      ) VALUES (
+         TO_DATE(p_assignment_date, 'YYYY-MM-DD HH24:MI:SS'),
+         p_assignment_role,
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+         p_flight_schedule_id,
+         p_employee_id
+      ) RETURNING assignment_id INTO v_assignment_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted crew assignment with ID: ' || v_assignment_id);
+   END IF;
+
+   COMMIT; -- Commit the transaction
+EXCEPTION
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      RAISE_APPLICATION_ERROR(-20002, '❌ Failed to insert or update crew assignment for employee ' || 
+                              p_employee_id || ' on flight schedule ' || p_flight_schedule_id);
+END insert_crew_assignment;
 /
 
 begin

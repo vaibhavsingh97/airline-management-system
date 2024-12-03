@@ -16,51 +16,72 @@ CREATE OR REPLACE PROCEDURE insert_flight_schedule (
    p_aircraft_id        IN INTEGER,
    p_route_id           IN INTEGER
 ) IS
+   v_count NUMBER;
    v_flight_schedule_id INTEGER;
 BEGIN
-   -- Generate a new flight_schedule_id
-   SELECT NVL(MAX(flight_schedule_id), 0) + 1 INTO v_flight_schedule_id FROM flight_schedule;
+   -- Check if a record exists with the provided departure and arrival details
+   SELECT COUNT(*)
+   INTO v_count
+   FROM flight_schedule
+   WHERE departure_airport = p_departure_airport
+     AND arrival_airport = p_arrival_airport
+     AND scheduled_dep_time = TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS');
 
-   -- Perform the insertion into the flight_schedule table
-   INSERT INTO flight_schedule (
-      flight_schedule_id,
-      departure_airport,
-      scheduled_dep_time,
-      actual_dep_time,
-      arrival_airport,
-      scheduled_arr_time,
-      actual_arr_time,
-      flight_status,
-      created_at,
-      updated_at,
-      aircraft_aircraft_id,
-      routes_route_id
-   ) VALUES ( 
-      v_flight_schedule_id,
-      p_departure_airport,
-      TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
-      p_arrival_airport,
-      TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
-      p_flight_status,
-      TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-      p_aircraft_id,
-      p_route_id 
-   );
+   IF v_count > 0 THEN
+      -- Update existing flight schedule record
+      UPDATE flight_schedule
+      SET actual_dep_time = TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+          scheduled_arr_time = TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+          actual_arr_time = TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+          flight_status = p_flight_status,
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+          aircraft_aircraft_id = p_aircraft_id,
+          routes_route_id = p_route_id
+      WHERE departure_airport = p_departure_airport
+        AND arrival_airport = p_arrival_airport
+        AND scheduled_dep_time = TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS')
+      RETURNING flight_schedule_id INTO v_flight_schedule_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated flight schedule with ID: ' || v_flight_schedule_id);
+   ELSE
+      -- Insert new flight schedule record
+      INSERT INTO flight_schedule (
+         departure_airport,
+         scheduled_dep_time,
+         actual_dep_time,
+         arrival_airport,
+         scheduled_arr_time,
+         actual_arr_time,
+         flight_status,
+         created_at,
+         updated_at,
+         aircraft_aircraft_id,
+         routes_route_id
+      ) VALUES ( 
+         p_departure_airport,
+         TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+         p_arrival_airport,
+         TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+         p_flight_status,
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+         p_aircraft_id,
+         p_route_id 
+      ) RETURNING flight_schedule_id INTO v_flight_schedule_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted flight schedule with ID: ' || v_flight_schedule_id);
+   END IF;
 
-   DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted flight schedule with ID: ' || v_flight_schedule_id);
-   COMMIT; -- Commit the insertion
-
+   COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
       DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(
-         -20002,
-         '❌ Failed to process flight schedule: ' || SQLERRM
-      );
+      RAISE_APPLICATION_ERROR(-20002, '❌ Failed to insert or update flight schedule: ' || 
+                              p_departure_airport || ' to ' || p_arrival_airport || 
+                              ' on ' || p_scheduled_dep_time);
 END insert_flight_schedule;
 /
 

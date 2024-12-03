@@ -3,98 +3,82 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_reservation (
-   p_reservation_id       in number,
-   p_travel_date          in varchar2,
-   p_reservation_status   in varchar2,
-   p_airfare              in number,
-   p_seat_number          in varchar2,
-   p_pnr                  in varchar2,
-   p_start_date           in varchar2,
-   p_end_date             in varchar2,
-   p_created_at           in varchar2,
-   p_updated_at           in varchar2,
-   p_passenger_id         in number,
-   p_seat_id              in number
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided reservation_id
-   select count(*)
-     into v_count
-     from reservation
-    where reservation_id = p_reservation_id;
+CREATE OR REPLACE PROCEDURE insert_reservation (
+   p_travel_date          IN VARCHAR2,
+   p_reservation_status   IN VARCHAR2,
+   p_airfare              IN NUMBER,
+   p_seat_number          IN VARCHAR2,
+   p_pnr                  IN VARCHAR2,
+   p_start_date           IN VARCHAR2,
+   p_end_date             IN VARCHAR2,
+   p_created_at           IN VARCHAR2,
+   p_updated_at           IN VARCHAR2,
+   p_passenger_id         IN NUMBER,
+   p_seat_id              IN NUMBER
+) IS
+   v_count NUMBER;
+   v_reservation_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided PNR (assuming PNR is unique)
+   SELECT COUNT(*)
+   INTO v_count
+   FROM reservation
+   WHERE pnr = p_pnr;
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update reservation
-         set travel_date = to_date(p_travel_date, 'DD-MM-YYYY'),
-             reservation_status = p_reservation_status,
-             airfare = p_airfare,
-             seat_number = p_seat_number,
-             pnr = p_pnr,
-             start_date = to_date(p_start_date, 'YYYY-MM-DD HH24:MI:SS'),
-             end_date = to_date(p_end_date, 'YYYY-MM-DD HH24:MI:SS'),
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-             passenger_passenger_id = p_passenger_id,
-             seat_seat_id = p_seat_id
-       where reservation_id = p_reservation_id;
+   IF v_count > 0 THEN
+      -- Update existing reservation record
+      UPDATE reservation
+      SET travel_date = TO_DATE(p_travel_date, 'DD-MM-YYYY'),
+          reservation_status = p_reservation_status,
+          airfare = p_airfare,
+          seat_number = p_seat_number,
+          start_date = TO_DATE(p_start_date, 'YYYY-MM-DD HH24:MI:SS'),
+          end_date = TO_DATE(p_end_date, 'YYYY-MM-DD HH24:MI:SS'),
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+          passenger_passenger_id = p_passenger_id,
+          seat_seat_id = p_seat_id
+      WHERE pnr = p_pnr
+      RETURNING reservation_id INTO v_reservation_id;
       
-      dbms_output.put_line('✅ Successfully updated reservation with ID: ' || p_reservation_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into reservation (
-            reservation_id,
-            travel_date,
-            reservation_status,
-            airfare,
-            seat_number,
-            pnr,
-            start_date,
-            end_date,
-            created_at,
-            updated_at,
-            passenger_passenger_id,
-            seat_seat_id
-         ) values (
-            p_reservation_id,
-            to_date(p_travel_date, 'DD-MM-YYYY'),
-            p_reservation_status,
-            p_airfare,
-            p_seat_number,
-            p_pnr,
-            to_date(p_start_date, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_end_date, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-            p_passenger_id,
-            p_seat_id
-         );
-         dbms_output.put_line('✅ Successfully inserted reservation with ID: ' || p_reservation_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
-            dbms_output.put_line('Error Code: ' || sqlcode);
-            dbms_output.put_line('Error Message: ' || sqlerrm);
-            -- If an error occurs during insertion, raise a custom error
-            raise_application_error(
-               -20005,
-               '❌ Failed to insert reservation with ID: ' || p_reservation_id
-            );
-      end;
-   end if;
-exception
-   when others then
-      -- If an error occurs during the procedure execution, raise a custom error
-      dbms_output.put_line('Error Code: ' || sqlcode);
-      dbms_output.put_line('Error Message: ' || sqlerrm);
-      raise_application_error(
-         -20006,
-         '❌ Failed to process reservation with ID: ' || p_reservation_id
-      );
-end insert_reservation;
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated reservation with ID: ' || v_reservation_id);
+   ELSE
+      -- Insert new reservation record
+      INSERT INTO reservation (
+         travel_date,
+         reservation_status,
+         airfare,
+         seat_number,
+         pnr,
+         start_date,
+         end_date,
+         created_at,
+         updated_at,
+         passenger_passenger_id,
+         seat_seat_id
+      ) VALUES (
+         TO_DATE(p_travel_date, 'DD-MM-YYYY'),
+         p_reservation_status,
+         p_airfare,
+         p_seat_number,
+         p_pnr,
+         TO_DATE(p_start_date, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_end_date, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+         p_passenger_id,
+         p_seat_id
+      ) RETURNING reservation_id INTO v_reservation_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted reservation with ID: ' || v_reservation_id);
+   END IF;
+
+   COMMIT; -- Commit the transaction
+EXCEPTION
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
+      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
+      RAISE_APPLICATION_ERROR(-20006, '❌ Failed to insert or update reservation: ' || p_pnr);
+END insert_reservation;
 /
 
 begin
