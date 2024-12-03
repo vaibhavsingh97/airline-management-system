@@ -1,5 +1,5 @@
 /*================================================
-‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+‼ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼
 ================================================*/
 SET SERVEROUTPUT ON;
 
