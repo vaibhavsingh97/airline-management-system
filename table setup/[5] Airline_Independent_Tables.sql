@@ -212,8 +212,8 @@ begin
                 emp_type       VARCHAR2(15) CHECK (emp_type IN(''pilot'',''crew'',''ground_staff'',''corporate'' )) NOT NULL,
                 emp_subtype    VARCHAR2(20),
                 emp_salary     NUMBER(10, 2) NOT NULL,
-                created_at       DATE DEFAULT SYSDATE NOT NULL,
-                updated_at       DATE DEFAULT SYSDATE NOT NULL
+                created_at     DATE DEFAULT SYSDATE NOT NULL,
+                updated_at     DATE DEFAULT SYSDATE NOT NULL,
                 CONSTRAINT chk_emp_subtype CHECK (
                     (emp_type = ''corporate'' AND emp_subtype IS NOT NULL) OR
                     (emp_type <> ''corporate'' AND emp_subtype IS NULL)

@@ -411,7 +411,7 @@ begin
                 travel_date            DATE NOT NULL,
                 reservation_status     VARCHAR2(15) CHECK (reservation_status IN (''pending'',''confirmed'',''partial'',''cancelled'')) NOT NULL,
                 created_at       DATE DEFAULT SYSDATE NOT NULL,
-                updated_at       DATE DEFAULT SYSDATE NOT NULL
+                updated_at       DATE DEFAULT SYSDATE NOT NULL,
                 airfare                NUMBER(10, 2) NOT NULL,
                 seat_number            VARCHAR2(5) NOT NULL,
                 passenger_passenger_id INTEGER NOT NULL,
