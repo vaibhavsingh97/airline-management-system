@@ -160,7 +160,8 @@ begin
    begin
       execute immediate '
             CREATE TABLE wallet (
-                wallet_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                wallet_id          INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                membership_id      VARCHAR2(5) NOT NULL,
                 program_tier       VARCHAR2(10) NOT NULL,
                 points_earned      INTEGER NOT NULL,
                 points_redeemed    INTEGER NOT NULL,
