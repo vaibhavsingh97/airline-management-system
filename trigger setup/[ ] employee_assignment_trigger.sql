@@ -31,20 +31,6 @@ BEGIN
     FROM flight_schedule
     WHERE flight_schedule_id = :NEW.fs_flight_schedule_id;
 
-    -- Check for overlapping assignments
-    SELECT COUNT(*)
-    INTO v_count
-    FROM crew_assignment ca
-    JOIN flight_schedule fs
-    ON ca.fs_flight_schedule_id = fs.flight_schedule_id
-    WHERE ca.employee_employee_id = :NEW.employee_employee_id
-      AND fs.scheduled_dep_time BETWEEN v_scheduled_dep_time AND v_scheduled_arr_time
-      AND ca.assignment_id <> :NEW.assignment_id;
-
-    IF v_count > 0 THEN
-        RAISE crew_assignment_error;    
-    END IF;
-
     -- Check for 10-hour minimum off-time
     SELECT MAX(fs.scheduled_arr_time)
     INTO v_last_assignment_time
