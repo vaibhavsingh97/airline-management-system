@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================*/
 SET SERVEROUTPUT ON;
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
 
 CREATE OR REPLACE PROCEDURE insert_maintenance_schedule (
    p_main_type        IN VARCHAR2,

@@ -82,6 +82,7 @@ begin
    insert_reservation('2024-08-12 13:36:46', 'confirmed', '2024-06-21 17:28:32', '2024-06-21 17:28:32', 60, 2,6,'QPO934',NULL,NULL);
    insert_reservation('2024-10-25 07:28:22', 'cancelled', '2024-09-19 03:01:21', '2024-10-20 21:13:40', 50, 4,3,'ZDG387',NULL,NULL);
    insert_reservation('2024-11-23 13:37:32', 'cancelled', '2024-10-01 20:31:58', '2024-10-31 00:18:11', 80, 5,7,'PSM162',NULL,NULL);
+   insert_reservation('2024-08-12 13:36:46', 'confirmed', '2024-06-21 17:28:32', '2024-06-21 17:28:32', 60, 7,6,'QPO934',NULL,NULL);
    commit;
 end;
 /

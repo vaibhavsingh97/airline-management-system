@@ -2,6 +2,7 @@
 ‼ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼
 ================================================*/
 SET SERVEROUTPUT ON;
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
 
 create or replace procedure insert_seat (
    p_seat_number        in varchar2,
@@ -163,6 +164,15 @@ begin
       '2024-10-17 02:02:32',
       '2024-10-17 02:02:32',
       10
+   );
+   insert_seat(
+      '21E',
+      'middle',
+      'economy',
+      't',
+      '2024-10-17 02:02:32',
+      '2024-10-17 02:02:32',
+      2
    );
    commit;
 end;

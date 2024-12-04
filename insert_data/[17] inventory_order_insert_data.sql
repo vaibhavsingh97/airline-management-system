@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================*/
 SET SERVEROUTPUT ON;
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
 
 CREATE OR REPLACE PROCEDURE insert_inventory_order (
    p_order_date     IN VARCHAR2,
