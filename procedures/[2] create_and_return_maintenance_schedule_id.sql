@@ -28,7 +28,7 @@ BEGIN
     RETURNING main_schedule_id INTO p_maintenance_schedule_id;  -- Capture the generated ID
 
     -- Output message to confirm the maintenance schedule creation
-    DBMS_OUTPUT.PUT_LINE('Maintenance schedule created for aircraft ' || p_aircraft_id ||
+    DBMS_OUTPUT.PUT_LINE('✅ Maintenance schedule created for aircraft ' || p_aircraft_id ||
                          ' with maintenance type: ' || p_maintenance_type ||
                          ' on ' || TO_CHAR(p_schedule_date, 'YYYY-MM-DD') ||
                          '. Schedule ID: ' || p_maintenance_schedule_id);
@@ -36,13 +36,13 @@ BEGIN
 EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         -- Handle the case when there is a violation of a unique constraint (e.g., duplicate maintenance schedule)
-        DBMS_OUTPUT.PUT_LINE('Error: Duplicate maintenance schedule for aircraft ' || p_aircraft_id || 
+        DBMS_OUTPUT.PUT_LINE('❌ Error: Duplicate maintenance schedule for aircraft ' || p_aircraft_id || 
                              ' on ' || TO_CHAR(p_schedule_date, 'YYYY-MM-DD'));
         RAISE;  -- Reraise the exception to indicate failure
 
     WHEN OTHERS THEN
         -- Handle any unexpected errors with a custom message
-        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred while creating maintenance schedule for aircraft ' || p_aircraft_id);
+        DBMS_OUTPUT.PUT_LINE('❌ An unexpected error occurred while creating maintenance schedule for aircraft ' || p_aircraft_id);
         RAISE;  -- Reraise the exception to indicate failure
 
 END create_and_return_maintenance_schedule_id;

@@ -18,13 +18,9 @@ BEGIN
         WHERE inventory_id = p_inventory_id;
 
     EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            -- Handle the case where the inventory item does not exist
-            DBMS_OUTPUT.PUT_LINE('Error: Inventory item with ID ' || p_inventory_id || ' not found.');
-            RETURN FALSE;  -- No item found, so return FALSE
         WHEN OTHERS THEN
             -- Handle any other unexpected errors
-            DBMS_OUTPUT.PUT_LINE('An unexpected error occurred while checking inventory for item ' || p_inventory_id);
+            DBMS_OUTPUT.PUT_LINE('❌ An unexpected error occurred while checking inventory for item ' || p_inventory_id);
             RETURN FALSE;  -- Return FALSE for any other error
     END;
 

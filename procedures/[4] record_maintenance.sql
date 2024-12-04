@@ -36,22 +36,14 @@ BEGIN
         )
         RETURNING main_record_id INTO p_maintenance_record_id;  -- Capture the generated ID
 
-        DBMS_OUTPUT.PUT_LINE('Maintenance record logged with record ID: ' || p_maintenance_record_id);
+        DBMS_OUTPUT.PUT_LINE('✅ Maintenance record logged with record ID: ' || p_maintenance_record_id);
 
         COMMIT;  -- Commit the transaction
 
     EXCEPTION
-        WHEN DUP_VAL_ON_INDEX THEN
-            -- Handle duplicate values on unique indexes (e.g., duplicate employee ID or inventory ID)
-            DBMS_OUTPUT.PUT_LINE('Error: Duplicate value for unique constraint. Maintenance record could not be logged.');
-            ROLLBACK;  -- Rollback the transaction
-        WHEN NO_DATA_FOUND THEN
-            -- Handle the case where no matching data is found (if applicable)
-            DBMS_OUTPUT.PUT_LINE('Error: No matching data found for the provided employee ID, inventory ID, or schedule.');
-            ROLLBACK;  -- Rollback the transaction
         WHEN OTHERS THEN
             -- Handle any other unexpected errors
-            DBMS_OUTPUT.PUT_LINE('An unexpected error occurred while logging the maintenance record.');
+            DBMS_OUTPUT.PUT_LINE('❌ An unexpected error occurred while logging the maintenance record.');
             ROLLBACK;  -- Rollback the transaction for any other error
     END;
 END record_maintenance;

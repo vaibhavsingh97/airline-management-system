@@ -19,20 +19,10 @@ BEGIN
     -- Return TRUE if maintenance is scheduled, else FALSE
     RETURN v_scheduled_count > 0;
 
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        -- No rows found for the given aircraft, return FALSE
-        DBMS_OUTPUT.PUT_LINE('No maintenance schedule found for aircraft ID: ' || p_aircraft_id);
-        RETURN FALSE;
-        
-    WHEN TOO_MANY_ROWS THEN
-        -- In case there is an unexpected result, log the error and return FALSE
-        DBMS_OUTPUT.PUT_LINE('Error: More than one maintenance schedule found for aircraft ID: ' || p_aircraft_id);
-        RETURN FALSE;
-        
+EXCEPTION 
     WHEN OTHERS THEN
         -- Handle any other unexpected errors
-        DBMS_OUTPUT.PUT_LINE('Error occurred while checking maintenance schedule for aircraft ID: ' || p_aircraft_id);
+        DBMS_OUTPUT.PUT_LINE('❌ Error occurred while checking maintenance schedule for aircraft ID: ' || p_aircraft_id);
         RETURN FALSE;
 END check_maintenance_schedule;
 /
