@@ -11,6 +11,7 @@ DECLARE
     v_upcoming_maintenance_count INTEGER;
     flight_status_error EXCEPTION;
     aircraft_maintenance_error EXCEPTION;
+    overlapping_schedule_error EXCEPTION;
 BEGIN
     -- Check if a flight is already scheduled for the same route within 1 hour
     SELECT COUNT(*)
