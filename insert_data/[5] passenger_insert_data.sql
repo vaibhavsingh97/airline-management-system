@@ -30,7 +30,7 @@ BEGIN
           pass_last_name = p_pass_last_name,
           pass_phone = p_pass_phone,
           gender = p_gender,
-          dob = p_dob,
+          dob = TO_DATE(p_dob,'DD-MM-YYYY'),
           seat_preference = p_seat_preference,
           updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
       WHERE pass_email = p_pass_email
