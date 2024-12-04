@@ -1,6 +1,7 @@
 /*================================================
 ‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================*/
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 
 CREATE OR REPLACE TRIGGER check_crew_assignment
 BEFORE INSERT OR UPDATE ON crew_assignment
