@@ -9,6 +9,7 @@ FOR EACH ROW
 DECLARE
     v_route_conflict_count NUMBER;
     v_upcoming_maintenance_count INTEGER;
+    v_aircraft_conflict_count NUMBER;
     flight_status_error EXCEPTION;
     aircraft_maintenance_error EXCEPTION;
     overlapping_schedule_error EXCEPTION;
