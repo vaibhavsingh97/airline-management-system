@@ -31,14 +31,14 @@ BEGIN
             ms.updated_at
         FROM developer.maintenance_schedule ms
         INNER JOIN developer.maintenance_record mr ON ms.main_schedule_id = mr.ms_main_schedule_id
-        INNER JOIN developer.aircraft a ON mr.aircraft_aircraft_id = a.aircraft_id
+        INNER JOIN developer.aircraft a ON ms.aircraft_aircraft_id = a.aircraft_id
         INNER JOIN developer.employee e ON mr.employee_employee_id = e.employee_id
         ORDER BY ms.main_schedule_id';
  
     DBMS_OUTPUT.PUT_LINE('View Scheduled_Maintenance_Record CREATED SUCCESSFULLY ✅');
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE VIEW Scheduled_Maintenance_Record ❌');
+        DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE VIEW Scheduled_Maintenance_Record ❌'||SQLERRM);
 END;
 /
  
