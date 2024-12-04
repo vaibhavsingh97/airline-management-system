@@ -101,9 +101,7 @@ begin
 end;
 
 
-
-
--- Passenger Table
+-- Wallet Table
 
 /
 declare
@@ -113,64 +111,47 @@ begin
    select count(*)
      into table_exists
      from user_tables
-    where lower(table_name) = 'passenger';
+    where lower(table_name) = 'wallet';
     
     -- Drop table if it exists
    if table_exists > 0 then
       begin
-         execute immediate 'DROP TABLE passenger CASCADE constraints';
-         dbms_output.put_line('Table passenger DROPPED SUCCESSFULLY ✅');
+         execute immediate 'DROP TABLE wallet CASCADE constraints';
+         dbms_output.put_line('Table wallet DROPPED SUCCESSFULLY ✅');
       exception
          when others then
-            dbms_output.put_line('FAILED TO DROP TABLE passenger ❌');
+            dbms_output.put_line('FAILED TO DROP TABLE wallet ❌');
       end;
    end if;
-
     -- Create the table
    begin
       execute immediate '
-            CREATE TABLE passenger (
-                passenger_id     INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                pass_first_name  VARCHAR2(20) NOT NULL,
-                pass_last_name   VARCHAR2(20) NOT NULL,
-                pass_email       VARCHAR2(50) NOT NULL,
-                pass_phone       NUMBER(10) NOT NULL,
-                gender           VARCHAR2(10) CHECK (gender IN (''male'',''female'',''others'')) NOT NULL,
-                dob              DATE NOT NULL,
-                seat_preference  VARCHAR2(10) CHECK (seat_preference IN (''window'',''middle'',''aisle'')) NOT NULL,
-                wallet_wallet_id INTEGER,
-                created_at       DATE DEFAULT SYSDATE NOT NULL,
-                updated_at       DATE DEFAULT SYSDATE NOT NULL
+            CREATE TABLE wallet (
+                wallet_id                 INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                membership_id             VARCHAR2(5) NOT NULL,
+                program_tier              VARCHAR2(10) NOT NULL,
+                points_earned             INTEGER NOT NULL,
+                points_redeemed           INTEGER NOT NULL,
+                transaction_id            VARCHAR2(10) NOT NULL,
+                transaction_reason        VARCHAR2(50) NOT NULL,
+                passenger_passenger_id    INTEGER,
+                created_at                DATE DEFAULT SYSDATE NOT NULL,
+                updated_at                DATE DEFAULT SYSDATE NOT NULL
             )';
-      dbms_output.put_line('Table passenger CREATED SUCCESSFULLY ✅ ');
+      dbms_output.put_line('Table wallet CREATED SUCCESSFULLY ✅');
 
-    -- Add passenger email constraint
-      execute immediate 'ALTER TABLE passenger ADD CONSTRAINT chk_pass_email_format 
-    CHECK (REGEXP_LIKE(pass_email, ''^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$''))';
-      dbms_output.put_line('Email constraint chk_pass_email_format added successfully ✅');
-
-   -- Passenger email unique constraint
-    EXECUTE IMMEDIATE 'ALTER TABLE passenger ADD CONSTRAINT uq_passenger_email UNIQUE (pass_email)';
-    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on passenger email');
-
-   -- Passenger phone unique constraint
-    EXECUTE IMMEDIATE 'ALTER TABLE passenger ADD CONSTRAINT uq_passenger_phone UNIQUE (pass_phone)';
-    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on passenger phone');
-
-    -- Add passenger phone constraint
-      execute immediate 'ALTER TABLE passenger ADD CONSTRAINT chk_pass_phone_format 
-    CHECK (REGEXP_LIKE(pass_phone, ''^\d{10}$''))';
-      dbms_output.put_line('Phone constraint chk_pass_phone_format added successfully ✅');
-
+    -- Wallet unique constraint
+    EXECUTE IMMEDIATE 'ALTER TABLE wallet ADD CONSTRAINT uq_wallet_transaction UNIQUE (transaction_id)';
+    DBMS_OUTPUT.PUT_LINE('✅ Added unique constraint on wallet transaction_id');
     -- Add foreign key constraint
-      execute immediate 'ALTER TABLE passenger ADD CONSTRAINT wallet_pass_fk FOREIGN KEY ( wallet_wallet_id )
-    REFERENCES wallet ( wallet_id )';
-      dbms_output.put_line('Foreign key wallet_id added successfully ✅');
+      execute immediate 'ALTER TABLE wallet ADD CONSTRAINT pass_wallet_fk FOREIGN KEY ( passenger_passenger_id )
+    REFERENCES passenger ( passenger_id )';
+      dbms_output.put_line('Foreign key passenger_id added successfully ✅');
    exception
       when others then
-         dbms_output.put_line('FAILED TO CREATE TABLE aircraft or phone or email or foreign key constraint ❌'
-         );
+         dbms_output.put_line('FAILED TO CREATE TABLE wallet or add primary key or foreign key constraint ❌');
    end;
+
 end;
 
 
