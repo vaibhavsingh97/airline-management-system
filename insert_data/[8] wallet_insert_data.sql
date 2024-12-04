@@ -16,6 +16,7 @@ CREATE OR REPLACE PROCEDURE insert_wallet (
 ) IS
    v_count NUMBER;
    v_wallet_id NUMBER;
+
 BEGIN
    -- Check if a record exists with the provided transaction_id
    SELECT COUNT(*)
@@ -23,8 +24,23 @@ BEGIN
      FROM wallet
     WHERE transaction_id = p_transaction_id;
 
-   -- If a record doesn't exist, insert a new record
-   IF v_count = 0 THEN
+   IF v_count > 0 THEN
+      -- Update existing wallet record
+      UPDATE wallet
+      SET membership_id = p_membership_id,
+          program_tier = p_program_tier,
+          points_earned = p_points_earned,
+          points_redeemed = p_points_redeemed,
+          transaction_reason = p_transaction_reason,
+          passenger_passenger_id = p_passenger_passenger_id,
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+      WHERE transaction_id = p_transaction_id
+      RETURNING wallet_id INTO v_wallet_id;
+
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated wallet with ID: ' || v_wallet_id);
+      
+      ELSE
+      -- If a record doesn't exist, insert a new record
       INSERT INTO wallet (
          membership_id,
          program_tier,
@@ -49,13 +65,11 @@ BEGIN
 
       DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted wallet with ID: ' || v_wallet_id);
       COMMIT; -- Commit the insertion
-   ELSE
-      DBMS_OUTPUT.PUT_LINE('❗ Wallet with transaction ID ' || p_transaction_id || ' already exists.');
    END IF;
 
 EXCEPTION
    WHEN OTHERS THEN
-   DBMS_OUTPUT.PUT_LINE(
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process wallet: ' || SQLERRM
       );
 END insert_wallet;
