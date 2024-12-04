@@ -76,7 +76,7 @@ EXCEPTION
         RETURN;
 
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred');
+        DBMS_OUTPUT.PUT_LINE('An unexpected error occurred in crew assignment trigger.');
         RETURN;
 END;
 /

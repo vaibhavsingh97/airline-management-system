@@ -79,7 +79,7 @@ EXCEPTION
         );
         RETURN;
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('An error occurred');
+        DBMS_OUTPUT.PUT_LINE('An error occurred in flight schedule trigger');
         RETURN;
 END;
 /
