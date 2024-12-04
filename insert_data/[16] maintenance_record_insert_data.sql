@@ -3,46 +3,33 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_maintenance_record (
-   p_main_record_id   in number,
-   p_main_record_date in varchar2,
-   p_main_record_type in varchar2,
-   p_description      in varchar2,
-   p_created_at       in varchar2,
-   p_updated_at       in varchar2,
-   p_aircraft_id      in number,
-   p_employee_id      in number,
-   p_inventory_id     in number,
-   p_main_schedule_id in number
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided main_record_id
-   select count(*)
-     into v_count
-     from maintenance_record
-    where main_record_id = p_main_record_id;
+CREATE OR REPLACE PROCEDURE insert_maintenance_record (
+   p_main_record_date IN VARCHAR2,
+   p_main_record_type IN VARCHAR2,
+   p_description      IN VARCHAR2,
+   p_created_at       IN VARCHAR2,
+   p_updated_at       IN VARCHAR2,
+   p_aircraft_id      IN NUMBER,
+   p_employee_id      IN NUMBER,
+   p_inventory_id     IN NUMBER,
+   p_main_schedule_id IN NUMBER
+) IS
+   v_count NUMBER;
+   v_main_record_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided details
+   SELECT COUNT(*)
+     INTO v_count
+     FROM maintenance_record
+    WHERE main_record_date = TO_DATE(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS')
+      AND aircraft_aircraft_id = p_aircraft_id
+      AND employee_employee_id = p_employee_id
+      AND ms_main_schedule_id = p_main_schedule_id;
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update maintenance_record
-         set main_record_date = to_date(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
-             main_record_type = p_main_record_type,
-             main_record_description = p_description,
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-             aircraft_aircraft_id = p_aircraft_id,
-             employee_employee_id = p_employee_id,
-             inventory_inventory_id = p_inventory_id,
-             ms_main_schedule_id = p_main_schedule_id
-       where main_record_id = p_main_record_id;
-      
-      dbms_output.put_line('✅ Successfully updated maintenance record with ID: ' || p_main_record_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into maintenance_record (
-            main_record_id,
+   -- If a record doesn't exist, perform the insertion
+   IF v_count = 0 THEN
+      BEGIN
+         INSERT INTO maintenance_record (
             main_record_date,
             main_record_type,
             main_record_description,
@@ -52,35 +39,35 @@ begin
             employee_employee_id,
             inventory_inventory_id,
             ms_main_schedule_id
-         ) values ( 
-            p_main_record_id,
-            to_date(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
+         ) VALUES ( 
+            TO_DATE(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
             p_main_record_type,
             p_description,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
             p_aircraft_id,
             p_employee_id,
             p_inventory_id,
             p_main_schedule_id 
-         );
-         dbms_output.put_line('✅ Successfully inserted maintenance record with ID: ' || p_main_record_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
+         ) RETURNING main_record_id INTO v_main_record_id;
+         
+         DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted maintenance record with ID: ' || v_main_record_id);
+         COMMIT; -- Commit the insertion
+      EXCEPTION
+         WHEN OTHERS THEN
             -- If an error occurs during insertion, raise a custom error
             DBMS_OUTPUT.PUT_LINE(
-               '❌ Failed to insert maintenance record with ID: ' || p_main_record_id
+               '❌ Failed to insert maintenance record for ID: ' || v_main_record_id
             );
-      end;
-   end if;
-exception
-   when others then
+      END;
+   END IF;
+EXCEPTION
+   WHEN OTHERS THEN
       -- If an error occurs during the procedure execution, raise a custom error
       DBMS_OUTPUT.PUT_LINE(
-         '❌ Failed to process maintenance record with ID: ' || p_main_record_id
+         '❌ Failed to process maintenance record for ID: ' || v_main_record_id
       );
-end insert_maintenance_record;
+END insert_maintenance_record;
 /
 
 begin

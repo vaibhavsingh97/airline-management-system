@@ -3,67 +3,66 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_baggage (
-   p_baggage_id         in number,
-   p_baggage_weight     in number,
-   p_baggage_status     in varchar2,
-   p_created_at         in varchar2,
-   p_updated_at         in varchar2,
-   p_reservation_id     in number
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided baggage_id
-   select count(*)
-     into v_count
-     from baggage
-    where baggage_id = p_baggage_id;
+CREATE OR REPLACE PROCEDURE insert_baggage (
+   p_baggage_weight     IN NUMBER,
+   p_baggage_status     IN VARCHAR2,
+   p_created_at         IN VARCHAR2,
+   p_updated_at         IN VARCHAR2,
+   p_reservation_id     IN NUMBER
+) IS
+   v_count NUMBER;
+   v_baggage_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided reservation_id
+   SELECT COUNT(*)
+     INTO v_count
+     FROM baggage
+    WHERE reservation_reservation_id = p_reservation_id;
 
    -- If a record exists, update it
-   if v_count > 0 then
-      update baggage
-         set baggage_weight = p_baggage_weight,
+   IF v_count > 0 THEN
+      UPDATE baggage
+         SET baggage_weight = p_baggage_weight,
              baggage_status = p_baggage_status,
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-             reservation_reservation_id = p_reservation_id
-       where baggage_id = p_baggage_id;
+             updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+       WHERE reservation_reservation_id = p_reservation_id
+      RETURNING baggage_id INTO v_baggage_id;
       
-      dbms_output.put_line('✅ Successfully updated baggage with ID: ' || p_baggage_id);
-      commit; -- Commit the update
-   else
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated baggage with ID: ' || v_baggage_id);
+      COMMIT; -- Commit the update
+   ELSE
       -- If the record doesn't exist, perform the insertion
-      begin
-         insert into baggage (
-            baggage_id,
+      BEGIN
+         INSERT INTO baggage (
             baggage_weight,
             baggage_status,
             created_at,
             updated_at,
             reservation_reservation_id
-         ) values (
-            p_baggage_id,
+         ) VALUES (
             p_baggage_weight,
             p_baggage_status,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
             p_reservation_id
-         );
-         dbms_output.put_line('✅ Successfully inserted baggage with ID: ' || p_baggage_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
+         ) RETURNING baggage_id INTO v_baggage_id;
+         
+         DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted baggage with ID: ' || v_baggage_id);
+         COMMIT; -- Commit the insertion
+      EXCEPTION
+         WHEN OTHERS THEN
             DBMS_OUTPUT.PUT_LINE(
-               '❌ Failed to insert baggage with ID: ' || p_baggage_id
+               '❌ Failed to insert baggage for reservation ID: ' || p_reservation_id
             );
-      end;
-   end if;
-exception
-   when others then
+      END;
+   END IF;
+EXCEPTION
+   WHEN OTHERS THEN
       -- If an error occurs during the procedure execution, raise a custom error
       DBMS_OUTPUT.PUT_LINE(
-         '❌ Failed to process baggage with ID: ' || p_baggage_id
+         '❌ Failed to process baggage for reservation ID: ' || p_reservation_id
       );
-end insert_baggage;
+END insert_baggage;
 /
 
 begin

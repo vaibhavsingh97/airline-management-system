@@ -3,70 +3,63 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_reservation_payment (
-   p_payment_id         in number,
-   p_reservation_id     in number,
-   p_created_at         in varchar2,
-   p_updated_at         in varchar2
-) is
-   v_count number;
-begin
+CREATE OR REPLACE PROCEDURE insert_reservation_payment (
+   p_payment_id         IN NUMBER,
+   p_reservation_id     IN NUMBER,
+   p_created_at         IN VARCHAR2,
+   p_updated_at         IN VARCHAR2
+) IS
+   v_count NUMBER;
+   v_res_pay_id NUMBER;
+BEGIN
    -- Check if a record exists with the provided payment_id and reservation_id
-   select count(*)
-     into v_count
-     from reservation_payment
-    where payment_payment_id = p_payment_id
-      and reservation_reservation_id = p_reservation_id;
+   SELECT COUNT(*)
+     INTO v_count
+     FROM reservation_payment
+    WHERE payment_payment_id = p_payment_id
+      AND reservation_reservation_id = p_reservation_id;
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update reservation_payment
-         set updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-       where payment_payment_id = p_payment_id
-         and reservation_reservation_id = p_reservation_id;
-      
-      dbms_output.put_line('✅ Successfully updated reservation_payment for Payment ID: ' || p_payment_id || ' and Reservation ID: ' || p_reservation_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into reservation_payment (
+   -- If a record doesn't exist, perform the insertion
+   IF v_count = 0 THEN
+      BEGIN
+         INSERT INTO reservation_payment (
             payment_payment_id,
             reservation_reservation_id,
             created_at,
             updated_at
-         ) values (
+         ) VALUES (
             p_payment_id,
             p_reservation_id,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
-         );
-         dbms_output.put_line('✅ Successfully inserted reservation_payment for Payment ID: ' || p_payment_id || ' and Reservation ID: ' || p_reservation_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
+            TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS')
+         ) RETURNING res_pay_id INTO v_res_pay_id;
+         
+         DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted reservation_payment with ID: ' || v_res_pay_id);
+         COMMIT; -- Commit the insertion
+      EXCEPTION
+         WHEN OTHERS THEN
             DBMS_OUTPUT.PUT_LINE(
-               '❌ Failed to insert reservation_payment for Payment ID: ' || p_payment_id || ' and Reservation ID: ' || p_reservation_id
+               '❌ Failed to insert reservation_payment for ID: ' || v_res_pay_id
             );
-      end;
-   end if;
-exception
-   when others then
+      END;
+   END IF;
+EXCEPTION
+   WHEN OTHERS THEN
       -- If an error occurs during the procedure execution, raise a custom error
       DBMS_OUTPUT.PUT_LINE(
-         '❌ Failed to process reservation_payment for Payment ID: ' || p_payment_id || ' and Reservation ID: ' || p_reservation_id
+         '❌ Failed to process reservation_payment for ID: ' || v_res_pay_id
       );
-end insert_reservation_payment;
+END insert_reservation_payment;
 /
 
 begin
    -- Inserting data into reservation_payment table using the procedure
-   insert_reservation_payment(1501, 1401, '2024-04-01 07:08:24', '2024-04-01 07:08:24');
-   insert_reservation_payment(1502, 1402, '2024-10-04 22:12:48', '2024-10-04 22:12:48');
-   insert_reservation_payment(1503, 1403, '2023-08-18 15:08:47', '2023-08-18 15:08:47');
-   insert_reservation_payment(1504, 1404, '2023-01-19 13:29:10', '2023-01-19 13:29:10');
-   insert_reservation_payment(1505, 1405, '2023-02-23 02:54:29', '2023-02-23 02:54:29');
-   insert_reservation_payment(1506, 1406, '2024-08-12 16:06:40', '2024-08-12 16:06:40');
+   insert_reservation_payment(1,1,'2024-02-01 07:08:24','2024-02-01 07:08:24');
+   insert_reservation_payment(2,2,'2024-03-01 12:06:00','2024-03-01 12:06:00');
+   insert_reservation_payment(3,2,'2024-03-03 14:13:51','2024-03-03 14:13:51');
+   insert_reservation_payment(4,3,'2024-06-21 17:28:32','2024-06-21 17:28:32');
+   insert_reservation_payment(5,4,'2024-09-19 03:01:21','2024-09-19 03:01:21');
+   insert_reservation_payment(6,5,'2024-10-01 20:31:58','2024-10-01 20:31:58');
    commit;
 end;
 /

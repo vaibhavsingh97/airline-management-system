@@ -406,8 +406,8 @@ begin
                 passenger_passenger_id INTEGER NOT NULL,
                 seat_seat_id           INTEGER NOT NULL,
                 pnr                    VARCHAR2(6) NOT NULL,
-                start_date             DATE NOT NULL,
-                end_date               DATE NOT NULL
+                start_date             DATE,
+                end_date               DATE
             )';
       dbms_output.put_line('Table reservation CREATED SUCCESSFULLY ✅');
         
