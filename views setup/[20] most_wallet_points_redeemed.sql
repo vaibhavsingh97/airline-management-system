@@ -36,7 +36,7 @@ BEGIN
             JOIN
                 developer.wallet wt
             ON
-                pass.wallet_wallet_id = wt.wallet_id
+                wt.passenger_passenger_id = pass.passenger_id
             GROUP BY
                 pass.passenger_id
             ORDER BY
