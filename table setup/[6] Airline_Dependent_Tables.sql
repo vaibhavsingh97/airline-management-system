@@ -558,7 +558,8 @@ begin
    begin
       execute immediate '
              CREATE TABLE reservation_payment (
-                payment_payment_id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                res_pay_id       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                payment_payment_id         INTEGER NOT NULL,
                 reservation_reservation_id INTEGER NOT NULL,
                 created_at       DATE DEFAULT SYSDATE NOT NULL,
                 updated_at       DATE DEFAULT SYSDATE NOT NULL
