@@ -9,7 +9,6 @@ CREATE OR REPLACE PROCEDURE insert_maintenance_record (
    p_description      IN VARCHAR2,
    p_created_at       IN VARCHAR2,
    p_updated_at       IN VARCHAR2,
-   p_aircraft_id      IN NUMBER,
    p_employee_id      IN NUMBER,
    p_inventory_id     IN NUMBER,
    p_main_schedule_id IN NUMBER
@@ -22,7 +21,6 @@ BEGIN
      INTO v_count
      FROM maintenance_record
     WHERE main_record_date = TO_DATE(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS')
-      AND aircraft_aircraft_id = p_aircraft_id
       AND employee_employee_id = p_employee_id
       AND ms_main_schedule_id = p_main_schedule_id;
 
@@ -35,7 +33,6 @@ BEGIN
             main_record_description,
             created_at,
             updated_at,
-            aircraft_aircraft_id,
             employee_employee_id,
             inventory_inventory_id,
             ms_main_schedule_id
@@ -45,7 +42,6 @@ BEGIN
             p_description,
             TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
             TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-            p_aircraft_id,
             p_employee_id,
             p_inventory_id,
             p_main_schedule_id 
@@ -73,94 +69,80 @@ END insert_maintenance_record;
 begin
    -- Inserting data into maintenance_record table
    insert_maintenance_record(
-      901,
-      '2023-07-31 00:02:33',
+      '2024-07-09 21:00:00',
       'routine',
       'Refueling aircraft',
-      '2024-09-13 03:19:16',
-      '2024-09-13 03:19:16',
-      105,
-      601,
-      404,
-      301
+      '2024-07-09 21:00:00',
+      '2024-07-09 21:00:00',
+      2,
+      6,
+      1
    );
 
    insert_maintenance_record(
-      902,
-      '2024-03-16 14:37:05',
+      '2024-07-11 21:00:00',
       'routine',
-      'Testing communication systems',
-      '2024-05-11 19:08:50',
-      '2024-05-11 19:08:50',
-      106,
-      605,
-      403,
-      301
+      'Plugs Issue',
+      '2024-07-11 21:00:00',
+      '2024-07-11 21:00:00',
+      3,
+      2,
+      1
    );
 
    insert_maintenance_record(
-      903,
-      '2024-10-20 12:55:42',
+      '2023-09-30 04:00:00',
       'inspection',
-      'Testing communication systems',
-      '2023-11-06 06:24:55',
-      '2023-11-06 06:24:55',
-      106,
-      603,
-      406,
-      306
+      'Brake systems',
+      '2023-09-30 04:00:00',
+      '2023-09-30 04:00:00',
+      2,
+      7,
+      2
    );
 
    insert_maintenance_record(
-      904,
-      '2023-08-25 10:19:09',
+      '2023-11-19 09:00:00',
       'inspection',
       'Inspecting brakes',
-      '2024-07-11 12:17:03',
-      '2024-07-11 12:17:03',
-      106,
-      610,
-      409,
-      303
+      '2023-11-19 09:00:00',
+      '2023-11-19 09:00:00',
+      3,
+      7,
+      3
    );
 
    insert_maintenance_record(
-      905,
-      '2023-12-31 19:52:46',
+      '2023-11-20 09:00:00',
       'cleaning',
-      'Inspecting brakes',
-      '2024-08-05 07:40:53',
-      '2024-08-05 07:40:53',
-      105,
-      610,
-      403,
-      307
+      'Oil Filter issues',
+      '2023-11-20 09:00:00',
+      '2023-11-20 09:00:00',
+      5,
+      1,
+      3
    );
 
    insert_maintenance_record(
-      906,
-      '2023-08-07 08:32:44',
+      '2024-02-06 16:00:00',
       'routine',
       'Replacing air filters',
-      '2024-03-29 03:34:53',
-      '2024-03-29 03:34:53',
-      104,
-      607,
-      401,
-      307
+      '2024-02-06 16:00:00',
+      '2024-02-06 16:00:00',
+      8,
+      5,
+      4
    );
 
    insert_maintenance_record(
-      907,
-      '2023-09-23 13:11:38',
+      '2024-04-22 19:00:00',
       'repairs',
-      'Refueling aircraft',
-      '2024-10-16 08:54:40',
-      '2024-10-16 08:54:40',
-      102,
-      608,
-      406,
-      304
+      'Battery issues',
+      '2024-04-22 19:00:00',
+      '2024-04-22 19:00:00',
+      5,
+      8,
+      5
    );
 
    commit;
