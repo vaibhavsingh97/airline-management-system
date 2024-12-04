@@ -67,19 +67,19 @@ BEGIN
 EXCEPTION
     WHEN flight_status_error THEN
         DBMS_OUTPUT.PUT_LINE('A flight is already scheduled for this route within 1 hour.');
-        RETURN;
+        RAISE;
     WHEN aircraft_maintenance_error THEN
         DBMS_OUTPUT.PUT_LINE('Aircraft ' || :NEW.aircraft_aircraft_id || 
             ' has maintenance scheduled and cannot be assigned to a flight.'
         );
-        RETURN;
+        RAISE;
     WHEN overlapping_schedule_error THEN
         DBMS_OUTPUT.PUT_LINE('Aircraft ' || :NEW.aircraft_aircraft_id || 
             ' is already scheduled for another flight in the same timeframe.'
         );
-        RETURN;
+        RAISE;
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('An error occurred in flight schedule trigger');
-        RETURN;
+        RAISE;
 END;
 /

@@ -65,18 +65,18 @@ BEGIN
 EXCEPTION
     WHEN emp_type_error THEN
         DBMS_OUTPUT.PUT_LINE('Employee ' || :NEW.employee_employee_id || ' is not a valid crew member or pilot.');
-        RETURN;
+        RAISE;
 
     WHEN crew_assignment_error THEN
         DBMS_OUTPUT.PUT_LINE('Crew member ' || :NEW.employee_employee_id || ' is already assigned to another flight during this time period.');
-        RETURN;
+        RAISE;
 
     WHEN min_time_expired THEN
         DBMS_OUTPUT.PUT_LINE('Crew member ' || :NEW.employee_employee_id || ' has not met the 10-hour minimum off-time requirement.');
-        RETURN;
+        RAISE;
 
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('An unexpected error occurred in crew assignment trigger.');
-        RETURN;
+        RAISE;
 END;
 /

@@ -60,7 +60,7 @@ BEGIN
             SYSDATE,                     -- Order date
             v_order_quantity,            -- Order quantity
             7000.00,                     -- Initial order amount
-            'completed',                   -- Initial status
+            'fulfilled',                   -- Initial status
             'Default Supplier',          -- Placeholder supplier name
             SYSDATE,                     -- Created at
             SYSDATE,                     -- Updated at
