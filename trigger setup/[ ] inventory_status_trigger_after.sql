@@ -1,4 +1,6 @@
 -- Create a trigger to reorder inventory from inventory_order table
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
+
 CREATE OR REPLACE TRIGGER reorder_inventory
 BEFORE UPDATE ON inventory
 FOR EACH ROW

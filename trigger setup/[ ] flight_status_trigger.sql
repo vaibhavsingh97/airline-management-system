@@ -1,6 +1,7 @@
 /*================================================
 ‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================*/
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
 
 CREATE OR REPLACE TRIGGER check_flight_schedule
 BEFORE INSERT OR UPDATE ON flight_schedule
