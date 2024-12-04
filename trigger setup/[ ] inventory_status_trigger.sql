@@ -53,20 +53,23 @@ BEGIN
         v_order_quantity := :NEW.reorder_threshold + :NEW.quantity_in_hand;
 
         -- Insert a new order with status 'pending' for the same inventory ID
-        INSERT INTO inventory_order (
-            order_date, order_quantity, order_amount, order_status, supplier_name,
-            created_at, updated_at, inventory_inventory_id
-        ) VALUES (
+
+        insert_inventory_order(
             SYSDATE,                     -- Order date
             v_order_quantity,            -- Order quantity
-            7000.00,                     -- Initial order amount
+            v_order_quantity * 100,      -- Initial order amount
             'pending',                   -- Initial status
             'Default Supplier',          -- Placeholder supplier name
             SYSDATE,                     -- Created at
             SYSDATE,                     -- Updated at
+<<<<<<< Updated upstream
             :NEW.inventory_id            -- Inventory ID (foreign key)
         );
         COMMIT;
+=======
+            :NEW.inventory_id   );       -- Inventory ID (foreign key)
+
+>>>>>>> Stashed changes
         -- Debugging/logging
         DBMS_OUTPUT.PUT_LINE('Order placed for inventory ID: ' || :NEW.inventory_id || 
                              ' | Order Quantity: ' || v_order_quantity);
