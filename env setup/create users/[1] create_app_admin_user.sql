@@ -19,7 +19,7 @@ begin
    -- SQL for creating the user
    user_creation_sql := 'CREATE USER app_admin IDENTIFIED BY NeuBoston2024#';
 
-   grant_access_sql := 'GRANT CONNECT, RESOURCE, SELECT ANY TABLE, CREATE USER, DROP USER, ALTER USER, CREATE ANY VIEW TO app_admin WITH ADMIN OPTION';
+   grant_access_sql := 'GRANT CONNECT, RESOURCE, SELECT ANY TABLE, CREATE USER, DROP USER, ALTER USER, CREATE ANY VIEW, CREATE ANY PROCEDURE TO app_admin WITH ADMIN OPTION';
    -- Check is users exist
    select count(*)
      into user_exists

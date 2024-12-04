@@ -7,10 +7,11 @@ AS
     v_updated_count INTEGER;
 BEGIN
     -- Update all orders with status 'pending' to 'fulfilled'
-    UPDATE inventory_order
+    UPDATE developer.inventory_order
     SET order_status = 'fulfilled',
         updated_at = SYSDATE
     WHERE order_status = 'pending';
+    COMMIT;
 
     -- Get the number of rows updated
     v_updated_count := SQL%ROWCOUNT;
@@ -24,3 +25,7 @@ EXCEPTION
         RAISE;
 END fulfill_pending_orders;
 /
+
+BEGIN
+    fulfill_pending_orders;
+END;

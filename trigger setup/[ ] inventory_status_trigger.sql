@@ -66,7 +66,7 @@ BEGIN
             SYSDATE,                     -- Updated at
             :NEW.inventory_id            -- Inventory ID (foreign key)
         );
-
+        COMMIT;
         -- Debugging/logging
         DBMS_OUTPUT.PUT_LINE('Order placed for inventory ID: ' || :NEW.inventory_id || 
                              ' | Order Quantity: ' || v_order_quantity);
