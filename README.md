@@ -88,7 +88,7 @@
   ```sh
     trigger setup/[ ] employee_assignment_trigger.sql
     trigger setup/[ ] flight_status_trigger.sql
-    trigger setup/[ ] inventory_status_trigger.sql
+    trigger setup/[ ] inventory_status_trigger_before.sql
   ```
 
 
@@ -128,6 +128,25 @@
       [17] insert_data/baggage_insert_data.sql
       [18] insert_data/refund_insert_data.sql
    ```
+
+<<<<<<< Updated upstream
+### Grant access to Procedures
+   > **Using account**: `DEVELOPER`
+   ```sh
+      setup/grant access/[ ] grant_procedure_access_to_user.sql
+   ```
+=======
+### Run Triggers - After Update
+
+1. Run Trigger using developer
+   > **Using account**: `DEVELOPER`
+
+  ```sh
+    trigger setup/[ ] inventory_status_trigger_after.sql
+  ```
+
+
+>>>>>>> Stashed changes
 
 ### Create View
 
