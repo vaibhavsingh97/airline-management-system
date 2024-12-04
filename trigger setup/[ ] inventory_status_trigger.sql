@@ -2,6 +2,8 @@
 ‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
 ================================================*/
 
+
+-- Create a trigger to check inventory
 CREATE OR REPLACE TRIGGER check_inventory
 BEFORE INSERT ON inventory
 FOR EACH ROW
@@ -29,9 +31,7 @@ EXCEPTION
        
 END;
 /
-
-
-
+-- Create a trigger to reorder inventory from inventory_order table
 CREATE OR REPLACE TRIGGER reorder_inventory
 BEFORE UPDATE ON inventory
 FOR EACH ROW
@@ -60,7 +60,7 @@ BEGIN
             SYSDATE,                     -- Order date
             v_order_quantity,            -- Order quantity
             7000.00,                     -- Initial order amount
-            'fulfilled',                   -- Initial status
+            'pending',                   -- Initial status
             'Default Supplier',          -- Placeholder supplier name
             SYSDATE,                     -- Created at
             SYSDATE,                     -- Updated at
@@ -78,6 +78,50 @@ EXCEPTION
         RAISE;
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('An error occurred in the reorder_inventory trigger.');
+        RAISE;
+END;
+/
+
+-- Create a trigger to update inventory table after order
+CREATE OR REPLACE TRIGGER update_inventory_after_order
+AFTER UPDATE ON inventory_order
+FOR EACH ROW
+WHEN (NEW.order_status = 'pending') -- Trigger fires only when the status becomes 'pending'
+DECLARE
+    v_current_quantity INTEGER;
+    no_inventory_found EXCEPTION;
+BEGIN
+    -- Check if the inventory ID exists in the inventory table
+    SELECT quantity_in_hand
+    INTO v_current_quantity
+    FROM inventory
+    WHERE inventory_id = :NEW.inventory_inventory_id;
+
+
+    IF v_current_quantity IS NULL THEN
+        -- Log an error if no matching inventory ID is found
+        DBMS_OUTPUT.PUT_LINE('No matching inventory found for inventory_id: ' || :NEW.inventory_inventory_id);
+        RAISE no_inventory_found;
+    END IF;
+
+
+    -- Update the quantity in hand for the specific inventory ID
+    UPDATE inventory
+    SET quantity_in_hand = v_current_quantity + :NEW.order_quantity,
+        updated_at = SYSDATE
+    WHERE inventory_id = :NEW.inventory_inventory_id;
+
+    -- Log a success message for debugging
+    DBMS_OUTPUT.PUT_LINE('Inventory updated for inventory_id: ' || :NEW.inventory_inventory_id ||
+                         ' | New Quantity: ' || (v_current_quantity + :NEW.order_quantity));
+EXCEPTION
+    WHEN no_inventory_found THEN
+        -- Log an error if no matching inventory ID is found
+        DBMS_OUTPUT.PUT_LINE('No matching inventory found for inventory_id: ' || :NEW.inventory_inventory_id);
+        RAISE;
+    WHEN OTHERS THEN
+        -- Handle any other unexpected errors
+        DBMS_OUTPUT.PUT_LINE('An error occurred in update_inventory_after_order' );
         RAISE;
 END;
 /
