@@ -22,10 +22,10 @@ BEGIN
 EXCEPTION
     WHEN invalid_data THEN
         DBMS_OUTPUT.PUT_LINE('Invalid data detected in inventory table. Check quantity_in_hand and reorder_threshold.');
-        RETURN;
+        RAISE;
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('An error occurred in the check_inventory trigger.');
-        RETURN;
+        RAISE;
        
 END;
 /
@@ -75,9 +75,9 @@ BEGIN
 EXCEPTION
     WHEN invalid_data THEN
         DBMS_OUTPUT.PUT_LINE('Invalid data detected in inventory table. Check quantity_in_hand and reorder_threshold.');
-        RETURN;
+        RAISE;
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('An error occurred in the reorder_inventory trigger.');
-        RETURN;
+        RAISE;
 END;
 /
