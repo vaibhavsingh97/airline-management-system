@@ -1,3 +1,7 @@
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY PASSENGER ONLY ‼️
+================================================*/
+
 CREATE OR REPLACE PROCEDURE book_flight (
     p_passenger_id IN NUMBER,
     p_flight_schedule_id IN NUMBER,
@@ -73,14 +77,14 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to book flight: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to book flight: ');
 END;
 /
 
 -- Test the procedure
 BEGIN
       book_flight(
-         11, -- passenger_id
+         6, -- passenger_id
          7, -- flight_schedule_id
          7, -- seat_id
          5000, -- airfare

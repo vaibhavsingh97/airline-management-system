@@ -16,11 +16,11 @@ begin
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION_PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'PASSENGER');
-   grant_access_to_user('PASSENGER', 'SELECT', 'BAGGAGE');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'BAGGAGE');
    grant_access_to_user('PASSENGER', 'SELECT', 'WALLET');
 
    -- GRANT ACCESS TO FLIGHT_OPERATION_MANAGER
-   grant_access_to_user('FLIGHT_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('FLIGHT_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'FLIGHT_SCHEDULE');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'ROUTE');
