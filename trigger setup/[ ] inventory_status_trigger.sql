@@ -62,14 +62,8 @@ BEGIN
             'Default Supplier',          -- Placeholder supplier name
             SYSDATE,                     -- Created at
             SYSDATE,                     -- Updated at
-<<<<<<< Updated upstream
-            :NEW.inventory_id            -- Inventory ID (foreign key)
-        );
-        COMMIT;
-=======
             :NEW.inventory_id   );       -- Inventory ID (foreign key)
 
->>>>>>> Stashed changes
         -- Debugging/logging
         DBMS_OUTPUT.PUT_LINE('Order placed for inventory ID: ' || :NEW.inventory_id || 
                              ' | Order Quantity: ' || v_order_quantity);
