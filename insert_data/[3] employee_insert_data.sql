@@ -68,11 +68,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process employee: ' || p_emp_first_name || ' ' || p_emp_last_name
       );
 END insert_employee;
@@ -189,6 +185,28 @@ BEGIN
       6806.49,
       '2024-01-08 00:02:41',
       '2024-01-08 00:02:41'
+   );
+   insert_employee(
+      'Dorolice',
+      'Bartolommeo',
+      'Dorolice.Bartolommeo@indigo.com',
+      9878675645,
+      'crew',
+      null,
+      9013.11,
+      '2023-10-15 05:09:33',
+      '2023-10-15 05:09:33'
+   );
+   insert_employee(
+      'Daniel',
+      'Smith',
+      'Dorolice.Smith@indigo.com',
+      9988776655,
+      'crew',
+      null,
+      10013.11,
+      '2023-10-15 05:09:33',
+      '2023-10-15 05:09:33'
    );
 END;
 /

@@ -3,183 +3,146 @@
 ================================================*/
 SET SERVEROUTPUT ON;
 
-create or replace procedure insert_maintenance_record (
-   p_main_record_id   in number,
-   p_main_record_date in varchar2,
-   p_main_record_type in varchar2,
-   p_description      in varchar2,
-   p_created_at       in varchar2,
-   p_updated_at       in varchar2,
-   p_aircraft_id      in number,
-   p_employee_id      in number,
-   p_inventory_id     in number,
-   p_main_schedule_id in number
-) is
-   v_count number;
-begin
-   -- Check if a record exists with the provided main_record_id
-   select count(*)
-     into v_count
-     from maintenance_record
-    where main_record_id = p_main_record_id;
+CREATE OR REPLACE PROCEDURE insert_maintenance_record (
+   p_main_record_date IN VARCHAR2,
+   p_main_record_type IN VARCHAR2,
+   p_description      IN VARCHAR2,
+   p_created_at       IN VARCHAR2,
+   p_updated_at       IN VARCHAR2,
+   p_employee_id      IN NUMBER,
+   p_inventory_id     IN NUMBER,
+   p_main_schedule_id IN NUMBER
+) IS
+   v_count NUMBER;
+   v_main_record_id NUMBER;
+BEGIN
+   -- Check if a record exists with the provided details
+   SELECT COUNT(*)
+     INTO v_count
+     FROM maintenance_record
+    WHERE main_record_date = TO_DATE(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS')
+      AND employee_employee_id = p_employee_id
+      AND ms_main_schedule_id = p_main_schedule_id;
 
-   -- If a record exists, update it
-   if v_count > 0 then
-      update maintenance_record
-         set main_record_date = to_date(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
-             main_record_type = p_main_record_type,
-             main_record_description = p_description,
-             updated_at = to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-             aircraft_aircraft_id = p_aircraft_id,
-             employee_employee_id = p_employee_id,
-             inventory_inventory_id = p_inventory_id,
-             ms_main_schedule_id = p_main_schedule_id
-       where main_record_id = p_main_record_id;
-      
-      dbms_output.put_line('✅ Successfully updated maintenance record with ID: ' || p_main_record_id);
-      commit; -- Commit the update
-   else
-      -- If the record doesn't exist, perform the insertion
-      begin
-         insert into maintenance_record (
-            main_record_id,
+   -- If a record doesn't exist, perform the insertion
+   IF v_count = 0 THEN
+      BEGIN
+         INSERT INTO maintenance_record (
             main_record_date,
             main_record_type,
             main_record_description,
             created_at,
             updated_at,
-            aircraft_aircraft_id,
             employee_employee_id,
             inventory_inventory_id,
             ms_main_schedule_id
-         ) values ( 
-            p_main_record_id,
-            to_date(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
+         ) VALUES ( 
+            TO_DATE(p_main_record_date, 'YYYY-MM-DD HH24:MI:SS'),
             p_main_record_type,
             p_description,
-            to_date(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-            to_date(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-            p_aircraft_id,
+            TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
             p_employee_id,
             p_inventory_id,
             p_main_schedule_id 
-         );
-         dbms_output.put_line('✅ Successfully inserted maintenance record with ID: ' || p_main_record_id);
-         commit; -- Commit the insertion
-      exception
-         when others then
+         ) RETURNING main_record_id INTO v_main_record_id;
+         
+         DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted maintenance record with ID: ' || v_main_record_id);
+         COMMIT; -- Commit the insertion
+      EXCEPTION
+         WHEN OTHERS THEN
             -- If an error occurs during insertion, raise a custom error
-            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-            DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-            raise_application_error(
-               -20001,
-               '❌ Failed to insert maintenance record with ID: ' || p_main_record_id
+            DBMS_OUTPUT.PUT_LINE(
+               '❌ Failed to insert maintenance record for ID: ' || v_main_record_id
             );
-      end;
-   end if;
-exception
-   when others then
+      END;
+   END IF;
+EXCEPTION
+   WHEN OTHERS THEN
       -- If an error occurs during the procedure execution, raise a custom error
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      raise_application_error(
-         -20002,
-         '❌ Failed to process maintenance record with ID: ' || p_main_record_id
+      DBMS_OUTPUT.PUT_LINE(
+         '❌ Failed to process maintenance record for ID: ' || v_main_record_id
       );
-end insert_maintenance_record;
+END insert_maintenance_record;
 /
 
 begin
    -- Inserting data into maintenance_record table
    insert_maintenance_record(
-      901,
-      '2023-07-31 00:02:33',
+      '2024-07-09 22:05:00',
       'routine',
       'Refueling aircraft',
-      '2024-09-13 03:19:16',
-      '2024-09-13 03:19:16',
-      105,
-      601,
-      404,
-      301
+      '2024-07-09 22:05:00',
+      '2024-07-09 22:05:00',
+      2,
+      6,
+      1
    );
 
    insert_maintenance_record(
-      902,
-      '2024-03-16 14:37:05',
+      '2024-07-11 22:05:00',
       'routine',
-      'Testing communication systems',
-      '2024-05-11 19:08:50',
-      '2024-05-11 19:08:50',
-      106,
-      605,
-      403,
-      301
+      'Plugs Issue',
+      '2024-07-11 22:05:00',
+      '2024-07-11 22:05:00',
+      3,
+      2,
+      1
    );
 
    insert_maintenance_record(
-      903,
-      '2024-10-20 12:55:42',
+      '2023-09-30 04:36:00',
       'inspection',
-      'Testing communication systems',
-      '2023-11-06 06:24:55',
-      '2023-11-06 06:24:55',
-      106,
-      603,
-      406,
-      306
+      'Brake systems',
+      '2023-09-30 04:36:00',
+      '2023-09-30 04:36:00',
+      2,
+      7,
+      2
    );
 
    insert_maintenance_record(
-      904,
-      '2023-08-25 10:19:09',
+      '2023-11-19 10:17:00',
       'inspection',
       'Inspecting brakes',
-      '2024-07-11 12:17:03',
-      '2024-07-11 12:17:03',
-      106,
-      610,
-      409,
-      303
+      '2023-11-19 10:17:00',
+      '2023-11-19 10:17:00',
+      3,
+      7,
+      3
    );
 
    insert_maintenance_record(
-      905,
-      '2023-12-31 19:52:46',
+      '2023-11-20 10:17:00',
       'cleaning',
-      'Inspecting brakes',
-      '2024-08-05 07:40:53',
-      '2024-08-05 07:40:53',
-      105,
-      610,
-      403,
-      307
+      'Oil Filter issues',
+      '2023-11-20 10:17:00',
+      '2023-11-20 10:17:00',
+      5,
+      1,
+      3
    );
 
    insert_maintenance_record(
-      906,
-      '2023-08-07 08:32:44',
+      '2024-02-06 17:27:00',
       'routine',
       'Replacing air filters',
-      '2024-03-29 03:34:53',
-      '2024-03-29 03:34:53',
-      104,
-      607,
-      401,
-      307
+      '2024-02-06 17:27:00',
+      '2024-02-06 17:27:00',
+      8,
+      5,
+      4
    );
 
    insert_maintenance_record(
-      907,
-      '2023-09-23 13:11:38',
+      '2024-04-22 23:31:00',
       'repairs',
-      'Refueling aircraft',
-      '2024-10-16 08:54:40',
-      '2024-10-16 08:54:40',
-      102,
-      608,
-      406,
-      304
+      'Battery issues',
+      '2024-04-22 23:31:00',
+      '2024-04-22 23:31:00',
+      5,
+      8,
+      5
    );
 
    commit;

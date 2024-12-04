@@ -63,10 +63,6 @@ BEGIN
 
     ELSE
         -- Display a message if one or both tables do not exist
-        DBMS_OUTPUT.PUT_LINE('Error Code: '|| SQLCODE);
-
-        DBMS_OUTPUT.PUT_LINE('Error Message: '|| SQLERRM);
- 
         DBMS_OUTPUT.PUT_LINE('❌ Required tables flight_schedule or route do not exist. View creation aborted.');
     END IF;
     EXCEPTION

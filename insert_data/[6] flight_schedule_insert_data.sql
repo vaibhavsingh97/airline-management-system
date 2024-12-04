@@ -16,195 +16,243 @@ CREATE OR REPLACE PROCEDURE insert_flight_schedule (
    p_aircraft_id        IN INTEGER,
    p_route_id           IN INTEGER
 ) IS
+   v_count NUMBER;
    v_flight_schedule_id INTEGER;
 BEGIN
-   -- Generate a new flight_schedule_id
-   SELECT NVL(MAX(flight_schedule_id), 0) + 1 INTO v_flight_schedule_id FROM flight_schedule;
+   -- Check if a record exists with the provided departure and arrival details
+   SELECT COUNT(*)
+   INTO v_count
+   FROM flight_schedule
+   WHERE departure_airport = p_departure_airport
+     AND arrival_airport = p_arrival_airport
+     AND scheduled_dep_time = TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS');
 
-   -- Perform the insertion into the flight_schedule table
-   INSERT INTO flight_schedule (
-      flight_schedule_id,
-      departure_airport,
-      scheduled_dep_time,
-      actual_dep_time,
-      arrival_airport,
-      scheduled_arr_time,
-      actual_arr_time,
-      flight_status,
-      created_at,
-      updated_at,
-      aircraft_aircraft_id,
-      routes_route_id
-   ) VALUES ( 
-      v_flight_schedule_id,
-      p_departure_airport,
-      TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
-      p_arrival_airport,
-      TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
-      p_flight_status,
-      TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
-      TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-      p_aircraft_id,
-      p_route_id 
-   );
+   IF v_count > 0 THEN
+      -- Update existing flight schedule record
+      UPDATE flight_schedule
+      SET actual_dep_time = TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+          scheduled_arr_time = TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+          actual_arr_time = TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+          flight_status = p_flight_status,
+          updated_at = TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+          aircraft_aircraft_id = p_aircraft_id,
+          routes_route_id = p_route_id
+      WHERE departure_airport = p_departure_airport
+        AND arrival_airport = p_arrival_airport
+        AND scheduled_dep_time = TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS')
+      RETURNING flight_schedule_id INTO v_flight_schedule_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully updated flight schedule with ID: ' || v_flight_schedule_id);
+   ELSE
+      -- Insert new flight schedule record
+      INSERT INTO flight_schedule (
+         departure_airport,
+         scheduled_dep_time,
+         actual_dep_time,
+         arrival_airport,
+         scheduled_arr_time,
+         actual_arr_time,
+         flight_status,
+         created_at,
+         updated_at,
+         aircraft_aircraft_id,
+         routes_route_id
+      ) VALUES ( 
+         p_departure_airport,
+         TO_DATE(p_scheduled_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_actual_dep_time, 'YYYY-MM-DD HH24:MI:SS'),
+         p_arrival_airport,
+         TO_DATE(p_scheduled_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_actual_arr_time, 'YYYY-MM-DD HH24:MI:SS'),
+         p_flight_status,
+         TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
+         TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
+         p_aircraft_id,
+         p_route_id 
+      ) RETURNING flight_schedule_id INTO v_flight_schedule_id;
+      
+      DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted flight schedule with ID: ' || v_flight_schedule_id);
+   END IF;
 
-   DBMS_OUTPUT.PUT_LINE('✅ Successfully inserted flight schedule with ID: ' || v_flight_schedule_id);
-   COMMIT; -- Commit the insertion
-
+   COMMIT; -- Commit the transaction
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      RAISE_APPLICATION_ERROR(
-         -20002,
-         '❌ Failed to process flight schedule: ' || SQLERRM
-      );
+      DBMS_OUTPUT.PUT_LINE('❌ Failed to insert or update flight schedule: ' || 
+                              p_departure_airport || ' to ' || p_arrival_airport || 
+                              ' on ' || p_scheduled_dep_time);
 END insert_flight_schedule;
 /
 
 begin
     -- Inserting data into flight_schedule table
    insert_flight_schedule(
-      1001,
       'DEN',
-      '2024-02-15 23:17:22',
-      '2024-02-15 23:17:22',
+      '2024-02-15 20:17:22',
+      '2024-02-15 20:17:22',
       'BOS',
-      '2024-08-02 07:40:52',
-      '2024-08-02 07:40:52',
+      '2024-02-15 22:17:22',
+      '2024-02-15 22:17:22',
       'scheduled',
       '2024-10-16 15:19:23',
       '2024-10-16 15:19:23',
-      109,
-      204
+      9,
+      4
    );
    insert_flight_schedule(
-      1002,
+      'DEN',
+      '2024-02-15 21:17:22',
+      '2024-02-15 21:17:22',
+      'BOS',
+      '2024-02-15 23:17:22',
+      '2024-02-15 23:17:22',
+      'scheduled',
+      '2024-10-16 15:19:23',
+      '2024-10-16 15:19:23',
+      6,
+      4
+   );
+   insert_flight_schedule(
+      'DEN',
+      '2024-02-15 20:27:22',
+      '2024-02-15 20:27:22',
+      'BOS',
+      '2024-02-15 23:17:22',
+      '2024-02-15 23:17:22',
+      'scheduled',
+      '2024-10-16 15:19:23',
+      '2024-10-16 15:19:23',
+      9,
+      4
+   );
+   insert_flight_schedule(
+      'DEN',
+      '2024-02-15 20:17:22',
+      '2024-02-15 20:17:22',
+      'SFO',
+      '2024-02-15 22:17:22',
+      '2024-02-15 22:17:22',
+      'scheduled',
+      '2024-10-16 15:19:23',
+      '2024-10-16 15:19:23',
+      9,
+      2
+   );
+   insert_flight_schedule(
       'MIA',
       '2023-12-21 02:30:21',
       '2023-12-21 02:30:21',
       'ATL',
-      '2024-06-23 05:41:31',
-      '2024-06-23 05:41:31',
+      '2023-12-21 05:41:31',
+      '2023-12-21 05:41:31',
       'ontime',
       '2024-09-01 07:51:24',
       '2024-09-01 07:51:24',
-      102,
-      209
+      2,
+      9
    );
    insert_flight_schedule(
-      1003,
       'BOS',
       '2024-07-10 19:58:24',
       '2024-07-10 19:58:24',
       'ATL',
-      '2024-02-22 06:41:00',
-      '2024-02-22 06:41:00',
+      '2024-07-10 21:41:00',
+      '2024-07-10 21:41:00',
       'ontime',
       '2024-03-15 22:43:51',
       '2024-03-15 22:43:51',
-      108,
-      201
+      8,
+      1
    );
    insert_flight_schedule(
-      1004,
       'BOS',
       '2024-11-23 13:37:32',
       '2024-11-23 13:37:32',
       'ATL',
-      '2024-11-30 06:56:53',
-      '2024-11-30 06:56:53',
+      '2024-11-23 15:56:53',
+      '2024-11-23 15:56:53',
       'scheduled',
       '2024-04-04 22:14:15',
       '2024-04-04 22:14:15',
-      106,
-      201
+      6,
+      1
    );
    insert_flight_schedule(
-      1005,
       'DEN',
       '2024-08-12 13:36:46',
       '2024-08-12 13:36:46',
       'DFW',
-      '2024-08-25 00:54:45',
-      '2024-08-25 00:54:45',
+      '2024-08-12 15:54:45',
+      '2024-08-12 15:54:45',
       'ontime',
       '2024-09-13 08:38:04',
       '2024-09-13 08:38:04',
-      107,
-      208
+      7,
+      8
    );
    insert_flight_schedule(
-      1006,
       'ATL',
       '2024-10-25 07:28:22',
       '2024-10-25 07:28:22',
       'ORD',
-      '2024-04-01 06:49:29',
-      '2024-04-01 06:49:29',
+      '2024-10-25 09:49:29',
+      '2024-10-25 09:49:29',
       'ontime',
       '2024-01-20 04:42:44',
       '2024-01-20 04:42:44',
-      109,
-      205
+      9,
+      5
    );
    insert_flight_schedule(
-      1007,
       'ATL',
       '2024-10-30 07:28:08',
       '2024-10-30 07:28:08',
       'ORD',
-      '2024-07-27 14:59:25',
-      '2024-07-27 14:59:25',
+      '2024-10-30 09:59:25',
+      '2024-10-30 09:59:25',
       'scheduled',
       '2024-02-10 04:49:24',
       '2024-02-10 04:49:24',
-      110,
-      205
+      10,
+      5
    );
    insert_flight_schedule(
-      1008,
       'DEN',
       '2024-04-05 17:43:01',
       '2024-04-05 17:43:01',
       'ATL',
-      '2024-05-31 23:42:09',
-      '2024-05-31 23:42:09',
+      '2024-04-05 18:42:09',
+      '2024-04-05 18:42:09',
       'cancelled',
       '2024-09-09 14:25:08',
       '2024-09-09 14:25:08',
-      110,
-      203
+      10,
+      3
    );
    insert_flight_schedule(
-      1009,
       'BOS',
       '2024-04-27 12:55:37',
       '2024-04-27 12:55:37',
       'ATL',
-      '2024-05-15 01:40:19',
-      '2024-05-15 01:40:19',
+      '2024-04-27 13:40:19',
+      '2024-04-27 13:40:19',
       'ontime',
       '2024-05-15 14:18:51',
       '2024-05-15 14:18:51',
-      105,
-      201
+      5,
+      1
    );
    insert_flight_schedule(
-      1010,
       'ATL',
       '2024-09-20 10:11:27',
       '2024-09-20 10:11:27',
       'ORD',
-      '2024-12-10 21:44:20',
-      '2024-12-10 21:44:20',
+      '2024-09-20 11:44:20',
+      '2024-09-20 11:44:20',
       'ontime',
       '2024-07-29 15:36:22',
       '2024-07-29 15:36:22',
-      108,
-      205
+      8,
+      5
    );
 
    commit;

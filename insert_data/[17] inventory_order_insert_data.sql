@@ -20,7 +20,6 @@ BEGIN
 
    -- Perform the insertion into the inventory_order table
    INSERT INTO inventory_order (
-      order_id,
       order_date,
       order_quantity,
       order_amount,
@@ -30,7 +29,6 @@ BEGIN
       updated_at,
       inventory_inventory_id
    ) VALUES ( 
-      v_order_id,
       TO_DATE(p_order_date, 'YYYY-MM-DD HH24:MI:SS'),
       p_order_quantity,
       p_order_amount,
@@ -46,11 +44,7 @@ BEGIN
 
 EXCEPTION
    WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-      DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
-      -- If an error occurs, raise a custom error
-      RAISE_APPLICATION_ERROR(
-         -20002,
+      DBMS_OUTPUT.PUT_LINE(
          '❌ Failed to process inventory_order: ' || SQLERRM
       );
 END insert_inventory_order;
@@ -59,18 +53,16 @@ END insert_inventory_order;
 begin
     -- Inserting data into inventory_order table
    insert_inventory_order(
-      901,
       '2024-10-05 12:26:31',
       90,
       316.8,
-      'fulfilled',
+      'pending',
       'Mitchell and Sons',
       '2024-10-05 12:26:31',
       '2024-10-05 12:26:31',
-      406
+      1
    );
    insert_inventory_order(
-      902,
       '2023-05-17 21:09:40',
       62,
       2338.13,
@@ -78,10 +70,9 @@ begin
       'Wilkinson Inc',
       '2023-05-17 21:09:40',
       '2023-05-17 21:09:40',
-      405
+      5
    );
    insert_inventory_order(
-      903,
       '2023-10-15 20:17:41',
       34,
       65073.87,
@@ -89,10 +80,9 @@ begin
       'Labadie and Kunde',
       '2023-10-15 20:17:41',
       '2023-10-15 20:17:41',
-      405
+      5
    );
    insert_inventory_order(
-      904,
       '2023-04-29 17:29:54',
       8,
       87492.19,
@@ -100,10 +90,9 @@ begin
       'Collier-Zboncak',
       '2023-04-29 17:29:54',
       '2023-04-29 17:29:54',
-      401
+      1
    );
    insert_inventory_order(
-      905,
       '2024-02-15 15:02:44',
       94,
       69568.48,
@@ -111,10 +100,9 @@ begin
       'Cronin and Mante',
       '2024-02-15 15:02:44',
       '2024-02-15 15:02:44',
-      410
+      10
    );
    insert_inventory_order(
-      906,
       '2022-10-23 02:31:52',
       73,
       79916.84,
@@ -122,10 +110,9 @@ begin
       'Hahn and Jaskolski',
       '2022-10-23 02:31:52',
       '2022-10-23 02:31:52',
-      409
+      9
    );
    insert_inventory_order(
-      907,
       '2023-10-15 19:40:56',
       57,
       7247.48,
@@ -133,10 +120,9 @@ begin
       'Wolff and Hirthe',
       '2023-10-15 19:40:56',
       '2023-10-15 19:40:56',
-      409
+      9
    );
    insert_inventory_order(
-      908,
       '2024-04-01 09:58:24',
       81,
       24567.15,
@@ -144,10 +130,9 @@ begin
       'Denesik Morissette',
       '2024-04-01 09:58:24',
       '2024-04-01 09:58:24',
-      405
+      5
    );
    insert_inventory_order(
-      909,
       '2022-04-02 15:38:48',
       24,
       3444.81,
@@ -155,10 +140,9 @@ begin
       'Beer LLC',
       '2022-04-02 15:38:48',
       '2022-04-02 15:38:48',
-      409
+      9
    );
    insert_inventory_order(
-      910,
       '2022-07-20 05:06:28',
       78,
       4545.98,
@@ -166,9 +150,8 @@ begin
       'Jaskolski and Sons',
       '2022-07-20 05:06:28',
       '2022-07-20 05:06:28',
-      407
+      7
    );
-
    commit;
 end;
 /

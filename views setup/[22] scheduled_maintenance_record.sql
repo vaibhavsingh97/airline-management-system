@@ -38,8 +38,6 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('View Scheduled_Maintenance_Record CREATED SUCCESSFULLY ✅');
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE);
-        DBMS_OUTPUT.PUT_LINE('Error Message: ' || SQLERRM);
         DBMS_OUTPUT.PUT_LINE('FAILED TO CREATE VIEW Scheduled_Maintenance_Record ❌');
 END;
 /

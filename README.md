@@ -80,6 +80,18 @@
     table setup/[6] Airline_Dependent_Tables.sql
   ```
 
+### Run Triggers
+
+1. Run Trigger using developer
+   > **Using account**: `DEVELOPER`
+
+  ```sh
+    trigger setup/[ ] employee_assignment_trigger.sql
+    trigger setup/[ ] flight_status_trigger.sql
+    trigger setup/[ ] inventory_status_trigger.sql
+  ```
+
+
 ### Grant Access to tables for different users
 
 1. Grant access to tables to different users

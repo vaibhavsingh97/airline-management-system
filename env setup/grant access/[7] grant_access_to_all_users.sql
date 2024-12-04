@@ -6,8 +6,10 @@
 
 begin
    -- GRANT ACCESS TO PASSENGER
-   grant_access_to_user('PASSENGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('PASSENGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('PASSENGER', 'SELECT', 'FLIGHT_SCHEDULE');
+   grant_access_to_user('PASSENGER', 'SELECT', 'SEAT');
+   grant_access_to_user('PASSENGER', 'SELECT', 'ROUTE');
    grant_access_to_user('PASSENGER', 'SELECT', 'PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT', 'REFUND');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'PASSENGER');
@@ -26,7 +28,7 @@ begin
    -- grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO INVENTORY_MANAGER
-   grant_access_to_user('INVENTORY_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('INVENTORY_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'INVENTORY');
    grant_access_to_user('INVENTORY_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'INVENTORY_ORDER');
