@@ -129,6 +129,12 @@
       [18] insert_data/refund_insert_data.sql
    ```
 
+### Grant access to Procedures
+   > **Using account**: `DEVELOPER`
+   ```sh
+      setup/grant access/[ ] grant_procedure_access_to_user.sql
+   ```
+
 ### Create View
 
 1. Create views: quarterly most travelled route

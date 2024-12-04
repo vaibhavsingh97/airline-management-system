@@ -7,6 +7,7 @@
 begin
    -- GRANT ACCESS TO PASSENGER
    grant_access_to_user('PASSENGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
+   -- Grant access to tables
    grant_access_to_user('PASSENGER', 'SELECT', 'FLIGHT_SCHEDULE');
    grant_access_to_user('PASSENGER', 'SELECT', 'SEAT');
    grant_access_to_user('PASSENGER', 'SELECT', 'ROUTE');
