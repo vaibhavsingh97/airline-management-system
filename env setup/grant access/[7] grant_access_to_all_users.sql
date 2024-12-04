@@ -7,10 +7,6 @@
 begin
    -- GRANT ACCESS TO PASSENGER
    grant_access_to_user('PASSENGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
-   -- Grant access to procedures
-   grant_access_to_user('PASSENGER', 'EXECUTE', 'insert_reservation');
-   grant_access_to_user('PASSENGER', 'EXECUTE', 'insert_payment');
-   grant_access_to_user('PASSENGER', 'EXECUTE', 'insert_reservation_payment');
    -- Grant access to tables
    grant_access_to_user('PASSENGER', 'SELECT', 'FLIGHT_SCHEDULE');
    grant_access_to_user('PASSENGER', 'SELECT, UPDATE', 'SEAT');
