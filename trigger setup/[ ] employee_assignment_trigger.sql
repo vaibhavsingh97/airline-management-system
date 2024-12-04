@@ -8,6 +8,7 @@ FOR EACH ROW
 DECLARE
     v_count INTEGER;
     v_last_assignment_time DATE;
+    v_existing_assignment_count INTEGER;
     v_emp_type VARCHAR2(15);
     v_scheduled_dep_time DATE;
     v_scheduled_arr_time DATE;
