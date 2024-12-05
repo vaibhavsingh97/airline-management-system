@@ -191,3 +191,7 @@
    ```sh
       views setup/[7] current_inventory_status.sql
    ```
+
+### Flows
+
+[Flows](/flows.md)
