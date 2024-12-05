@@ -3,7 +3,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
 =======================================================
 */
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 DECLARE
     -- Declare variables for functions' return values
     v_is_scheduled BOOLEAN;

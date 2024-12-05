@@ -3,7 +3,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
 =======================================================
 */
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE get_main_schedule_id (
     p_aircraft_id IN INTEGER,                -- Input: Aircraft ID
     p_main_schedule_id OUT INTEGER           -- Output: Main Schedule ID

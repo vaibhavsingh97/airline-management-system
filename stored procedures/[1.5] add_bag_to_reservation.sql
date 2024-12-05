@@ -50,7 +50,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('❌ Invalid or unconfirmed reservation ID: ' || p_reservation_id);
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to add baggage: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to add baggage ');
 END;
 /
 

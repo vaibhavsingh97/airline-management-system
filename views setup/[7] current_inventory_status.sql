@@ -31,7 +31,7 @@ BEGIN
         
         EXCEPTION
             WHEN OTHERS THEN
-                DBMS_OUTPUT.PUT_LINE('❌ Error creating view Current_Inventory_Status: ' || SQLERRM);
+                DBMS_OUTPUT.PUT_LINE('❌ Error creating view Current_Inventory_Status ');
         END;
     
     ELSE

@@ -4,7 +4,7 @@
 */
 
 -- Check maintenance schedule for an aircraft
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE FUNCTION check_maintenance_schedule(
     p_aircraft_id IN NUMBER
 ) RETURN BOOLEAN IS

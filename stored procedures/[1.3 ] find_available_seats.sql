@@ -36,7 +36,7 @@ BEGIN
     END IF;
 EXCEPTION
     WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('❌ Error finding available seats: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Error finding available seats ');
 END;
 /
 

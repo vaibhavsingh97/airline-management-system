@@ -5,7 +5,7 @@
 */
 
 -- Place inventory order for unavailable items
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE place_inventory_order(
     p_inventory_id IN NUMBER,
     p_quantity IN NUMBER,

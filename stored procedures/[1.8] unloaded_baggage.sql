@@ -32,7 +32,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to unload baggage: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to unload baggage ');
 END;
 /
 

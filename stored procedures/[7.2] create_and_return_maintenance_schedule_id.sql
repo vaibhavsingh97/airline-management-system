@@ -3,7 +3,7 @@
 ================================================*/
 
 -- Create and return the maintenance schedule for an aircraft
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE create_and_return_maintenance_schedule_id(
     p_aircraft_id IN NUMBER,
     p_schedule_date IN DATE,

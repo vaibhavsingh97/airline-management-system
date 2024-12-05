@@ -87,7 +87,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('❌ Initial payment must be less than total airfare for partial reservation');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to create partial reservation: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to create partial reservation ');
 END;
 /
 
@@ -125,7 +125,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to release expired holds: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to release expired holds ');
 END;
 /
 -- Test Case 1: Partial reservation that expires
@@ -248,7 +248,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('❌ Payment amount exceeds remaining balance');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Error processing payment: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Error processing payment ');
 END;
 /
 

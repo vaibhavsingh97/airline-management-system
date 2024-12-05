@@ -53,7 +53,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('❌ No baggage found for reservation ID: ' || p_reservation_id);
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to update baggage status: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to update baggage status ');
 END;
 /
 

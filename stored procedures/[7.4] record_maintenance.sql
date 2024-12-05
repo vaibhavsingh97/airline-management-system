@@ -3,7 +3,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
 =======================================================
 */
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE record_maintenance(
     p_maintenance_type IN VARCHAR2,
     p_description IN VARCHAR2,

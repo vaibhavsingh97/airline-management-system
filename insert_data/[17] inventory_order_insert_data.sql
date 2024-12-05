@@ -46,7 +46,7 @@ BEGIN
 EXCEPTION
    WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE(
-         '❌ Failed to process inventory_order: ' || SQLERRM
+         '❌ Failed to process inventory_order '
       );
 END insert_inventory_order;
 /

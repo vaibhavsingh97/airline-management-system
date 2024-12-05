@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY INVENTORY_MANAGER ONLY ‼️
 ================================================*/
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE fulfill_pending_orders
 AS
     v_updated_count INTEGER;

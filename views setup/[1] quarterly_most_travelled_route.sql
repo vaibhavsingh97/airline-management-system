@@ -68,6 +68,6 @@ BEGIN
     END IF;
     EXCEPTION
   WHEN OTHERS THEN
-    DBMS_OUTPUT.PUT_LINE('❌ Error creating view Quarterly_Most_Travelled_Route: ' || SQLERRM);
+    DBMS_OUTPUT.PUT_LINE('❌ Error creating view Quarterly_Most_Travelled_Route ');
 END;
 /

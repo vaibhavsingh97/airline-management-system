@@ -71,8 +71,7 @@ BEGIN
 EXCEPTION
    WHEN OTHERS THEN
       DBMS_OUTPUT.PUT_LINE(
-         '❌ Failed to process wallet: ' || SQLERRM
-      );
+         '❌ Failed to process wallet ');
 END insert_wallet;
 /
 

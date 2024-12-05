@@ -30,7 +30,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to land flight: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to land flight ');
 END;
 /
 

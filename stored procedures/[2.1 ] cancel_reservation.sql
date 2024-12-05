@@ -92,7 +92,7 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('❌ Reservation is already cancelled');
     WHEN OTHERS THEN
         ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('❌ Failed to cancel reservation: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('❌ Failed to cancel reservation ');
 END;
 /
 
