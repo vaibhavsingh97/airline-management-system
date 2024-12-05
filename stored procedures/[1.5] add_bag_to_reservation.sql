@@ -4,6 +4,7 @@
 ================================================
 */
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE add_bags_to_reservation (
     p_reservation_id IN NUMBER,
     p_baggage_count IN NUMBER,

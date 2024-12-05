@@ -39,6 +39,7 @@ END;
 BEGIN
     kill_all_user_sessions('app_admin');
     kill_all_user_sessions('developer');
+    kill_all_user_sessions('passenger');
     kill_all_user_sessions('flight_operation_manager');
     kill_all_user_sessions('inventory_manager');
     -- kill_all_user_sessions('ground_operation_manager');

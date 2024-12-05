@@ -239,7 +239,7 @@ begin
                 arrival_airport      VARCHAR2(30) NOT NULL,
                 scheduled_arr_time   DATE NOT NULL,
                 actual_arr_time      DATE NOT NULL,
-                flight_status        VARCHAR2(15) CHECK (flight_status IN (''scheduled'',''ontime'',''delayed'',''cancelled'', ''landed''))NOT NULL,
+                flight_status        VARCHAR2(15) CHECK (flight_status IN (''scheduled'',''ontime'', ''departed'' ,''delayed'',''cancelled'', ''landed''))NOT NULL,
                 aircraft_aircraft_id INTEGER NOT NULL,
                 routes_route_id      INTEGER NOT NULL,
                 created_at       DATE DEFAULT SYSDATE NOT NULL,

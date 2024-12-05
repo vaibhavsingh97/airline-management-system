@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY PASSENGER ONLY ‼️
 ================================================*/
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE book_flight (
     p_passenger_id IN NUMBER,
     p_flight_schedule_id IN NUMBER,
@@ -16,7 +17,7 @@ CREATE OR REPLACE PROCEDURE book_flight (
     v_current_timestamp VARCHAR2(30);
 BEGIN
     -- Generate PNR (6 characters)
-    SELECT DBMS_RANDOM.STRING('X', 5) INTO v_pnr FROM DUAL;
+    SELECT DBMS_RANDOM.STRING('X', 6) INTO v_pnr FROM DUAL;
 
     -- Get current timestamp in required format
     v_current_timestamp := TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS');
@@ -89,6 +90,23 @@ BEGIN
          7, -- seat_id
          5000, -- airfare
          'creditcard', -- payment_mode
-         '2024-03-01 12:00:00' -- travel_date
+         '2024-11-23 13:30:00' -- travel_date
       );
+    --   book_flight(
+    --      7, -- passenger_id
+    --      2, -- flight_schedule_id
+    --      11, -- seat_id
+    --      8000, -- airfare
+    --      'bank', -- payment_mode
+    --      '2024-03-01 12:00:00' -- travel_date
+    --   );
+
+    --   book_flight(
+    --      9, -- passenger_id
+    --      10, -- flight_schedule_id
+    --      10, -- seat_id
+    --      2300, -- airfare
+    --      'debitcard', -- payment_mode
+    --      '2024-12-21 12:00:00' -- travel_date
+    --   );
 END;
