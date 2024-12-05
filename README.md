@@ -156,25 +156,40 @@
 1. Create views: quarterly most travelled route
    > **Using account**: `FLIGHT_OPERATION_MANAGER`
    ```sh
-      views setup/[19] quarterly_most_travelled_route.sql
+      views setup/[1] quarterly_most_travelled_route.sql
    ```
 
 2. Create views: most wallet points redeemed
    > **Using account**: `DEVELOPER`
    ```sh
-      views setup/[20] most_wallet_points_redeemed.sql
+      views setup/[2] most_wallet_points_redeemed.sql
    ```
 
 3. Create views: incoming cashflow.sql
    > **Using account**: `DEVELOPER`
    ```sh
-      views setup/[21] incoming_cashflow.sql
+      views setup/[3] incoming_cashflow.sql
    ```
 
 4. Create views: scheduled maintenance record
    > **Using account**: `MAINTENANCE MANAGER`
    ```sh
-      views setup/[22] scheduled_maintenance_record.sql
+      views setup/[4] scheduled_maintenance_record.sql
+   ```
+5. Create views: flight and crew schedule
+   > **Using account**: `FLIGHT OPERATIONS MANAGER`
+   ```sh
+      views setup/[5] flight_and_crew_schedule.sql
+   ```
+6. Create views: revenue by route
+   > **Using account**: `FLIGHT OPERATIONS MANAGER`
+   ```sh
+      views setup/[6] revenue_by_route.sql
+   ```
+7. Create views: current inventory status
+   > **Using account**: `FLIGHT OPERATIONS MANAGER`
+   ```sh
+      views setup/[7] current_inventory_status.sql
    ```
 
 ### Flows
