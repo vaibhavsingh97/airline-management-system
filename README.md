@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [x] Setting up env
+- [x] Setting up **env**
 - [x] Different Roles Creation
   - [x] Granting access to Roles
   - [x] Unlimited disk space
@@ -21,6 +21,9 @@
 
 > [!IMPORTANT]
 > Create DB Admin using Oracle Cloud console
+
+> [!CAUTION]
+> Run cleanup script present in `cleanup/kill_all_sessions.sql`
 
 ### Create users
 
@@ -86,10 +89,10 @@
    > **Using account**: `DEVELOPER`
 
   ```sh
-    trigger setup/[ ] check_crew_assignment.sql
-    trigger setup/[ ] check_flight_schedule_insert.sql
-    trigger setup/[ ] check_flight_schedule_update.sql
-    trigger setup/[ ] check_inventory.sql
+    trigger setup/[1] check_crew_assignment.sql
+    trigger setup/[2] check_flight_schedule_insert.sql
+    trigger setup/[3] check_flight_schedule_update.sql
+    trigger setup/[4] check_inventory.sql
   ```
 
 
@@ -143,7 +146,7 @@
    > **Using account**: `DEVELOPER`
 
   ```sh
-    trigger setup/[ ] before_after_update_inventory_and_order.sql
+    trigger setup/[5] before_after_update_inventory_and_order.sql
   ```
 
 
