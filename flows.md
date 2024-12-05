@@ -56,3 +56,42 @@
    ```sh
    stored procedures/[1.7] land_a_flight.sql
    ```
+
+
+## Run package - Staff Management (Create Staff and Assign Job)
+
+1. Create crew employee
+   > **Using account**: `HR_MANAGER`
+
+  ```sh
+    package/[ ] staff_management.sql
+  ```
+
+2. Run crew assignment using CREW_MANAGER - To assign crew to flight schedule 
+   > **Using account**: `CREW_MANAGER`
+
+  ```sh
+    package/[ ] crew_assignment_check.sql
+  ```
+
+1. Create pilot employee
+   > **Using account**: `HR_MANAGER`
+
+  ```sh
+    package/[ ] staff_management.sql
+  ```
+
+2. Run crew assignment using CREW_MANAGER - To assign pilot to flight schedule 
+   > **Using account**: `CREW_MANAGER`
+
+  ```sh
+    package/[ ] crew_assignment_check.sql
+  ```
+
+1. Create ground staff employee
+   > **Using account**: `HR_MANAGER`
+
+  ```sh
+    package/[ ] staff_management.sql
+  ```
+

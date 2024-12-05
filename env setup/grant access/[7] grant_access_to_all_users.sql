@@ -12,7 +12,7 @@ begin
    grant_access_to_user('PASSENGER', 'SELECT, UPDATE', 'SEAT');
    grant_access_to_user('PASSENGER', 'SELECT', 'ROUTE');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'PAYMENT');
-   grant_access_to_user('PASSENGER', 'SELECT', 'REFUND');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'REFUND');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'RESERVATION');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION_PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'PASSENGER');
@@ -61,12 +61,12 @@ begin
    grant_access_to_user('CREW_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'CREW_ASSIGNMENT');
 
    -- GRANT ACCESS TO MAINTENANCE_MANAGER
-   grant_access_to_user('MAINTENANCE_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('MAINTENANCE_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'FLIGHT_SCHEDULE');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'EMPLOYEE');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'INVENTORY');
-   grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'INVENTORY_ORDER');
+   grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'INVENTORY_ORDER');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'MAINTENANCE_RECORD');
    -- grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');

@@ -1,5 +1,6 @@
--- View 5: Scheduled_maintenance_record: Lists scheduled aircraft maintenance with due and completion dates
--- Creator: Maintenance Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
+================================================*/
  
 DECLARE
     view_exists NUMBER;

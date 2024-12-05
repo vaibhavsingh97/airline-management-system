@@ -4,7 +4,7 @@
 ================================================
 */
 
-
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PACKAGE crew_assignment_check AS
     -- Assign schedule to staff
     PROCEDURE create_staff_schedule(

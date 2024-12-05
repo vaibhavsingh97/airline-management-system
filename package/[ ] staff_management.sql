@@ -4,6 +4,7 @@
 ================================================
 */
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 
 CREATE OR REPLACE PACKAGE staff_management AS
     -- Procedure to register a staff member
@@ -49,10 +50,22 @@ BEGIN
     staff_management.register_staff(
         'Johana', 'Doyle', 'johana.doy@airline.com', 8765433456, 'pilot', NULL, 5600.78
     );
+
+    -- Register a pilot
+    staff_management.register_staff(
+        'Mockie', 'Fenan', 'mo.fe@xyz.com', 3457896543, 'pilot', NULL, 9000.00
+    );
+
      -- Register a cabin crew
+    staff_management.register_staff(
+        'Rosie', 'Joy', 'ros.j@gmail.com', 4568902345, 'crew', NULL, 4500.78
+    );
+
+    -- Register a cabin crew
     staff_management.register_staff(
         'Sam', 'Philemon', 'sam.phil@gmail.com', 9876345678, 'crew', NULL, 4500.78
     );
+
     -- Register a ground staff
     staff_management.register_staff(
         'Marica', 'Benoy', 'marica.ben@gmail.com', 3456780123, 'ground_staff', NULL, 2300.00

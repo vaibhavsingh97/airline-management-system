@@ -41,5 +41,9 @@ BEGIN
    -- find_available_flights('DEN', 'BOS', '2024-02-15');
    -- find_available_flights('ATL', 'ORD', '2024-10-30');
    find_available_flights('BOS', 'SFO', '2024-07-15');
+   --find_available_flights('BOS', 'ATL', '2024-11-23');
+   -- find_available_flights('DEN', 'BOS', '2024-02-15');
+   find_available_flights('ATL', 'ORD', '2024-10-30'); -- Case 2.1
+   --find_available_flights('BOS', 'SFO', '2024-07-15'); -- Case 1.2
 END;
 /
