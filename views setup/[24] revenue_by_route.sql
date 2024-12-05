@@ -1,5 +1,6 @@
--- View 6: Revenue_By_Route: Displays the maximum revenue generated on different 
--- Creator: Flight Operations Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY FLIGHT OPERATIONS MANAGER ONLY ‼️
+================================================*/
 
 DECLARE
     table_exists INTEGER;

@@ -1,7 +1,8 @@
-SET SERVEROUTPUT ON;
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY FLIGHT OPERATIONS MANAGER ONLY ‼️
+================================================*/
 
--- View 1: Quarterly_most_travelled_route: Displays most frequently travelled route quarterly basis
--- Creator: Flight Operations Manager 
+SET SERVEROUTPUT ON;
 
 DECLARE
     v_flight_schedule_exists NUMBER;

@@ -1,5 +1,6 @@
--- View 5: Flight_and_crew_schedule: View of flights with assigned crew members and flights
--- Creator: Flight Operations Manager / Crew Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY FLIGHT OPERATIONS MANAGER ONLY ‼️
+================================================*/
 
 DECLARE
     table_exists INTEGER;
