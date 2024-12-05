@@ -28,6 +28,8 @@ begin
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'CREW_ASSIGNMENT');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_RECORD');
+   grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'RESERVATION');
+   grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'SEAT');
    -- grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO INVENTORY_MANAGER
@@ -48,7 +50,7 @@ begin
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, UPDATE', 'BAGGAGE');
 
    -- GRANT ACCESS TO CREW_MANAGER
-   grant_access_to_user('CREW_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('CREW_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('CREW_MANAGER', 'SELECT', 'FLIGHT_SCHEDULE');
    grant_access_to_user('CREW_MANAGER', 'SELECT', 'ROUTE');
    grant_access_to_user('CREW_MANAGER', 'SELECT', 'EMPLOYEE');
@@ -66,7 +68,7 @@ begin
    -- grant_access_to_user('MAINTENANCE_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO HR_MANAGER
-   grant_access_to_user('HR_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('HR_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('HR_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'EMPLOYEE');
 
    -- GRANT ACCESS TO DATA_ANALYST
