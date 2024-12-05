@@ -176,3 +176,7 @@
    ```sh
       views setup/[22] scheduled_maintenance_record.sql
    ```
+
+### Flows
+
+[Flows](/flows.md)
