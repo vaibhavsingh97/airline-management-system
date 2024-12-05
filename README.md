@@ -146,21 +146,7 @@
     trigger setup/[ ] before_after_update_inventory_and_order.sql
   ```
 
-### Run package - Staff Management (Create Staff and Assign Job)
 
-1. Run staff creation using HR_MANAGER
-   > **Using account**: `HR_MANAGER`
-
-  ```sh
-    package/[ ] staff_management.sql
-  ```
-
-2. Run crew assignment using CREW_MANAGER
-   > **Using account**: `CREW_MANAGER`
-
-  ```sh
-    package/[ ] crew_assignment_check.sql
-  ```
 
 ### Create View
 
