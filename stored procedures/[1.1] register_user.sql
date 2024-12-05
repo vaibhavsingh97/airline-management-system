@@ -35,13 +35,13 @@ end;
 /
 
 begin
-   register_user('John', 'Doe', 'johndoe@example.com', '9892784657', 'male', '01-01-1990', 'window');
+   --register_user('John', 'Doe', 'johndoe@example.com', '9892784657', 'male', '01-01-1990', 'window');
    -- Jane will cancel flight within 24 hours
-   -- register_user('Jane', 'Doe', 'janedoe@example.com', '9823783873', 'female', '01-01-1992', 'aisle');
+   register_user('Jane', 'Doe', 'janedoe@example.com', '9823783873', 'female', '01-01-1992', 'aisle');
    -- -- Alice will cancel flight after 24 hours
    -- register_user('Alice', 'Smith', 'alicesmith@example.com', '9878675645', 'female', '01-01-1995', 'middle');
-
-   -- register_user('Bob', 'Brown', 'bobrown@example.com', '9876545656', 'male', '01-01-1998', 'window');
+   -- Bob will not get seat
+   --register_user('Bob', 'Brown', 'bobrown@example.com', '9876545656', 'male', '01-01-1998', 'window'); -- Case 1.2
    COMMIT;
 end;
 /
