@@ -1,8 +1,8 @@
-/*================================================
-‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
-================================================*/
 
--- Log maintenance record
+/*=====================================================
+‼️ THIS FILE SHOULD BE RUN BY MAINTENANCE MANAGER ONLY ‼️
+=======================================================
+*/
 
 CREATE OR REPLACE PROCEDURE record_maintenance(
     p_maintenance_type IN VARCHAR2,
@@ -43,7 +43,7 @@ BEGIN
     EXCEPTION
         WHEN OTHERS THEN
             -- Handle any other unexpected errors
-            DBMS_OUTPUT.PUT_LINE('❌ An unexpected error occurred while logging the maintenance record.');
+            DBMS_OUTPUT.PUT_LINE('❌ An unexpected error occurred while logging the maintenance record');
             ROLLBACK;  -- Rollback the transaction for any other error
     END;
 END record_maintenance;
