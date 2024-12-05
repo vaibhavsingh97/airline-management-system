@@ -95,3 +95,53 @@
     package/[ ] staff_management.sql
   ```
 
+## Run procedures / functions - Maintenance and Inventory Management
+
+1. Check if maintenance is scheduled for aircraft
+   > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.1] check_maintenance_schedule.sql
+  ```
+
+2. Create and return maintenance schedule id
+   > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.2] create_and_return_maintenance_schedule_id.sql
+  ```
+
+3. Check whether sufficient inventory available
+    > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.3] check_inventory.sql
+  ```
+
+4. Record Maintenance Log
+   > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.4] record_maintenance.sql
+  ```
+
+5. Place inventory available if insufficient
+   > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.5] place_inventory_order.sql
+  ```
+
+6. Get maintenance schedule schedule id:
+   > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.6] get_main_schedule_id.sql
+  ```
+
+7. Execute all the maintenance and inventory operation calls
+    > **Using account**: `MAINTENANCE_MANAGER`
+
+  ```sh
+    procedures/[7.7] execute_maintenance_ops.sql
+  ```
