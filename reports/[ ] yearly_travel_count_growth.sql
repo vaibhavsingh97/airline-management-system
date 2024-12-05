@@ -1,5 +1,6 @@
--- Based on Quarterly_Most_Travelled_Route
--- To be run by Flight Operations Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY FLIGHT OPERATIONS MANAGER ONLY ‼️
+================================================*/
 
 WITH yearly_travel AS (
     SELECT q.year, 

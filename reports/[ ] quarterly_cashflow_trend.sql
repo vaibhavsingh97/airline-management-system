@@ -1,5 +1,6 @@
--- Based on Incoming_Cashflow
--- To be run by Developer
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 
 SELECT 
     TO_CHAR(period_start, 'YYYY') AS year,

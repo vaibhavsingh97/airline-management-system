@@ -1,5 +1,6 @@
--- View 7: Current_inventory_status: Displays the total number of inventory stocks available for each item
--- Creator: Inventory Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY INVENTORY MANAGER ONLY ‼️
+================================================*/
 
 DECLARE
     table_exists INTEGER;

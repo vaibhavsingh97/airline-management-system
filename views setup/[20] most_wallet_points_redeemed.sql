@@ -1,5 +1,6 @@
--- View 2: Most_wallet_points_redeemed: Displays the maximum wallet points redeemed by a passenger
--- Creator: Developer
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 
 DECLARE
     v_wallet_exists NUMBER;

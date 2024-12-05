@@ -1,5 +1,6 @@
--- Based on Incoming_Cashflow
--- To be run by Developer
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY DEVELOPER ONLY ‼️
+================================================*/
 
 SELECT 
     EXTRACT(YEAR FROM period_start) AS year,

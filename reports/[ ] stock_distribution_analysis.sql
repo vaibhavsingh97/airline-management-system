@@ -1,5 +1,6 @@
--- Based on Current_Inventory_Status
--- To be run by Inventory Manager
+/*================================================
+‼️ THIS FILE SHOULD BE RUN BY INVENTORY MANAGER ONLY ‼️
+================================================*/
 
 WITH stock_ranges AS (
     SELECT item_category,
