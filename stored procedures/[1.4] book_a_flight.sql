@@ -84,6 +84,14 @@ END;
 
 -- Test the procedure
 BEGIN
+      book_flight(
+         12, -- passenger_id
+         7, -- flight_schedule_id
+         7, -- seat_id
+         5000, -- airfare
+         'creditcard', -- payment_mode
+         '2024-11-23 13:30:00' -- travel_date
+      );
     --  book_flight(
     --    6, -- passenger_id
     --     7, -- flight_schedule_id
