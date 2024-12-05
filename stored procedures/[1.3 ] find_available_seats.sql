@@ -45,4 +45,5 @@ BEGIN
     find_available_seats(7);
     find_available_seats(2);
     find_available_seats(10);
+    -- find_available_seats(14); -- Case 1.2
 END;

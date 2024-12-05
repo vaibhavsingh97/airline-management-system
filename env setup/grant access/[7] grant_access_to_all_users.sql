@@ -12,8 +12,8 @@ begin
    grant_access_to_user('PASSENGER', 'SELECT, UPDATE', 'SEAT');
    grant_access_to_user('PASSENGER', 'SELECT', 'ROUTE');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'PAYMENT');
-   grant_access_to_user('PASSENGER', 'SELECT', 'REFUND');
-   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'REFUND');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'RESERVATION');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION_PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'PASSENGER');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'BAGGAGE');
