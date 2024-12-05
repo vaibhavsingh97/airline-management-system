@@ -58,7 +58,7 @@ BEGIN
          p_reservation_status,
          TO_DATE(p_created_at, 'YYYY-MM-DD HH24:MI:SS'),
          TO_DATE(p_updated_at, 'YYYY-MM-DD HH24:MI:SS'),
-         p_airfare,         
+         p_airfare,
          p_passenger_id,
          p_seat_id,
          p_pnr,

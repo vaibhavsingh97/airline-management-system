@@ -9,16 +9,18 @@ begin
    grant_access_to_user('PASSENGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    -- Grant access to tables
    grant_access_to_user('PASSENGER', 'SELECT', 'FLIGHT_SCHEDULE');
-   grant_access_to_user('PASSENGER', 'SELECT', 'SEAT');
+   grant_access_to_user('PASSENGER', 'SELECT, UPDATE', 'SEAT');
    grant_access_to_user('PASSENGER', 'SELECT', 'ROUTE');
-   grant_access_to_user('PASSENGER', 'SELECT', 'PAYMENT');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT', 'REFUND');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'RESERVATION_PAYMENT');
    grant_access_to_user('PASSENGER', 'SELECT, INSERT, UPDATE', 'PASSENGER');
-   grant_access_to_user('PASSENGER', 'SELECT', 'BAGGAGE');
+   grant_access_to_user('PASSENGER', 'SELECT, INSERT', 'BAGGAGE');
    grant_access_to_user('PASSENGER', 'SELECT', 'WALLET');
 
    -- GRANT ACCESS TO FLIGHT_OPERATION_MANAGER
-   grant_access_to_user('FLIGHT_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('FLIGHT_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT', 'AIRCRAFT');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'FLIGHT_SCHEDULE');
    grant_access_to_user('FLIGHT_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'ROUTE');
@@ -40,12 +42,16 @@ begin
    -- grant_access_to_user('INVENTORY_MANAGER', 'SELECT', 'GROUND_OPS_SCHEDULE');
 
    -- GRANT ACCESS TO GROUND_OPERATION_MANAGER
-   grant_access_to_user('GROUND_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW', null);
+   grant_access_to_user('GROUND_OPERATION_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'INVENTORY');
+   grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'RESERVATION');
+   grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'SEAT');
+   grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, UPDATE', 'FLIGHT_SCHEDULE');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'MAINTENANCE_SCHEDULE');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE', 'MAINTENANCE_RECORD');
    -- grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, INSERT, UPDATE, DELETE', 'GROUND_OPS_SCHEDULE');
    grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT, UPDATE', 'BAGGAGE');
+   grant_access_to_user('GROUND_OPERATION_MANAGER', 'SELECT', 'SEAT');
 
    -- GRANT ACCESS TO CREW_MANAGER
    grant_access_to_user('CREW_MANAGER','CONNECT, CREATE ANY VIEW, CREATE ANY PROCEDURE', null);

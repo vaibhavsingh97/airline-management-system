@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY PASSENGER ONLY ‼️
 ================================================*/
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE find_available_flights (
    p_origin IN VARCHAR2,
    p_destination IN VARCHAR2,
@@ -9,6 +10,7 @@ CREATE OR REPLACE PROCEDURE find_available_flights (
 ) IS
    v_flight_count NUMBER := 0;
 BEGIN
+   DBMS_OUTPUT.PUT_LINE('********************************');
    FOR rec IN (
       SELECT fs.flight_schedule_id, fs.departure_airport, fs.arrival_airport, 
              fs.scheduled_dep_time, fs.scheduled_arr_time, fs.flight_status
@@ -36,5 +38,7 @@ END;
 -- Test Procedure
 BEGIN
    find_available_flights('BOS', 'ATL', '2024-11-23');
+   -- find_available_flights('DEN', 'BOS', '2024-02-15');
+   -- find_available_flights('ATL', 'ORD', '2024-10-30');
 END;
 /

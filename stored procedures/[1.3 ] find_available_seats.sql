@@ -2,6 +2,7 @@
 ‼️ THIS FILE SHOULD BE RUN BY PASSENGER ONLY ‼️
 ================================================*/
 
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
 CREATE OR REPLACE PROCEDURE find_available_seats (
     p_flight_schedule_id IN NUMBER
 ) IS
@@ -42,4 +43,6 @@ END;
 -- Test Procedure
 BEGIN
     find_available_seats(7);
+    find_available_seats(2);
+    find_available_seats(10);
 END;

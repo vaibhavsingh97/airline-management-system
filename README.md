@@ -131,10 +131,12 @@
    ```
 
 ### Grant access to Procedures
+
    > **Using account**: `DEVELOPER`
    ```sh
       setup/grant access/[ ] grant_procedure_access_to_user.sql
    ```
+
 ### Run Triggers - After Update
 
 1. Run Trigger using developer
